@@ -1,0 +1,33 @@
+---
+description: 本仓库的提交与推送约定
+alwaysApply: true
+---
+
+# 变更后必须推送到远程
+
+**每次完成变更后，提交并推送到 `origin main`，不需要再问。** 这是用户的明确要求。
+
+```bash
+git add -A && git commit -m "..." && git push origin main
+```
+
+## 提交约定
+
+- 前缀用 `chore:` / `docs:` / `feat:` / `fix:`，摘要用中文
+- 正文说明**为什么**这样改，而不是罗列改了什么文件
+- 关注点不同时拆成多个提交（例如"依赖参考文档"与"策略内容"分开）
+- 用 HEREDOC 传多行提交信息，避免格式错乱
+
+## 推送前检查
+
+推送到 GitHub 前扫一遍敏感信息，本仓库的文档会引用平台字段名，容易夹带真实值：
+
+```bash
+rg -i "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|user_id|token|secret|password"
+```
+
+字段名（如 `ai_provider_id`）可以入库，**真实的 UUID、user_id、API Key、凭证不可以**。
+
+## 远程
+
+`origin` → `git@github.com:YicongCao/tc-trade-strategy.git`，默认分支 `main`。
