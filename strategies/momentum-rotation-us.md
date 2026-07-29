@@ -1,12 +1,14 @@
 ---
 strategy: 美股动量轮动
-strategy_id: null
-status: draft
+strategy_id: 85f67f09-6682-4a1b-8af5-55fe51086620
+status: paused
+ai_provider_id: null
 tag: 动量
 market: US
 symbols: [QQQ, SMH, AAPL, MSFT, NVDA, AVGO, AMD, GOOGL, AMZN, META, TSLA, NFLX, COST, WMT]
 analysis_interval: 1440
 allow_overnight: true
+close_before_minutes: 15
 market_data:
   klines:
     - period: 1d
@@ -17,6 +19,9 @@ market_data:
         atr: [14]
   realtime:
     enabled: true
+    change_pct: true
+    volume: true
+    high_low: true
   include_market_context: true
   include_news: false
   fundamentals: false
@@ -28,6 +33,7 @@ risk_config:
   take_profit_pct: 50
   daily_pnl_stop_pct: -5
   cash_reserve_pct: 2
+synced: 2026-07-29
 ---
 
 你执行一个美股动量轮动策略：在固定标的池里挑动量最强的 3 只等权持有，每个交易日评估一次。只交易标的池内的标的，不碰任何其他标的。
@@ -67,8 +73,6 @@ QQQ / SMH / AAPL / MSFT / NVDA / AVGO / AMD / GOOGL / AMZN / META / TSLA / NFLX 
 每次评估先输出池内标的的动量排名表，逐只标明动量得分、第二步三个条件各自是否满足、当前是否持仓；然后给出本次的买入/卖出/持有决策与理由。没有任何调仓动作时输出 wait。
 
 数据注意事项：
-标的池是按行情源的**实际可用性**挑的，不是按市值或行业代表性挑的。实测（2026-07-29）SPY、IWM、XLK、XLF、XLI、GLD、LLY、JPM、XOM 在 `get_symbol_kline` 上只返回 1 根由当前报价拼出的合成 K 线，算不出均线和动量，因此全部排除在池外；第 13 条用 QQQ 而不是 SPY 做大盘代理也是这个原因。池内 14 只已逐个抽查，返回的是连续的真实日线。代价是池子偏科技，轮动的分散度有限，这是数据可用性所限而非有意为之。
+标的池是按行情源的实际可用性挑的，不是按市值或行业代表性挑的。SPY、IWM、XLK、XLF、XLI、GLD、LLY、JPM、XOM 在行情源上只返回 1 根由当前报价拼出的合成 K 线，算不出均线和动量，因此全部排除在池外；第 13 条用 QQQ 而不是 SPY 做大盘代理也是这个原因。
 
-所有窗口都控制在 120 个交易日以内（`get_symbol_kline` 单次上限，实测 AAPL 可取到连续 120 根真实日线）。不要改用 200 日均线之类更长的窗口，那超出了已经验证过的数据范围。
-
-策略产生第一条决策后，用 `get_decision_detail` 检查 LLM 当时实际拿到的 K 线条数与日期是否正常，确认平台喂给模型的行情源没有同样的合成 K 线问题，再考虑放大资金。
+所有窗口都控制在 120 个交易日以内，不要改用 200 日均线之类更长的窗口，那超出了已经验证过的数据范围。若某只标的当次拿到的日线不足 100 根，或出现「大段历史 + 孤立当前 bar」的形态，将其视为数据异常，本次评估直接跳过该标的并在输出中注明，不要用不完整的数据硬算动量。
