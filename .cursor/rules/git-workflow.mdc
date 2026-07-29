@@ -20,13 +20,22 @@ git add -A && git commit -m "..." && git push origin main
 
 ## 推送前检查
 
-推送到 GitHub 前扫一遍敏感信息，本仓库的文档会引用平台字段名，容易夹带真实值：
+推送到 GitHub 前扫一遍凭证类信息：
 
 ```bash
-rg -i "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|user_id|token|secret|password"
+rg -i "api[_-]?key|secret|password|Bearer |access[_-]?token|BEGIN .*PRIVATE KEY"
 ```
 
-字段名（如 `ai_provider_id`）可以入库，**真实的 UUID、user_id、API Key、凭证不可以**。
+**可以入库**：
+
+- 平台字段名，如 `ai_provider_id`、`stop_loss_pct`
+- `strategy_id` 等对象 ID 的真实 UUID——用户已确认没问题。这些 ID 没有 OAuth token 用不了，写进 `strategies/` 的 YAML 头能让仓库自洽，直接拿去调 `get_strategy_profile` 回读核对
+- 持仓标的、参数、价位等策略内容
+
+**不可以入库**：
+
+- API Key、OAuth token、券商凭证、私钥
+- `user_id`（账户级标识，与对象 ID 不同，无需写进仓库）
 
 ## 远程
 
