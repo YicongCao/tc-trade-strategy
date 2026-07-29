@@ -23,6 +23,7 @@ dependencies/ # 外部系统能力参考（Trade Copilot 平台与 MCP 工具）
 | 策略 | 类型 | 形态 | 状态 |
 | --- | --- | --- | --- |
 | [DRAM 网格](strategies/grid-dram.md) | 震荡 / 区间 | 参数规格，配置到 Trade Copilot 运行 | 待启动，前提未验证 |
+| [XPEV 网格](strategies/grid-xpev.md) | 震荡 / 区间 | 参数规格，配置到 Trade Copilot 运行 | 待启动，需先在纯网格与底仓混合间选型 |
 | [价格行为日内 15m](strategies/price-action-intraday-15m.md) | 趋势 + 反转，双向 | 自由裁量手册，不可直接回测 | 手册已成型 |
 | 动量 Momentum | 趋势跟随 | 计划中 | 计划中 |
 | 均值回归 Mean Reversion | 统计套利 | 计划中 | 计划中 |
