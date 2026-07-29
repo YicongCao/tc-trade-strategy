@@ -20,18 +20,20 @@ dependencies/ # 外部系统能力参考（Trade Copilot 平台与 MCP 工具）
 
 ## 策略清单
 
-`strategies/` 下的每个文件对应 Trade Copilot 上一个正在运行的策略：YAML 头记录标的与风控配置，正文是**平台上提示词的原文**，可直接回贴。设计推导过程不入库，需要时从 git 历史里翻。
+`strategies/` 下的每个文件对应 Trade Copilot 上一个策略：YAML 头记录标的与风控配置，正文是**平台上提示词的原文**，可直接回贴。设计推导过程不入库，需要时从 git 历史里翻。
 
-| 策略 | 标签 | 标的 | 分析间隔 |
-| --- | --- | --- | --- |
-| [长持标普 500](strategies/long-hold-voo.md) | 长持 | VOO | 1440 分钟 |
-| [DRAM 网格](strategies/grid-dram.md) | 网格 | DRAM | 30 分钟 |
-| [XPEV 底仓+网格](strategies/grid-xpev.md) | 网格 | XPEV | 30 分钟 |
-| [价格行为日内 15m](strategies/price-action-intraday-15m.md) | 日内 | 15 只高流动性美股 | 15 分钟 |
-| [标普500均值回归动量成长](strategies/sp500-mean-reversion-momentum.md) | 动量 | finviz 筛选器驱动 | 240 分钟 |
+`status: draft` 表示只有本地文件、平台上还没有这个策略，此时 `strategy_id` 为 `null`。上线后补回 ID 并去掉 `status`。
 
-改动流程是单向的：**先在平台 UI 改，再把改完的提示词同步回这里**。MCP 目前只开放只读工具，没法从仓库推送到平台，所以仓库是镜像而不是源头。同步后用 `get_strategy_profile` 回读核对一次，别只信 UI 的保存提示。
+| 策略 | 标签 | 标的 | 分析间隔 | 状态 |
+| --- | --- | --- | --- | --- |
+| [长持标普 500](strategies/long-hold-voo.md) | 长持 | VOO | 1440 分钟 | 运行中 |
+| [DRAM 网格](strategies/grid-dram.md) | 网格 | DRAM | 30 分钟 | 运行中 |
+| [XPEV 底仓+网格](strategies/grid-xpev.md) | 网格 | XPEV | 30 分钟 | 运行中 |
+| [价格行为日内 15m](strategies/price-action-intraday-15m.md) | 日内 | 15 只高流动性美股 | 15 分钟 | 运行中 |
+| [标普500均值回归动量成长](strategies/sp500-mean-reversion-momentum.md) | 动量 | finviz 筛选器驱动 | 240 分钟 | 运行中 |
+| [美股动量轮动](strategies/momentum-rotation-us.md) | 动量 | 14 只固定标的池 | 1440 分钟 | 草稿 |
 
+改动流程是单向的：**先在平台改，再把改完的提示词同步回这里**，仓库是镜像而不是源头。同步后用 `get_strategy_profile` 回读核对一次，别只信 UI 的保存提示。
 ## 计划
 
 **第一阶段：打地基**
