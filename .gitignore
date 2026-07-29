@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# 环境变量与密钥
+.env
+.env.*
+*.key
+
+# 数据与回测产物
+data/cache/
+data/raw/
+*.csv
+*.parquet
+*.feather
+results/
+logs/
+
+# Notebook
+.ipynb_checkpoints/
+
+# 编辑器与系统
+.vscode/
+.idea/
+.DS_Store
