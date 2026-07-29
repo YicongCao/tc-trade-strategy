@@ -34,6 +34,8 @@ dependencies/ # 外部系统能力参考（Trade Copilot 平台与 MCP 工具）
 | [美股动量轮动](strategies/momentum-rotation-us.md) | 动量 | 14 只固定标的池 | 1440 分钟 | 草稿 |
 
 改动流程是单向的：**先在平台改，再把改完的提示词同步回这里**，仓库是镜像而不是源头。同步后用 `get_strategy_profile` 回读核对一次，别只信 UI 的保存提示。
+
+MCP 已经开放写工具（`create_strategy` / `update_strategy` / `archive_strategy`），走两段式提案：先拿 `proposal_id` 和 diff，再 `confirm_proposal` 才真正生效。`dependencies/` 下的文档还停留在"MCP 全只读"的旧结论，尚未更新。
 ## 计划
 
 **第一阶段：打地基**
