@@ -7,10 +7,11 @@
 
 1. **写工具走两段式提案。** `create_strategy` / `update_strategy` / `archive_strategy` / `unarchive_strategy` 都只生成草案，返回 `proposal_id` 与字段级 diff，**必须把 diff 展示给用户并取得同意后**再调 `confirm_proposal` 才落库。草案 15 分钟过期，期间若策略被别处改动会返回 `stale`。详见「写工具」一节。
 2. **工具清单只在配置指纹变化时才刷新。** 换新对话没用、重新 OAuth 也没用——踩过两次，排查过程和唯一有效的刷新办法见「工具清单刷新」一节。
-3. **MCP 不能当回测数据源。** K 线一次只能查一个标的、最多 120 根、且不开放分钟级；实时行情一次最多 20 个标的。这个量级只够做归因和抽查，撑不起参数网格搜索。本仓库的回测数据必须另找来源。
-4. **MCP 的行情缺口不代表平台的缺口。** `get_symbol_kline` 对 `DRAM` 返回旧主体历史、对中概 ADR 只返回 1 根，但**平台喂给 AI 策略的 K 线是完整正确的**——见下文"策略引擎的真实行为"。两条数据管道是分开的，不要用 MCP 的缺陷推断平台的缺陷。
-5. **MCP 的真正价值在"对标口径"和"实盘校准"**：`list_transactions` 有真实手续费和已实现盈亏，`get_decision_detail` 能看到 LLM 的完整输入输出，`get_retro_overview` + `list_retro_cases` 有决策的事后价格路径与超额收益。这些是校准本地假设最可靠的输入。
-6. **字段口径要抄平台的**，这样本地策略能平移回站内。见文末"平台字段口径"。
+3. **手机上用这套工具走 Cursor Cloud Agent。** 云端请求从 Cursor 服务器发出、不带本地 IP，绕开了大陆 IP 的前沿模型过滤，且笔记本关机也能跑。授权服务器支持动态客户端注册，接入不需要平台侧配合。见「从云端 / 手机接入」。
+4. **MCP 不能当回测数据源。** K 线一次只能查一个标的、最多 120 根、且不开放分钟级；实时行情一次最多 20 个标的。这个量级只够做归因和抽查，撑不起参数网格搜索。本仓库的回测数据必须另找来源。
+5. **MCP 的行情缺口不代表平台的缺口。** `get_symbol_kline` 对 `DRAM` 返回旧主体历史、对中概 ADR 与 ETF 只返回 1 根，但**平台喂给 AI 策略的 K 线是完整正确的**——见下文"策略引擎的真实行为"。两条数据管道是分开的，不要用 MCP 的缺陷推断平台的缺陷。
+6. **MCP 的真正价值在"对标口径"和"实盘校准"**：`list_transactions` 有真实手续费和已实现盈亏，`get_decision_detail` 能看到 LLM 的完整输入输出，`get_retro_overview` + `list_retro_cases` 有决策的事后价格路径与超额收益。这些是校准本地假设最可靠的输入。
+7. **字段口径要抄平台的**，这样本地策略能平移回站内。见文末"平台字段口径"。
 
 ## 工具清单刷新
 
@@ -71,6 +72,66 @@ user-trade-copilot::mcpScope:profile:ZGVmYXVsdA:cfg:NTQ3MmVmZTA
 | `Tool user-trade-copilot-xxx was not found. Use GetMcpTools to...` | 客户端 | 该工具不在客户端清单里，请求**根本没发出去** |
 
 后者意味着**没法绕过清单去调服务端新增的工具**，客户端是硬闸门，只能先刷新清单。
+
+## 从云端 / 手机接入
+
+本地桌面端不是唯一入口。把这个 MCP 挂到 Cursor Cloud Agent 上，就能在手机上跑同一套工具，笔记本合盖也不影响。
+
+### 为什么云端这条路对国内用户更顺
+
+Cursor 桌面端会按**你的本地 IP** 做模型过滤：从大陆 IP 连过去，Claude / GPT / Gemini 会被服务端从模型列表里隐藏，只剩 Composer、Grok、Kimi、GLM，要恢复得开 TUN 模式全局代理（只配 HTTP 代理不行，3.8+ 拉模型列表的进程走独立 HTTP/2 栈，不吃代理设置）。
+
+**Cloud Agent 和网页端的请求从 Cursor 自己的服务器发出，不带你的本地 IP，地区过滤不生效。** 所以走云端这条路，前沿模型全都能用，而且不需要梯子。
+
+### 配置
+
+在 [cursor.com/agents](https://cursor.com/agents) 的 MCP 下拉里添加个人 MCP server，选 **HTTP** 传输：
+
+```
+https://tc.zkd.me/api/mcp
+```
+
+注意 Cloud Agent **不支持 SSE 和 `mcp-remote`**，只支持 HTTP 与 stdio。本服务器是 Streamable HTTP，正好匹配。
+
+选 HTTP 而不是 stdio 还有个安全收益：HTTP 的服务器配置**永远不进 agent 的 VM**，agent 拿不到 refresh token 和请求头，工具调用由 Cursor 后端代理转发。stdio 则是在 VM 里起进程，agent 能读到全部环境变量。
+
+### OAuth 不需要平台侧配合
+
+已核实（2026-07-30）：
+
+- 受保护资源声明的授权服务器是 **Supabase Auth**，从 `https://tc.zkd.me/.well-known/oauth-protected-resource` 可读到
+- 该授权服务器的元数据里**有 `registration_endpoint`**，即支持动态客户端注册（DCR）
+- `token_endpoint_auth_methods_supported` 含 `none`，`code_challenge_methods_supported` 含 `S256`，公共客户端 + PKCE 可用
+
+**结论：Cursor 能自助注册 OAuth 客户端，不需要平台运营方把 Cursor 的回调地址加白名单。** 添加完 server 点一次授权就能用。
+
+万一将来平台改成固定客户端、要求白名单，需要登记的回调地址是：
+
+```
+https://www.cursor.com/agents/mcp/oauth/callback   ← 网页与 Cloud Agent
+http://localhost:8787/callback                      ← 桌面端
+```
+
+两个都要登记，因为桌面和云端各走各的。届时在 `mcp.json` 里用 `auth` 对象填 `CLIENT_ID` / `CLIENT_SECRET` / `scopes`。
+
+OAuth 授权是**按用户**的，团队级共享的 server 也一样，每个人得自己授权一次。
+
+### 云端的工具清单会不会也卡在旧快照
+
+**未验证。** 本地那个坑的根因是 MCP 宿主进程按 `~/.cursor/mcp.json` 的配置指纹在内存里长期持有清单，而云端配置存在 Cursor 后端（加密存储，`headers` 与 `CLIENT_SECRET` 保存后不可回读），是另一套实现，不能直接套结论。
+
+**接入后先做一次核对**：让 Cloud Agent 调 `GetMcpTools` 数一下工具数量。应该是 **23 个功能工具 + 1 个 `mcp_auth`**，并且能看到 `create_strategy` / `update_strategy` / `archive_strategy` / `unarchive_strategy` / `confirm_proposal` 和 `get_retro_overview` / `list_retro_cases`。若数量偏少或出现 `list_signal_performance`，说明云端同样有缓存问题。
+
+云端没有「改配置指纹」这个旋钮，对应的做法是**在 MCP 下拉里把 server 删掉重加**。
+
+排查时还可以用内置的 Cursor Cloud MCP：`get-events` 会返回本次运行的事件，其中 `mcp_auth_error` 表示 MCP 认证失败、该 server 的工具被跳过而运行继续——这种情况下 agent 会表现得像"没有这些工具"，但根因是认证不是清单。
+
+### 别忘了
+
+- Cloud Agent 目前要绑一个仓库才能起，用本仓库即可，顺带让 agent 拿到 `strategies/` 下的策略设计与本文档
+- Android 没有原生 app，在 Chrome 打开 cursor.com/agents 点 Install App 装 PWA；iOS 有原生应用
+- 个人版与商业版账号在 Cursor 侧是独立实体，用另一个邮箱注册即可，互不干扰。注意**企业版不受地区模型限制，个人 Pro 受**，所以个人版的桌面端体验会比商业版差，但云端这条路不受影响
+- `tc.zkd.me` 在 Cloudflare 后面，日志里见过 502 origin_bad_gateway。手机上依赖它时，工具调用失败先看是不是源站抖动，不要误判成配置问题
 
 ## 工具清单
 
