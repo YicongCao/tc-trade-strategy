@@ -91,6 +91,8 @@ Cursor 桌面端会按**你的本地 IP** 做模型过滤：Claude / GPT / Gemin
 
 在 [cursor.com/agents](https://cursor.com/agents) 的 MCP 下拉里添加个人 MCP server，选 **HTTP** 传输：
 
+> **别去 Dashboard → Integrations & MCP 找。** 那个页面的 MCP 部分是团队专属的，只给管理员配 Team MCP Servers，个人版上根本不显示。三个入口容易混：`cursor.com/agents` 的下拉管**云端 agent 的 MCP**（个人版要用的就是这个）；桌面端侧边栏的 **Customize** 管本地 IDE 的 MCP 开关；Dashboard 那个只有团队管理员用得上。本地 `~/.cursor/mcp.json` 与云端配置完全独立，各自持有各自的 OAuth token，都要单独授权一次。
+
 ```
 https://tc.zkd.me/api/mcp
 ```
