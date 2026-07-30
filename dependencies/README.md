@@ -11,7 +11,7 @@
 
 **一、AI 策略接口表达不了网格。** AI 的输出只有 `decision`（open/buy/sell/close/hold/wait）加 `intensity`（light/medium/heavy），**没有股数、没有价格、不能挂限价单**。提示词里写"每格买 30 股"是无效的。仓位大小由 `cash_reserve_pct` 和 `max_position_pct` 算出来，不由提示词决定。网格必须走平台自带的网格引擎。
 
-**二、MCP 当前连接仍是只读。** 平台侧已开启写工具，但 2026-07-30 复查时客户端看到的仍是那 17 个只读工具，重新 `mcp_auth` 也没变——Cursor 的 MCP 客户端在建连时缓存工具清单，需要重启连接。写工具生效前，改配置只能走 UI。
+**二、MCP 写工具已开放，但旧会话看不到。** 服务端有 22 个工具，含 `create_strategy` / `update_strategy` / `archive_strategy` / `unarchive_strategy` / `confirm_proposal`，两段式提案（先拿 `proposal_id` 与 diff，再 `confirm_proposal`）。但客户端在建连时缓存工具清单，**旧对话里刷不出新工具，重新 `mcp_auth` 也没用，必须开新对话**。这条限制解除后，"仓库只能是镜像、无法推送到平台"的旧结论不再成立。
 
 **三、回测数据必须另找来源，但平台自己的数据是好的。** MCP 的 K 线一次只能查一个标的、最多 120 根、不开放分钟级，对 `DRAM` 还会返回旧主体历史、对中概 ADR 只返回 1 根。但**平台喂给 AI 策略的 K 线完整正确**，两条管道不同源，别混为一谈。
 

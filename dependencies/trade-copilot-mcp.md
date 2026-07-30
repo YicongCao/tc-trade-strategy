@@ -5,7 +5,9 @@
 
 ## 关键结论（先看这个）
 
-1. **当前连接仍然只有读能力。** 平台侧已开启写工具，但 2026-07-30 复查时工具清单没有变化：按 `propose|create|update|write|edit|set_|patch|modify|pause|order` 检索无结果，重新调用 `mcp_auth` 认证成功后清单依然是那 17 个。**Cursor 的 MCP 客户端在建立连接时缓存了工具清单，服务端新增工具需要重启连接才能生效**——在 Cursor 设置里把该 MCP 服务器开关切一次，或重启 Cursor。写工具可用后再补文档。
+1. **写工具已开放，但会被客户端的工具清单缓存挡住。** 服务端现有 22 个工具，比只读时期多出 `create_strategy` / `update_strategy` / `archive_strategy` / `unarchive_strategy` / `confirm_proposal`，走**两段式提案**：先调用写工具拿到 `proposal_id` 与字段级 diff，再 `confirm_proposal` 才真正落库。
+   **坑**：Cursor 的 MCP 客户端在建立连接时缓存工具清单，服务端新增工具不会同步到已有会话。实测在一个旧会话里 `GetMcpTools` 仍只返回 17 个，重新 `mcp_auth` 认证成功也刷不掉，直接调 `update_strategy` 报 "tool not found"。**解决办法是开一个新对话**（新连接会重新拉清单），或重启 Cursor。
+   下面的工具清单是只读时期整理的，写工具的参数 schema 待在能调用的会话里用 `GetMcpTools` 补齐。
 2. **MCP 不能当回测数据源。** K 线一次只能查一个标的、最多 120 根、且不开放分钟级；实时行情一次最多 20 个标的。这个量级只够做归因和抽查，撑不起参数网格搜索。本仓库的回测数据必须另找来源。
 3. **MCP 的行情缺口不代表平台的缺口。** `get_symbol_kline` 对 `DRAM` 返回旧主体历史、对中概 ADR 只返回 1 根，但**平台喂给 AI 策略的 K 线是完整正确的**——见下文"策略引擎的真实行为"。两条数据管道是分开的，不要用 MCP 的缺陷推断平台的缺陷。
 4. **MCP 的真正价值在"对标口径"和"实盘校准"**：`list_transactions` 有真实手续费和已实现盈亏，`get_decision_detail` 能看到 LLM 的完整输入输出，`list_signal_performance` 有决策的事后 1/3/5 日表现。这些是校准本地假设最可靠的输入。
