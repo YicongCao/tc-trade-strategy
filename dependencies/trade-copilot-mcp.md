@@ -7,7 +7,7 @@
 
 1. **写工具走两段式提案。** `create_strategy` / `update_strategy` / `archive_strategy` / `unarchive_strategy` 都只生成草案，返回 `proposal_id` 与字段级 diff，**必须把 diff 展示给用户并取得同意后**再调 `confirm_proposal` 才落库。草案 15 分钟过期，期间若策略被别处改动会返回 `stale`。详见「写工具」一节。
 2. **工具清单只在配置指纹变化时才刷新。** 换新对话没用、重新 OAuth 也没用——踩过两次，排查过程和唯一有效的刷新办法见「工具清单刷新」一节。
-3. **手机上用这套工具走 Cursor Cloud Agent。** 云端请求从 Cursor 服务器发出、不带本地 IP，绕开了大陆 IP 的前沿模型过滤，且笔记本关机也能跑。授权服务器支持动态客户端注册，接入不需要平台侧配合。见「从云端 / 手机接入」。
+3. **手机上用这套工具走 Cursor Cloud Agent。** 云端请求从 Cursor 服务器发出、不带本地 IP，绕开了大陆与香港 IP 的前沿模型过滤，且笔记本关机也能跑。授权服务器支持动态客户端注册，接入不需要平台侧配合。见「从云端 / 手机接入」。
 4. **MCP 不能当回测数据源。** K 线一次只能查一个标的、最多 120 根、且不开放分钟级；实时行情一次最多 20 个标的。这个量级只够做归因和抽查，撑不起参数网格搜索。本仓库的回测数据必须另找来源。
 5. **MCP 的行情缺口不代表平台的缺口。** `get_symbol_kline` 对 `DRAM` 返回旧主体历史、对中概 ADR 与 ETF 只返回 1 根，但**平台喂给 AI 策略的 K 线是完整正确的**——见下文"策略引擎的真实行为"。两条数据管道是分开的，不要用 MCP 的缺陷推断平台的缺陷。
 6. **MCP 的真正价值在"对标口径"和"实盘校准"**：`list_transactions` 有真实手续费和已实现盈亏，`get_decision_detail` 能看到 LLM 的完整输入输出，`get_retro_overview` + `list_retro_cases` 有决策的事后价格路径与超额收益。这些是校准本地假设最可靠的输入。
@@ -79,7 +79,11 @@ user-trade-copilot::mcpScope:profile:ZGVmYXVsdA:cfg:NTQ3MmVmZTA
 
 ### 为什么云端这条路对国内用户更顺
 
-Cursor 桌面端会按**你的本地 IP** 做模型过滤：从大陆 IP 连过去，Claude / GPT / Gemini 会被服务端从模型列表里隐藏，只剩 Composer、Grok、Kimi、GLM，要恢复得开 TUN 模式全局代理（只配 HTTP 代理不行，3.8+ 拉模型列表的进程走独立 HTTP/2 栈，不吃代理设置）。
+Cursor 桌面端会按**你的本地 IP** 做模型过滤：Claude / GPT / Gemini 被服务端从模型列表里隐藏，只剩 Composer、Grok、Kimi、GLM。
+
+**香港节点解决不了这个问题。** Cursor 的 regions 文档不自己维护名单，直接指向三家供应商各自的支持地区表，而三家都排除香港——Anthropic 不在列表、OpenAI 自 2024 年 7 月起列为不支持、Gemini API 返回 `User location is not supported for the API use`。Gemini 这里有个坑：消费级网页版已经对香港开放，但**开发者 API 没有**，Cursor 走的是 API。三家交集为空，所以香港出口和大陆出口的结果一样。
+
+要在桌面端拿回全部模型，节点得落在三家共同支持的地区，日本、新加坡、美国都行。配置上必须开 **TUN 模式全局代理**，只配 HTTP 代理不行——3.8+ 拉模型列表的是独立进程，走自己的 HTTP/2 栈，不吃代理设置。
 
 **Cloud Agent 和网页端的请求从 Cursor 自己的服务器发出，不带你的本地 IP，地区过滤不生效。** 所以走云端这条路，前沿模型全都能用，而且不需要梯子。
 
