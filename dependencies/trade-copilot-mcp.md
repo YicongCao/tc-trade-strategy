@@ -133,6 +133,9 @@ OAuth 授权是**按用户**的，团队级共享的 server 也一样，每个�
 ### 别忘了
 
 - Cloud Agent 目前要绑一个仓库才能起，用本仓库即可，顺带让 agent 拿到 `strategies/` 下的策略设计与本文档
+- **GitHub 连接、MCP server 的增删、环境与密钥配置都只能在网页端做**，iOS app 只负责指挥和审阅。在 app 里撞上「connect to GitHub」说明已经走进了它处理不了的分支，那里弹出的提示（包括"升级 Pro"）是兜底文案，不一定是真实原因——先回 `cursor.com/dashboard` 的 Integrations 把 GitHub 断开重连，确认网页端能起 agent 后再回 app
+- iOS 版可用计划是 Start / Pro / Pro+ / Ultra / Teams / Enterprise，**Hobby 免费版不在其中**。若网页端正常而 app 提示升级，多半是两边登进了不同账号上下文（组织走 SSO、手机走邮箱登录落到了同邮箱的个人免费账号）
+- 公司账号还有两个个人版没有的坑：管理员可能全局强制 Privacy Mode (Legacy)，而 Cloud Agent 需要云端存储，这种情况下**手机上根本起不了 agent**；另外不付费的管理员席位在网页能浏览但可能过不了移动端权限校验
 - Android 没有原生 app，在 Chrome 打开 cursor.com/agents 点 Install App 装 PWA；iOS 有原生应用
 - 个人版与商业版账号在 Cursor 侧是独立实体，用另一个邮箱注册即可，互不干扰。注意**企业版不受地区模型限制，个人 Pro 受**，所以个人版的桌面端体验会比商业版差，但云端这条路不受影响
 - `tc.zkd.me` 在 Cloudflare 后面，日志里见过 502 origin_bad_gateway。手机上依赖它时，工具调用失败先看是不是源站抖动，不要误判成配置问题
