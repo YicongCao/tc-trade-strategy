@@ -35,7 +35,8 @@ YAML 头的 `status` 只在策略不是 `active` 时出现：`draft` 表示只�
 
 改动流程是单向的：**先在平台改，再把改完的提示词同步回这里**，仓库是镜像而不是源头。同步后用 `get_strategy_profile` 回读核对一次，别只信 UI 的保存提示。
 
-MCP 已经开放写工具（`create_strategy` / `update_strategy` / `archive_strategy` / `unarchive_strategy`），走两段式提案：先拿 `proposal_id` 和 diff，再 `confirm_proposal` 才真正生效。注意客户端会缓存工具清单，**旧对话里刷不出新工具，需要开新对话**。
+MCP 已经开放写工具（`create_strategy` / `update_strategy` / `archive_strategy` / `unarchive_strategy`），走两段式提案：先拿 `proposal_id` 和 diff，再 `confirm_proposal` 才真正生效。**工具清单只在 `~/.cursor/mcp.json` 的配置指纹变化时才刷新**，换新对话和重新 OAuth 都没用，办法见 `dependencies/trade-copilot-mcp.md` 的「工具清单刷新」。
+
 ## 计划
 
 **第一阶段：打地基**

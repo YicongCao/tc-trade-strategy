@@ -1,59 +1,78 @@
 # Trade Copilot MCP 工具参考
 
 > 最后核对：2026-07-30 · 服务器 ID `user-trade-copilot` · 状态 `ready`（已通过 OAuth 认证）
-> 当前连接可见 **17 个功能工具 + 1 个认证工具**，全部为**只读**。
+> 当前连接可见 **23 个功能工具 + 1 个认证工具**，其中 **18 个只读 + 5 个可写**。
 
 ## 关键结论（先看这个）
 
-1. **客户端的工具清单是建连时的快照，服务端更新后不会同步。** 这是目前最容易踩的坑，详见下面的「工具清单错配」一节。服务端当前是 **23 个工具 = 18 个只读 + 5 个可写**，写工具为 `create_strategy` / `update_strategy` / `archive_strategy` / `unarchive_strategy` / `confirm_proposal`，走**两段式提案**：先调用写工具拿到 `proposal_id` 与字段级 diff，再 `confirm_proposal` 才真正落库，草案有效期约 15 分钟。
-   下面的工具清单是只读时期整理的，写工具的参数 schema 待在能调用的会话里用 `GetMcpTools` 补齐。
-2. **MCP 不能当回测数据源。** K 线一次只能查一个标的、最多 120 根、且不开放分钟级；实时行情一次最多 20 个标的。这个量级只够做归因和抽查，撑不起参数网格搜索。本仓库的回测数据必须另找来源。
-3. **MCP 的行情缺口不代表平台的缺口。** `get_symbol_kline` 对 `DRAM` 返回旧主体历史、对中概 ADR 只返回 1 根，但**平台喂给 AI 策略的 K 线是完整正确的**——见下文"策略引擎的真实行为"。两条数据管道是分开的，不要用 MCP 的缺陷推断平台的缺陷。
-4. **MCP 的真正价值在"对标口径"和"实盘校准"**：`list_transactions` 有真实手续费和已实现盈亏，`get_decision_detail` 能看到 LLM 的完整输入输出，`list_signal_performance` 有决策的事后 1/3/5 日表现。这些是校准本地假设最可靠的输入。
-5. **字段口径要抄平台的**，这样本地策略能平移回站内。见文末"平台字段口径"。
+1. **写工具走两段式提案。** `create_strategy` / `update_strategy` / `archive_strategy` / `unarchive_strategy` 都只生成草案，返回 `proposal_id` 与字段级 diff，**必须把 diff 展示给用户并取得同意后**再调 `confirm_proposal` 才落库。草案 15 分钟过期，期间若策略被别处改动会返回 `stale`。详见「写工具」一节。
+2. **工具清单只在配置指纹变化时才刷新。** 换新对话没用、重新 OAuth 也没用——踩过两次，排查过程和唯一有效的刷新办法见「工具清单刷新」一节。
+3. **MCP 不能当回测数据源。** K 线一次只能查一个标的、最多 120 根、且不开放分钟级；实时行情一次最多 20 个标的。这个量级只够做归因和抽查，撑不起参数网格搜索。本仓库的回测数据必须另找来源。
+4. **MCP 的行情缺口不代表平台的缺口。** `get_symbol_kline` 对 `DRAM` 返回旧主体历史、对中概 ADR 只返回 1 根，但**平台喂给 AI 策略的 K 线是完整正确的**——见下文"策略引擎的真实行为"。两条数据管道是分开的，不要用 MCP 的缺陷推断平台的缺陷。
+5. **MCP 的真正价值在"对标口径"和"实盘校准"**：`list_transactions` 有真实手续费和已实现盈亏，`get_decision_detail` 能看到 LLM 的完整输入输出，`get_retro_overview` + `list_retro_cases` 有决策的事后价格路径与超额收益。这些是校准本地假设最可靠的输入。
+6. **字段口径要抄平台的**，这样本地策略能平移回站内。见文末"平台字段口径"。
 
-## 工具清单错配：客户端缓存的是旧版本
+## 工具清单刷新
+
+服务端更新工具后，Cursor 侧的清单会长期停在旧版本。这个坑踩过两次，2026-07-30 排查清楚了。
 
 ### 现象
 
-平台的 MCP 接入页写着 23 个工具，而会话里 `GetMcpTools` 只返回 17 个。**差异不只是"少了 5 个写工具"**，把两边逐项对照会发现清单是错位的：
+平台的 MCP 接入页写着 23 个工具，而 `GetMcpTools` 只返回 17 个，且两边是**错位**的：客户端有个服务端已经删掉的 `list_signal_performance`，缺了服务端新增的 `get_retro_overview` / `list_retro_cases` 和 5 个写工具。
 
-| | 服务端（接入页） | 本会话客户端 |
-| --- | --- | --- |
-| 只读工具 | 18 个 | 16 个 |
-| `get_retro_overview` | 有 | **没有** |
-| `list_retro_cases` | 有 | **没有** |
-| `list_signal_performance` | **没有** | 有 |
-| 写工具 5 个 | 有 | 没有 |
-| 合计 | 23 | 17 |
+调用 `list_signal_performance`，服务端回 `Unknown tool: list_signal_performance`——客户端在请求一个不存在的工具，证明它拿的是旧快照。
 
-### 决定性证据
+### 无效的办法（都试过）
 
-调用客户端清单里有、但接入页上没有的 `list_signal_performance`：
+- **开新对话**：无效。工具清单跟对话无关，一个全新对话看到的还是同一份旧清单。
+- **重新 OAuth**：无效。完整走一遍清凭证 + 浏览器授权 + 拿新 token，清单纹丝不动。
+- **调 `mcp_auth`**：无效，同上。
+- 顺带排除：不是权限问题（接入页「允许 MCP 写操作」开关是开启状态，页面小字的"当前默认关闭"说的是默认值不是当前值）；不是端点问题（只有 `https://tc.zkd.me/api/mcp` 一个端点，没有只读版与完整版之分）。
+
+### 清单存在哪
+
+不在磁盘上。`state.vscdb` 里跟本服务器相关的键只有 OAuth 凭证（`mcpOAuth.secret.*` / `mcpOAuth.global.*`），没有任何 tool schema；`storage.json` 里也搜不到工具名。所以清单是每次建连时从服务端 `tools/list` 拿的，然后**由 MCP 宿主进程按配置指纹在内存里长期持有**。
+
+日志里能看到这个指纹：
 
 ```
-Unknown tool: list_signal_performance
+[McpProxyFetch] Built VS Code proxy-aware MCP fetch for
+user-trade-copilot::mcpScope:profile:ZGVmYXVsdA:cfg:NTQ3MmVmZTA
 ```
 
-**客户端在向服务端请求一个已经不存在的工具。** 这说明客户端持有的是某个更早服务端版本的清单快照——那时还有 `list_signal_performance`，还没有 retro 系列和写工具。之后服务端做了改版（`list_signal_performance` 疑似被拆成 `get_retro_overview` 与 `list_retro_cases`）并加入写工具，而客户端从未重新拉取。
+末尾的 `cfg:<hash>` 是 `~/.cursor/mcp.json` 里该服务器配置块的哈希。**只要哈希不变，无论连接断开重连多少次、token 换几茬，进程都复用同一份清单。**
 
-### 排除的可能
+### 有效的办法：改配置指纹
 
-- **不是权限问题**：接入页的「允许 MCP 写操作」开关**已经是开启状态**（`aria-checked="true"`），页面小字里的"当前默认关闭"说的是默认值，不是当前值。
-- **不是认证问题**：重新调用 `mcp_auth` 返回认证成功，清单纹丝不动。
-- **不是端点问题**：只有一个端点 `https://tc.zkd.me/api/mcp`，没有只读版与完整版之分。
+给 `~/.cursor/mcp.json` 的服务器配置块加一个无害字段，让哈希变掉：
+
+```json
+{
+  "mcpServers": {
+    "trade-copilot": {
+      "url": "https://tc.zkd.me/api/mcp",
+      "headers": {}
+    }
+  }
+}
+```
+
+保存后 Cursor 立刻重连并重新拉取 `tools/list`。**代价是本地凭证会被一并清掉**（日志：`MCP OAuth credentials cleared (local housekeeping)`），连接进入 `needsAuth`，调一次 `mcp_auth` 重新授权即可，几秒钟。
+
+保留服务器名不变很重要——OAuth token 是按 `[<server-id>::mcpScope:profile:<profile>]` 存的，改名会连带丢掉更多状态。下次再要刷新，把 `"headers": {}` 删掉（或改成别的无害字段）即可，哈希变了就会重拉。
 
 ### 诊断方法
 
-怀疑清单过期时，挑一个自己清单里的冷门工具直接调用。如果服务端回 `Unknown tool: xxx`，就说明客户端拿的是旧快照。
+两种"工具不存在"的报错要分清，它们指向完全不同的问题：
 
-### 解决办法
+| 报错 | 来源 | 含义 |
+| --- | --- | --- |
+| `Unknown tool: xxx` | 服务端 | 客户端清单过期，请求了服务端已删除的工具 |
+| `Tool user-trade-copilot-xxx was not found. Use GetMcpTools to...` | 客户端 | 该工具不在客户端清单里，请求**根本没发出去** |
 
-**开一个新对话**，新连接会重新拉取清单。在已有会话里无论怎么重新认证都刷不掉。
+后者意味着**没法绕过清单去调服务端新增的工具**，客户端是硬闸门，只能先刷新清单。
 
 ## 工具清单
-
-> 以下为只读时期整理，对照接入页存在上述错配：实际服务端已无 `list_signal_performance`，另有未收录的 `get_retro_overview` 与 `list_retro_cases`（复盘相关）。
 
 ### 策略元信息
 
@@ -78,7 +97,30 @@ Unknown tool: list_signal_performance
 | --- | --- | --- |
 | `list_decisions` | 全可选：`strategy_ids?`、`symbol?`、`date_from?`/`date_to?`（默认近 30 天）、`execution_status?`、`decision?`、`limit?`（默认 20，上限 200） | 决策流水。**反查"哪些策略买了某标的"时直接传 `symbol` 不传 `strategy_ids`**，一次跨全部策略；不传 `strategy_ids` 时**必须**传 `symbol`。`summary` 截断到 200 字符 |
 | `get_decision_detail` | `decision_id`（必填）、`include_ai_text?`（默认 true） | 单条决策全文，含决策当时 LLM 的原始请求/响应。**单条返回很大**，仅在需要具体理由时调 |
-| `list_signal_performance` | `strategy_ids[]`（必填）、`date_from?`/`date_to?`、`symbol?`、`decision?`、`limit?`（默认 50，上限 200） | 决策事后表现：`return_1d/3d/5d`（决策后 1/3/5 个交易日**对数收益**）、`correct_1d/3d/5d`（按方向判定，buy/open 涨为对，sell/close 跌为对） |
+
+### 复盘（两步走）
+
+旧版的 `list_signal_performance` 已被服务端删除，拆成了下面两个工具。**必须先 overview 选方向，再拉 cases**。
+
+| 工具 | 参数 | 返回要点 |
+| --- | --- | --- |
+| `get_retro_overview` | `strategy_ids[]`（必填）、`date_from?`/`date_to?` | 按「决策类型 × 执行状态」的分层画像：样本数、平均/中位收益、超额收益、实际盈亏、各类问题标签计数 |
+| `list_retro_cases` | `strategy_ids[]`（必填）、`date_from?`/`date_to?`、`decision?`（open/buy/sell/close）、`symbol?`、`flag?`、`execution_status?`（默认 filled，可选 skipped/any）、`sort?`（默认 `worst_excess`）、`limit?`（上限 100） | 具体案例：当时的 `summary` 理由 + 事后 d1/d3/d5 价格路径与窗口高低价 + 基准同期收益 + 实际成交与已实现盈亏 + 问题标签 |
+
+`execution_status` 的口径是这里最容易算错的地方：**`filled` 才是真实成交的决策，`skipped` 是被再平衡毙掉的信号**（仅抽样评估，用来衡量过滤质量）。两者混算得到的是"AI 嘴上说买的能力"，不是策略赚钱能力。
+
+`flag` 问题标签取值：
+
+| 值 | 判定 |
+| --- | --- |
+| `sold_before_run_up` | 卖出后 5 日内最高价超卖价 5%（卖飞） |
+| `stopped_at_bottom` | 卖出后几乎没再跌却收更高（割在地板） |
+| `bought_the_top` | 买入后最高价没超买价 1%（买在山顶） |
+| `underwater_exit` | 实际亏损离场 |
+| `not_executed` | 未成交 |
+| `corp_action` | 窗口内有拆股，收益失真 |
+
+`list_retro_cases` 不给"对/错"判定，要自己结合当时的理由归因——**止盈平仓后继续上涨并不等于判断错误**，得看当时的理由说的是什么。`high_5d` / `low_5d` 用来区分"卖飞"和"躲过暴跌后反弹"。
 
 枚举值：
 
@@ -164,7 +206,60 @@ overview.sector   → 23 个板块 {name, group(primary|sub), symbol, price, tur
 
 ### 认证
 
-`mcp_auth`（无参数）：认证该 MCP 服务器。仅在工具调用报认证/授权错误时调用。
+`mcp_auth`（无参数）：认证该 MCP 服务器。仅在工具调用报认证/授权错误时调用，或按上面「工具清单刷新」改完配置后重新授权。
+
+## 写工具（两段式提案）
+
+四个写工具都**不直接落库**，只生成草案并返回 `proposal_id` + 字段级 diff；必须把 diff 展示给用户、拿到明确同意后再调 `confirm_proposal`。
+
+| 工具 | 参数 | 说明 |
+| --- | --- | --- |
+| `create_strategy` | 必填 `name`、`market`（`US`/`HK`）、`risk_config`；可选 `symbols[]`、`finviz_url`、`system_prompt`、`description`、`market_data`、`analysis_interval`、`allow_overnight`、`close_before_minutes`、`tag_name` | 新建策略。`symbols` 与 `finviz_url` **至少填一个** |
+| `update_strategy` | `strategy_id` + `updates{}` | 只填要改的字段，白名单见下 |
+| `archive_strategy` | `strategy_id` | **仅【已暂停】的策略可归档** |
+| `unarchive_strategy` | `strategy_id` | 解除后回到暂停状态 |
+| `confirm_proposal` | `proposal_id` + `decision?`（`confirm` 默认 / `reject`） | 幂等，同一 id 重复调只执行一次 |
+
+### 硬约束
+
+- **新建策略一律以「暂停」状态创建、初始资金固定 100000、AI 供应商留空**，这三项调用方指定不了，建完要去 UI 或用 `update_strategy` 补 `ai_provider_id` 再启动。
+- **本系统不提供删除策略的能力**，最多只能归档，数据保留。
+- **未配置任何 K 线的策略无法被启动。**
+- 归档中的策略拒绝修改，要先 `unarchive_strategy`。
+- 草案 **15 分钟过期**；期间策略若被别处（比如 UI）改动，`confirm_proposal` 会返回 `stale`，需要重新读取现状再重新发起提案。
+
+### `update_strategy` 的字段白名单
+
+可改：`name`、`description`、`system_prompt`、`symbols`、`finviz_url`、`analysis_interval`、`allow_overnight`、`close_before_minutes`、`risk_config`、`market_data`、`tag_name`、`ai_provider_id`、`status`（只能 `active` / `paused`，用于启停）。
+
+**禁止且无法**改动：一切资金字段、分享链接、归档状态。
+
+`market_data` 是**整体替换，不做深合并**——只想改一个指标也得把整个结构完整传一遍，否则没传的部分会丢。
+
+### `market_data` 结构
+
+这是写工具里唯一复杂的参数，决定 AI 分析时能拿到哪些数据：
+
+```json
+{
+  "klines": [
+    { "period": "1d", "count": 200,
+      "indicators": { "sma": [20,50,200], "ema": [12,26], "rsi": [14],
+                      "atr": null, "macd": null, "kdj": null } }
+  ],
+  "realtime": { "enabled": true, "change_pct": true, "volume": true, "high_low": true },
+  "include_market_context": true,
+  "include_news": true,
+  "fundamentals": false
+}
+```
+
+- `period` 可选 `1m`/`5m`/`15m`/`30m`/`1h`/`1d`/`1w`/`1M`，`count` 为拉取根数（1~1000）
+- `indicators` 各项填参数数组或 `null`（关闭）；`macd` 填 `{fast,slow,signal}`，`kdj` 填 `{period,k_smooth,d_smooth}`，`amv` 填 `{half_life}`（**仅日线生效**）
+- 不传 `market_data` 时默认「日线 200 根 + SMA/EMA/RSI」
+- 工具描述自带的经验之谈：**数据维度多不等于决策好，分钟线易诱发过度交易，低频策略建议只配日线**。这与下文实测「配了 15m/1h 的策略当天零决策」互相印证
+
+> `preview_finviz_screener` 的描述里提到的 `propose_strategy_update` 是服务端遗留的旧名字，实际工具叫 `update_strategy`。
 
 ## 策略引擎的真实行为
 
@@ -292,17 +387,27 @@ kdj       : period 9, k_smooth 3, d_smooth 3
 
 本地实现指标时用同一套参数，回测结论才能和平台实盘对齐。
 
-## 当前账户状态（探索时快照）
+## 当前账户状态（2026-07-30 快照）
 
-只有 1 个策略：「标普500均值回归动量成长策略」，`market=US`，`status=paused`，初始资金 100000，当前现金 100000，已实现/未实现盈亏均为 0——**等于还没有真实成交历史**。
+6 个策略，全部 `market=US`：
 
-这意味着短期内 `list_transactions` / `list_signal_performance` / `get_daily_snapshots` 拿不到有效样本，暂时无法用实盘数据校准回测假设。要么先在平台上把策略跑起来积累流水，要么本地回测先用自己假设的费率和滑点，并在结论里注明。
+| 策略 | id | 状态 | 标签 |
+| --- | --- | --- | --- |
+| 标普500均值回归动量成长策略 | `cc66fb26-025f-4086-b301-e5092a7c0676` | active | 动量 |
+| 价格行为日内策略 | `b2ec2383-543a-48c1-9f67-74a5fab74569` | active | 日内 |
+| DRAM 网格策略 | `c3225965-e786-4a93-8ead-e091d82ed68b` | active | 网格 |
+| XPEV 底仓+网格策略 | `87be32af-c040-4327-b928-6a5c96126b6d` | active | 网格 |
+| 长持标普 500 | `f9f1d84d-6552-470f-9074-36363e1f3559` | active | 长持 |
+| 美股动量轮动 | `85f67f09-6682-4a1b-8af5-55fe51086620` | paused | 动量 |
 
-平台上**还没有网格策略**，网格相关的配置字段（分时段滑点、必亏配置警告等）也没有 MCP 工具可读取，只能参照 UI。
+成交历史仍然很短（最早的策略 2026-04 建立，实际出单从 2026-07-29 才开始），`list_transactions` / `get_retro_overview` / `get_daily_snapshots` 的样本量还不足以校准回测假设。本地回测暂时仍用自己假设的费率和滑点，并在结论里注明。
+
+平台上的「网格策略」是用 AI 策略接口配的，不是平台自带网格引擎；网格引擎相关的配置字段（分时段滑点、必亏配置警告等）没有 MCP 工具可读取，只能参照 UI。
 
 ## 调用注意事项
 
-- 调用前先用 `GetMcpTools` 确认 schema，工具集会随平台版本变化。
+- 调用前先用 `GetMcpTools` 确认 schema，工具集会随平台版本变化；**如果清单看起来比接入页少，先按「工具清单刷新」处理，别在旧清单上瞎猜**。
 - 所有 `strategy_ids` 必填的工具都接受多个 ID，能合并就合并，别循环单个调。
 - 日期范围类工具的默认窗口都不长（决策 30 天、消息 7 天、快照 365 天），要长历史必须显式传 `date_from`。
 - `get_decision_detail` 和 `include_ai_text=true` 的返回很占 token，按需调用。
+- 写工具永远是两步：先拿 `proposal_id` 和 diff 给用户看，得到同意再 `confirm_proposal`。改完仍然建议用 `get_strategy_profile` 回读核对。

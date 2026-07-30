@@ -4,14 +4,14 @@
 
 | 文件 | 内容 |
 | --- | --- |
-| `trade-copilot-mcp.md` | Trade Copilot MCP 服务器的 17 个只读工具：参数、返回字段、限制、实测返回样例，以及平台策略配置的真实字段口径 |
+| `trade-copilot-mcp.md` | Trade Copilot MCP 服务器的 23 个工具（18 只读 + 5 可写）：参数、返回字段、限制、实测返回样例，以及平台策略配置的真实字段口径 |
 | `trade-copilot-platform.md` | Trade Copilot 平台六大功能域的能力清单，每项标注对本地策略开发的含义；文末有"能力归属速查表" |
 
 ## 四条影响开发决策的结论
 
 **一、AI 策略接口表达不了网格。** AI 的输出只有 `decision`（open/buy/sell/close/hold/wait）加 `intensity`（light/medium/heavy），**没有股数、没有价格、不能挂限价单**。提示词里写"每格买 30 股"是无效的。仓位大小由 `cash_reserve_pct` 和 `max_position_pct` 算出来，不由提示词决定。网格必须走平台自带的网格引擎。
 
-**二、MCP 写工具已开放，但旧会话看不到。** 服务端有 22 个工具，含 `create_strategy` / `update_strategy` / `archive_strategy` / `unarchive_strategy` / `confirm_proposal`，两段式提案（先拿 `proposal_id` 与 diff，再 `confirm_proposal`）。但客户端在建连时缓存工具清单，**旧对话里刷不出新工具，重新 `mcp_auth` 也没用，必须开新对话**。这条限制解除后，"仓库只能是镜像、无法推送到平台"的旧结论不再成立。
+**二、MCP 写工具已可用，仓库不再只能是镜像。** 5 个写工具 `create_strategy` / `update_strategy` / `archive_strategy` / `unarchive_strategy` / `confirm_proposal` 走两段式提案：先拿 `proposal_id` 与 diff，展示给用户同意后再 `confirm_proposal`。**工具清单只在 `~/.cursor/mcp.json` 的配置指纹变化时才刷新**——换新对话没用、重新 `mcp_auth` 也没用，得给配置块加个无害字段（如 `"headers": {}`）触发重连再授权，详见 `trade-copilot-mcp.md`。
 
 **三、回测数据必须另找来源，但平台自己的数据是好的。** MCP 的 K 线一次只能查一个标的、最多 120 根、不开放分钟级，对 `DRAM` 还会返回旧主体历史、对中概 ADR 只返回 1 根。但**平台喂给 AI 策略的 K 线完整正确**，两条管道不同源，别混为一谈。
 
@@ -19,6 +19,6 @@
 
 ## 使用约定
 
-- 调用 MCP 工具前先确认 schema，工具集会随平台版本变化，本目录内容是 2026-07-29 的快照。
+- 调用 MCP 工具前先确认 schema，工具集会随平台版本变化，本目录内容是 2026-07-30 的快照。
 - 本地策略的配置字段名沿用平台口径（`stop_loss_pct`、`max_position_pct`、`max_positions` 等），指标参数沿用平台的 `sma/ema [5,10,20,30,60,120,250]`、`rsi 14`、`macd 12/26/9`、`kdj 9/3/3`、`atr 14`，这样两边结论可以直接对照。
 - 标的代码统一用平台内部格式：`AAPL.US`、`00700.HK`、`600519.SH`。
