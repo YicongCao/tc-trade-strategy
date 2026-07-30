@@ -120,6 +120,27 @@ http://localhost:8787/callback                      ← 桌面端
 
 OAuth 授权是**按用户**的，团队级共享的 server 也一样，每个人得自己授权一次。
 
+### ⚠️ 不要用公司团队账号跑这个
+
+**Cursor 团队管理员能读取团队内所有 Cloud Agent 运行的完整对话记录**（官方文档原文：Team admin 可获取团队范围内运行的详情，including transcripts）。在公司席位上跑这套工具，等于把持仓、盈亏、策略提示词和每次 MCP 返回的账户数据都放进管理员可查阅的范围，企业版还有 Audit Log 留痕。
+
+实操上公司账号也走不通。在 cursor.com/agents 添加 server 时若报 **`User not authorized for this team`**，说明请求是按团队权限校验的：要么管理员没开 **User MCP extensions**（决定成员能否配自己的 server），要么团队启用了 **MCP Allowlist** 而本 URL 不匹配任何已批准模式，要么你是非管理员席位。这三个都得管理员改——但基于上面那条，不建议去申请。
+
+**用个人账号。**
+
+### ⚠️ Cloud Agent 的 MCP 管线有两个未修复缺陷
+
+接入前先知道，官方均已确认（截至 2026-07-30）：
+
+1. **Cloud Agent 授权时不带 scope。** 官方说明：Cloud Agents 不从 MCP server 的 OAuth 元数据里发现 scope，桌面端处理正确但修复尚未应用到云端，**目前无 workaround**。对使用 scope 化授权的 server 会导致拿到无权限的 token、工具调用全部失败。
+2. **配好的 server 有时不会挂载到运行里。** 表现为 UI 显示已连接，但 agent 内 `ListMcpResources` 返回空或报 `Server not found`。
+
+本服务器的授权服务器公布的是 `openid / profile / email / phone` 这类标准 OIDC scope，不是自定义 API scope，**有可能**不受第 1 条影响，但未实测。
+
+**接入后立刻验证，别等到需要用的时候才发现不通**：起一个 cloud agent 调 `list_user_strategies`，能返回策略列表就算通。不通就退回桌面端——桌面端这条路是已知可用的。
+
+另外 Cloud Agent **不读仓库里的 `.cursor/mcp.json`**，只认 dashboard 里配的，别指望把配置提交进仓库就能自动生效。
+
 ### 云端的工具清单会不会也卡在旧快照
 
 **未验证。** 本地那个坑的根因是 MCP 宿主进程按 `~/.cursor/mcp.json` 的配置指纹在内存里长期持有清单，而云端配置存在 Cursor 后端（加密存储，`headers` 与 `CLIENT_SECRET` 保存后不可回读），是另一套实现，不能直接套结论。
