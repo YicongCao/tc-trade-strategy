@@ -1,14 +1,15 @@
 # Trade Copilot MCP 工具参考
 
-> 探索时间：2026-07-29 · 服务器 ID `user-trade-copilot` · 状态 `ready`（已通过 OAuth 认证）
-> 共 **17 个功能工具 + 1 个认证工具**，全部为**只读**。
+> 最后核对：2026-07-30 · 服务器 ID `user-trade-copilot` · 状态 `ready`（已通过 OAuth 认证）
+> 当前连接可见 **17 个功能工具 + 1 个认证工具**，全部为**只读**。
 
 ## 关键结论（先看这个）
 
-1. **当前接入的 MCP 只有读能力。** 多个工具描述里引用了 `propose_strategy_update` / 提案类写工具，但它们**没有出现在实际工具列表中**——按服务器名和 `propose|create|update|write|order|rebalance` 检索均无结果。也就是说通过 MCP 只能"看"，创建/修改策略、下单、调参都得回站内 UI 操作。
+1. **当前连接仍然只有读能力。** 平台侧已开启写工具，但 2026-07-30 复查时工具清单没有变化：按 `propose|create|update|write|edit|set_|patch|modify|pause|order` 检索无结果，重新调用 `mcp_auth` 认证成功后清单依然是那 17 个。**Cursor 的 MCP 客户端在建立连接时缓存了工具清单，服务端新增工具需要重启连接才能生效**——在 Cursor 设置里把该 MCP 服务器开关切一次，或重启 Cursor。写工具可用后再补文档。
 2. **MCP 不能当回测数据源。** K 线一次只能查一个标的、最多 120 根、且不开放分钟级；实时行情一次最多 20 个标的。这个量级只够做归因和抽查，撑不起参数网格搜索。本仓库的回测数据必须另找来源。
-3. **MCP 的真正价值在"对标口径"和"实盘校准"**：平台已经跑了实盘，`list_transactions` 有真实手续费和已实现盈亏，`list_signal_performance` 有决策的事后 1/3/5 日表现。这些是校准本地回测假设（滑点、费率、信号胜率）最可靠的输入。
-4. **字段口径要抄平台的**，这样本地策略能平移回站内。见文末"平台字段口径"。
+3. **MCP 的行情缺口不代表平台的缺口。** `get_symbol_kline` 对 `DRAM` 返回旧主体历史、对中概 ADR 只返回 1 根，但**平台喂给 AI 策略的 K 线是完整正确的**——见下文"策略引擎的真实行为"。两条数据管道是分开的，不要用 MCP 的缺陷推断平台的缺陷。
+4. **MCP 的真正价值在"对标口径"和"实盘校准"**：`list_transactions` 有真实手续费和已实现盈亏，`get_decision_detail` 能看到 LLM 的完整输入输出，`list_signal_performance` 有决策的事后 1/3/5 日表现。这些是校准本地假设最可靠的输入。
+5. **字段口径要抄平台的**，这样本地策略能平移回站内。见文末"平台字段口径"。
 
 ## 工具清单
 
@@ -123,6 +124,86 @@ overview.sector   → 23 个板块 {name, group(primary|sub), symbol, price, tur
 
 `mcp_auth`（无参数）：认证该 MCP 服务器。仅在工具调用报认证/授权错误时调用。
 
+## 策略引擎的真实行为
+
+以下全部来自 `get_decision_detail` 读到的一次真实决策（2026-07-29 XPEV 首次开仓），是**写策略提示词前必须知道的约束**。
+
+### AI 的输出 schema 里没有数量字段
+
+实际返回：
+
+```json
+[{"symbol":"XPEV","decision":"open","confidence":0.95,"intensity":"heavy",
+  "summary":"策略首次运行，按当前价$13.005建立长期底仓1000股及网格初始持仓720股。"}]
+```
+
+只有 `symbol` / `decision` / `confidence` / `intensity` / `summary` 五个字段。**没有股数、没有价格、不能挂限价单。**
+
+`decision` 取值 `open`/`buy`/`sell`/`close`/`hold`/`wait`，`intensity` 取值 `light`/`medium`/`heavy`。
+
+**后果：提示词里写"每格买 30 股""在 11.28 挂买单"是无效的**，这些文字只会进入 `summary` 自由文本，执行引擎不解析。网格类策略无法用 AI 策略接口表达，必须用平台自带的网格引擎。
+
+### 仓位大小由风控字段算出，不由提示词决定
+
+实测那一单：`intensity=heavy` + `max_position_pct=100` + `cash_reserve_pct=10` + 可用现金 100,000 → 投入 90,000，成交 6,882 股，与"提示词里写的 1,720 股"无关。
+
+推算关系：**投入金额 ≈ 可用现金 × (1 − cash_reserve_pct)，再受 max_position_pct 封顶**。
+
+`target_cash_pct` 会反向施压：设为 0 时，平台在 AI 请求里主动写入"现金占比已超过目标 0%，应通过换仓 close 弱仓 → open 强仓消化"，等于催 AI 把现金用光。想让策略只用部分资金，**必须把 `target_cash_pct` 调高**，光靠提示词说"只买 1720 股"没用。
+
+### 风控参数是喂给 LLM 的"软参考"，不是硬触发
+
+AI 请求原文里逐条标注：
+
+```
+- 止损（软参考）: 50% — 浮亏接近此值时综合趋势/动能/位置判断,
+  不要因单日波动伪触发就提前 close;高 Beta(>1.5) 标的可参考 ATR(14)/价格 放宽幅度
+- 止盈（软）: 50% — 浮盈达此值时考虑落袋，结合行情判断
+- 当日熔断线（软）: ≤-50% — 触及此线时停止 open/buy/加仓，仅允许 hold/sell/close
+```
+
+所以 `stop_loss_pct` 不会机械平仓，只是提示词里的一句建议。平台功能文档称其为"独立硬止损"，与 AI 策略路径的实际行为不符——**硬止损可能只在网格引擎等非 AI 路径上生效**。
+
+### AI 请求里实际包含什么
+
+`风控参数` / `当前持仓` / `当前时间`（含距收盘分钟数、报价快照时延）/ `即将到来的关键事件`（FOMC、CPI 等，带影响级别与天数）/ `当前账户状态`（现金占比与调仓建议）/ 每个标的的实时行情 + 各周期 K 线 + 技术指标 / `相关新闻`（近 30 天，带发布与采集时间、影响、情感、中文摘要）。
+
+`prompt_version` 字段标明模板版本，实测为 `v6`。
+
+### 平台的 K 线数据完整可用
+
+同一次请求里 XPEV 的 1d / 1w / 1M 都是真实完整数据：30 根 K 线、20 根支撑 12.32 阻力 14.46、周线 20 根 -25.21%、月线支撑 11.14 阻力 28.23，指标齐全。
+
+而 MCP 的 `get_symbol_kline` 查同一个 `XPEV.US` 只返回 1 根合成 bar。**两条数据管道不同源，不要在提示词里写"本标的历史数据不可靠"之类的话去误导 AI 忽略好数据。**
+
+### 疑似：配置分钟级/小时级 K 线会导致策略不运行
+
+2026-07-29 全天，五个 active 策略里只有 XPEV 产生了决策（2 条），另外三个日内型策略一条都没有：
+
+| 策略 | K 线周期配置 | 当日决策数 |
+| --- | --- | --- |
+| XPEV | 1d / 1w / 1M | 2 |
+| DRAM 网格 | **15m** / **1h** / 1d / 1w | 0 |
+| 价格行为日内 | **15m** / **1h** / 1d / 1w | 0 |
+| 标普500动量 | 1d / **1h** / 1w / 1M | 0 |
+
+三个配了 15m 或 1h 的全部零决策，唯一没配的正常运行；`get_symbol_kline` 也明确"不开放分钟级"。**推测请求分钟级 K 线会导致取数失败、整次运行中断，连决策记录都写不进去。** 尚未验证，验证方法是把某个策略的 15m/1h 周期删掉再观察。
+
+### 调度频率远低于配置值
+
+XPEV 的 `analysis_interval` 是 30 分钟，6.5 小时的交易时段本应运行约 13 次，实际只有 2 次（09:32 与 13:30 美东）。原因不明，**不要假设策略会严格按 `analysis_interval` 执行**。
+
+### 真实交易成本
+
+| 项 | 实测值 |
+| --- | --- |
+| 手续费 | **$0.0035/股**（6,882 股收 24.09，无固定部分） |
+| 滑点 | 分析时报价 13.005，实际成交 13.0765，**+0.55%** |
+| 订单类型 | `market`（`suggested_order_type` 字段给出） |
+| 分析到成交延迟 | 约 2.5 分钟 |
+
+**佣金按股计费而非按笔固定**，所以"每格名义金额不能太小"这个约束不成立。真正的成本是滑点：市价单 0.55% 的单边滑点，对 2.5% 格距的网格会吃掉约 44% 的格子利润。
+
 ## 平台字段口径
 
 从实盘策略 `get_strategy_profile` 提取的真实字段名，本地策略配置**建议直接沿用**，方便双向平移。
@@ -133,13 +214,19 @@ overview.sector   → 23 个板块 {name, group(primary|sub), symbol, price, tur
 | --- | --- | --- |
 | `max_positions` | 10 | 最大持仓标的数 |
 | `max_position_pct` | 15 | 单标的最大仓位占比 % |
-| `stop_loss_pct` | 5 | 独立硬止损 % |
-| `take_profit_pct` | 15 | 止盈 % |
-| `cash_reserve_pct` | 0.5 | 现金保留比例 % |
-| `target_cash_pct` | 0 | 再平衡目标现金比例 % |
+| `stop_loss_pct` | 5 | 止损 %。**在 AI 策略路径上是软参考，不会机械平仓**，见上一节 |
+| `take_profit_pct` | 15 | 止盈 %，同样是软参考 |
+| `cash_reserve_pct` | 0.5 | 现金保留比例 %。**直接决定单次开仓能投入多少资金** |
+| `target_cash_pct` | 0 | 再平衡目标现金比例 %。设为 0 会催 AI 把现金用光 |
 | `reverse_cooldown_minutes` | 60 | 反向开仓冷却分钟数，防反复打脸 |
+| `daily_pnl_stop_pct` | -3 | 当日亏损熔断 %，软参考 |
+| `trading_mode` | normal | `normal` 可开可平 / `open_only` 只买不卖 / `close_only` 只卖不开。**这个是真正的机制约束，比止损可靠** |
+| `max_slippage_pct` | 1 | 最大滑点 % |
+| `trade_cooldown_minutes` | 30 | 同向交易冷却 |
+| `trailing_profit_activation_pct` | 8 | 移动止盈触发线。切到「固定止盈」标签页保存后，此字段与下一个会从配置中消失 |
+| `trailing_profit_lock_drawdown_pct` | 5 | 移动止盈回撤锁定 |
 
-平台文档另有 `daily_pnl_stop_pct`（每日亏损硬熔断）与 VIX 高波动开仓门控，当前这个策略未配置。
+服务端校验范围（UI 报错原文）：`stop_loss_pct` 0.5 ~ 50、`daily_pnl_stop_pct` -50 ~ -0.5。这几个字段**必填，没有关闭开关**，想禁用只能填到边界值；真要禁止卖出应该用 `trading_mode: open_only`。
 
 策略级其他字段：`market`、`symbols[]`、`finviz_url`、`include_positions`、`system_prompt`、`analysis_interval`（分钟，实盘 30）、`allow_overnight`、`close_before_minutes`（收盘前 N 分钟，实盘 15）、`ai_provider_id`、`initial_capital` / `current_cash` / `total_assets` / `unrealized_pnl` / `realized_pnl`。
 
