@@ -19,6 +19,7 @@
 - 仓库的实际操作（`/review` 复盘、`create_strategy` / `update_strategy` 等写工具）全部通过 **Trade Copilot MCP 服务器**完成，工具 schema 见 `dependencies/trade-copilot-mcp.md`。
 - **本云端环境只挂了 `cursor-cloud` 诊断 MCP，没有 Trade Copilot MCP**，也没有对应 OAuth。因此拉实盘数据、跑复盘、改平台策略在这里都无法执行，需要用户在 Cursor 里配置并授权该 MCP 服务器。
 - 已知坑：MCP 工具清单**只在 `~/.cursor/mcp.json` 配置指纹变化时才刷新**，换对话、重新 OAuth 都无效；办法是给配置块加个无害字段（如 `"headers": {}`）触发重连再授权，详见 `dependencies/trade-copilot-mcp.md` 的「工具清单刷新」。
+- **实测（2026-07-30）：MCP server 在 Cloud Agent 运行【启动时】绑定，对已经在跑的 run 不会热挂载。** 若在网页 dashboard 里给一个已运行的 agent 新增 MCP server，本次 run 里 `GetMcpTools` 仍只有 `cursor-cloud`，且 `cursor-cloud` 的 `get-events` 里没有 `mcp_auth_error`（说明是没挂载、不是授权失败）。正确做法是**先在 dashboard 配好并授权 Trade Copilot MCP，再起一个新的 Cloud Agent run**，新 run 才会带上它；起来后用 `GetMcpTools` 数工具（应为 23 功能工具 + 1 个 `mcp_auth`）、再调 `list_user_strategies` 确认打通。
 
 ### 内容约定（改动前必读）
 
