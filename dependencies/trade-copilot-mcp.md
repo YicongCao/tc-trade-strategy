@@ -5,15 +5,55 @@
 
 ## 关键结论（先看这个）
 
-1. **写工具已开放，但会被客户端的工具清单缓存挡住。** 服务端现有 22 个工具，比只读时期多出 `create_strategy` / `update_strategy` / `archive_strategy` / `unarchive_strategy` / `confirm_proposal`，走**两段式提案**：先调用写工具拿到 `proposal_id` 与字段级 diff，再 `confirm_proposal` 才真正落库。
-   **坑**：Cursor 的 MCP 客户端在建立连接时缓存工具清单，服务端新增工具不会同步到已有会话。实测在一个旧会话里 `GetMcpTools` 仍只返回 17 个，重新 `mcp_auth` 认证成功也刷不掉，直接调 `update_strategy` 报 "tool not found"。**解决办法是开一个新对话**（新连接会重新拉清单），或重启 Cursor。
+1. **客户端的工具清单是建连时的快照，服务端更新后不会同步。** 这是目前最容易踩的坑，详见下面的「工具清单错配」一节。服务端当前是 **23 个工具 = 18 个只读 + 5 个可写**，写工具为 `create_strategy` / `update_strategy` / `archive_strategy` / `unarchive_strategy` / `confirm_proposal`，走**两段式提案**：先调用写工具拿到 `proposal_id` 与字段级 diff，再 `confirm_proposal` 才真正落库，草案有效期约 15 分钟。
    下面的工具清单是只读时期整理的，写工具的参数 schema 待在能调用的会话里用 `GetMcpTools` 补齐。
 2. **MCP 不能当回测数据源。** K 线一次只能查一个标的、最多 120 根、且不开放分钟级；实时行情一次最多 20 个标的。这个量级只够做归因和抽查，撑不起参数网格搜索。本仓库的回测数据必须另找来源。
 3. **MCP 的行情缺口不代表平台的缺口。** `get_symbol_kline` 对 `DRAM` 返回旧主体历史、对中概 ADR 只返回 1 根，但**平台喂给 AI 策略的 K 线是完整正确的**——见下文"策略引擎的真实行为"。两条数据管道是分开的，不要用 MCP 的缺陷推断平台的缺陷。
 4. **MCP 的真正价值在"对标口径"和"实盘校准"**：`list_transactions` 有真实手续费和已实现盈亏，`get_decision_detail` 能看到 LLM 的完整输入输出，`list_signal_performance` 有决策的事后 1/3/5 日表现。这些是校准本地假设最可靠的输入。
 5. **字段口径要抄平台的**，这样本地策略能平移回站内。见文末"平台字段口径"。
 
+## 工具清单错配：客户端缓存的是旧版本
+
+### 现象
+
+平台的 MCP 接入页写着 23 个工具，而会话里 `GetMcpTools` 只返回 17 个。**差异不只是"少了 5 个写工具"**，把两边逐项对照会发现清单是错位的：
+
+| | 服务端（接入页） | 本会话客户端 |
+| --- | --- | --- |
+| 只读工具 | 18 个 | 16 个 |
+| `get_retro_overview` | 有 | **没有** |
+| `list_retro_cases` | 有 | **没有** |
+| `list_signal_performance` | **没有** | 有 |
+| 写工具 5 个 | 有 | 没有 |
+| 合计 | 23 | 17 |
+
+### 决定性证据
+
+调用客户端清单里有、但接入页上没有的 `list_signal_performance`：
+
+```
+Unknown tool: list_signal_performance
+```
+
+**客户端在向服务端请求一个已经不存在的工具。** 这说明客户端持有的是某个更早服务端版本的清单快照——那时还有 `list_signal_performance`，还没有 retro 系列和写工具。之后服务端做了改版（`list_signal_performance` 疑似被拆成 `get_retro_overview` 与 `list_retro_cases`）并加入写工具，而客户端从未重新拉取。
+
+### 排除的可能
+
+- **不是权限问题**：接入页的「允许 MCP 写操作」开关**已经是开启状态**（`aria-checked="true"`），页面小字里的"当前默认关闭"说的是默认值，不是当前值。
+- **不是认证问题**：重新调用 `mcp_auth` 返回认证成功，清单纹丝不动。
+- **不是端点问题**：只有一个端点 `https://tc.zkd.me/api/mcp`，没有只读版与完整版之分。
+
+### 诊断方法
+
+怀疑清单过期时，挑一个自己清单里的冷门工具直接调用。如果服务端回 `Unknown tool: xxx`，就说明客户端拿的是旧快照。
+
+### 解决办法
+
+**开一个新对话**，新连接会重新拉取清单。在已有会话里无论怎么重新认证都刷不掉。
+
 ## 工具清单
+
+> 以下为只读时期整理，对照接入页存在上述错配：实际服务端已无 `list_signal_performance`，另有未收录的 `get_retro_overview` 与 `list_retro_cases`（复盘相关）。
 
 ### 策略元信息
 
