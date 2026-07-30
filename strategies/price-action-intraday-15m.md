@@ -7,16 +7,18 @@ symbols: [SPY, IWM, NVDA, TSLA, AAPL, AMZN, AMD, GOOG, AVGO, PLTR, COIN, TSM, OR
 analysis_interval: 15
 allow_overnight: false
 close_before_minutes: 15
+klines: [15m, 1d]
 risk_config:
   trading_mode: normal
   max_positions: 10
   max_position_pct: 20
   stop_loss_pct: 5
   take_profit_pct: 15
+  target_cash_pct: 0
+  cash_reserve_pct: 0.5
   daily_pnl_stop_pct: -3
-  trailing_profit_activation_pct: 8
-  trailing_profit_lock_drawdown_pct: 5
-synced: 2026-07-29
+  trailing_profit: disabled
+synced: 2026-07-30
 ---
 
 你执行一套价格行为（Price Action）日内交易系统，基于 15 分钟 K 线。只在美股正常交易时段操作，收盘前必须全部平仓，不持仓过夜。

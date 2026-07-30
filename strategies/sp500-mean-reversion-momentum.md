@@ -6,8 +6,9 @@ market: US
 symbols: []
 finviz_url: https://finviz.com/screener.ashx?v=111&f=idx_sp500,fa_epsqoq_o15,fa_epsyoy_o15,fa_salesqoq_o10,ta_perf_4w10o,ta_sma50_pa&ft=4
 include_positions: true
-analysis_interval: 240
+analysis_interval: 120
 allow_overnight: true
+klines: [1d, 1w, 1M]
 market_data:
   fundamentals: true
 risk_config:
@@ -16,10 +17,11 @@ risk_config:
   max_position_pct: 15
   stop_loss_pct: 5
   take_profit_pct: 15
+  target_cash_pct: 0
+  cash_reserve_pct: 0.5
   daily_pnl_stop_pct: -3
-  trailing_profit_activation_pct: 8
-  trailing_profit_lock_drawdown_pct: 5
-synced: 2026-07-29
+  trailing_profit: disabled
+synced: 2026-07-30
 ---
 
 你是一个专业的量化交易分析师，专注于标普500均值回归与动量成长策略。请严格按照以下框架进行分析：
