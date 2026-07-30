@@ -11,7 +11,7 @@ strategies/   # Trade Copilot 上线运行中的策略提示词原文，一个�
 backtest/     # 回测引擎、撮合与手续费/滑点模型
 data/         # 行情数据加载与缓存（原始数据不入库）
 metrics/      # 收益、回撤、夏普等评估指标
-notebooks/    # 探索性分析与结果可视化
+notebooks/    # 每日预期与复盘文档，以及探索性分析
 tests/        # 单元测试
 dependencies/ # 外部系统能力参考（Trade Copilot 平台与 MCP 工具）
 ```
@@ -26,16 +26,29 @@ YAML 头的 `status` 只在策略不是 `active` 时出现：`draft` 表示只�
 
 | 策略 | 标签 | 标的 | 分析间隔 | 状态 |
 | --- | --- | --- | --- | --- |
-| [长持标普 500](strategies/long-hold-voo.md) | 长持 | VOO | 1440 分钟 | 运行中 |
+| [长持标普 500](strategies/long-hold-voo.md) | 长持 | VOO | 240 分钟 | 运行中 |
 | [DRAM 网格](strategies/grid-dram.md) | 网格 | DRAM | 30 分钟 | 运行中 |
 | [XPEV 底仓+网格](strategies/grid-xpev.md) | 网格 | XPEV | 30 分钟 | 运行中 |
 | [价格行为日内 15m](strategies/price-action-intraday-15m.md) | 日内 | 15 只高流动性美股 | 15 分钟 | 运行中 |
-| [标普500均值回归动量成长](strategies/sp500-mean-reversion-momentum.md) | 动量 | finviz 筛选器驱动 | 240 分钟 | 运行中 |
+| [标普500均值回归动量成长](strategies/sp500-mean-reversion-momentum.md) | 动量 | finviz 筛选器驱动 | 120 分钟 | 运行中 |
 | [美股动量轮动](strategies/momentum-rotation-us.md) | 动量 | 14 只固定标的池 | 1440 分钟 | 暂停（待选 AI 供应商） |
 
 改动流程是单向的：**先在平台改，再把改完的提示词同步回这里**，仓库是镜像而不是源头。同步后用 `get_strategy_profile` 回读核对一次，别只信 UI 的保存提示。
 
 MCP 已经开放写工具（`create_strategy` / `update_strategy` / `archive_strategy` / `unarchive_strategy`），走两段式提案：先拿 `proposal_id` 和 diff，再 `confirm_proposal` 才真正生效。**工具清单只在 `~/.cursor/mcp.json` 的配置指纹变化时才刷新**，换新对话和重新 OAuth 都没用，办法见 `dependencies/trade-copilot-mcp.md` 的「工具清单刷新」。
+
+## 每日循环
+
+`notebooks/` 下按美股交易日成对存放两份文档：
+
+- `<日期>-expectations.md` —— 开盘前写，冻结基线数字、给出可证伪的预测、单列当轮要验证的机制问题
+- `<日期>-review.md` —— 收盘后写，逐条判定命中还是落空
+
+关键约束是**预测必须在开盘前写完并且带数值区间**，事后不许放宽标准，否则复盘会退化成给结果编理由。
+
+复盘用 `/review` 触发（`.cursor/commands/review.md`），可选带日期参数如 `/review 2026-07-30`，不带则取最新一份预期文档。它会照抄该文档自带的检查清单执行，所以清单跟着预期文档走、每轮可以不一样。
+
+这个命令是按手机上使用设计的，配合 Cursor Cloud Agent 可以在外面一句话跑完整轮复盘，接入方式见 `dependencies/trade-copilot-mcp.md` 的「从云端 / 手机接入」。
 
 ## 计划
 
