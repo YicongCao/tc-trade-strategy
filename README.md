@@ -11,7 +11,7 @@ strategies/   # Trade Copilot 上线运行中的策略提示词原文，一个�
 backtest/     # 回测引擎、撮合与手续费/滑点模型
 data/         # 行情数据加载与缓存（原始数据不入库）
 metrics/      # 收益、回撤、夏普等评估指标
-notebooks/    # 每日预期与复盘文档，以及探索性分析
+reviews/      # 每日预期与复盘文档、阶段性组合复盘
 tests/        # 单元测试
 dependencies/ # 外部系统能力参考（Trade Copilot 平台与 MCP 工具）
 ```
@@ -40,10 +40,12 @@ MCP 已经开放写工具（`create_strategy` / `update_strategy` / `archive_str
 
 ## 每日循环
 
-`notebooks/` 下按美股交易日成对存放两份文档：
+`reviews/` 下按美股交易日成对存放两份文档：
 
 - `<日期>-expectations.md` —— 开盘前写，冻结基线数字、给出可证伪的预测、单列当轮要验证的机制问题
 - `<日期>-review.md` —— 收盘后写，逐条判定命中还是落空
+
+跨多个交易日的阶段性复盘用 `<日期>-portfolio-review.md`，与上面这对日更文档区分开，不参与 `/review` 的配对逻辑。
 
 关键约束是**预测必须在开盘前写完并且带数值区间**，事后不许放宽标准，否则复盘会退化成给结果编理由。
 
