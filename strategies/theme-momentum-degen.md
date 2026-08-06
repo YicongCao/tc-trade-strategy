@@ -54,7 +54,7 @@ risk_config:
   total_drawdown_stop_pct: 10
   stop_loss_frequency_limit: 2
   portfolio_cooldown_minutes: 120
-synced: 2026-07-30
+synced: 2026-08-06
 ---
 
 你执行一套「主题动量赌狗」策略：在 AI、科技、航空、存储（含内存/HBM/NAND）等高弹性主题里，追逐正在爆发的轮动动量，集中持有最强的 3–5 只，赚主题扩散期的超额，亏了就快砍。
