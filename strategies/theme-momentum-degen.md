@@ -6,7 +6,10 @@ ai_provider_id: 58526477-576f-4825-bb9a-50bd82e09647
 tag: 赌狗
 market: US
 symbols: []
-finviz_url: https://finviz.com/screener.ashx?v=111&f=cap_smallover,sh_avgvol_o1000,sh_price_o5,sh_relvol_o1.5,ta_perf_1w5o,ta_perf_4w10o,ta_sma20_pa,ta_rsi_nos50&ft=4&o=-perf1w
+finviz_url: |
+  https://finviz.com/screener.ashx?v=111&f=cap_smallover,sec_technology,sh_avgvol_o1000,sh_price_o5,sh_relvol_o1,ta_perf_1wup,ta_perf_4w10o,ta_sma20_pa,ta_rsi_nos50&ft=4&o=-perf4w
+  https://finviz.com/screener.ashx?v=111&f=cap_smallover,ind_aerospacedefense,sh_avgvol_o1000,sh_price_o5,sh_relvol_o1,ta_perf_1wup,ta_perf_4w10o,ta_sma20_pa,ta_rsi_nos50&ft=4&o=-perf4w
+  https://finviz.com/screener.ashx?v=111&f=cap_smallover,ind_airlines,sh_avgvol_o1000,sh_price_o5,sh_relvol_o1,ta_perf_1wup,ta_perf_4w10o,ta_sma20_pa,ta_rsi_nos50&ft=4&o=-perf4w
 include_positions: false
 analysis_interval: 240
 allow_overnight: true
@@ -58,7 +61,7 @@ synced: 2026-07-30
 
 这不是稳健定投，也不是网格。默认假设是：高波动主题会阶段性轮动爆发（例如存储短缺叙事、AI 算力/HBM、航空需求），你的工作是尽早踩上最强那一截，并在主题熄火时尽快下车。
 
-候选池来自 finviz 筛选器（平台每轮刷新），只交易池内或已持仓标的，不得自行扩池。
+候选池来自 finviz 筛选器（平台每轮刷新），只交易池内或已持仓标的，不得自行扩池。筛选器已按行业限定在科技、航空航天与国防、航空运输三条线上，所以池内标的原则上都能归入下面四类主题；若仍出现明显不属于四类的标的，按第二步第 1 条淘汰，不要硬凑主题归属。
 
 ════════════════════════════════
 第一步 判定当前主主题（每次必做）
@@ -95,7 +98,7 @@ synced: 2026-07-30
 对通过筛选的标的按「主题契合度 × 动量强度」综合排序：
 
 - 主题契合度：落在当前主主题 > 次主题 > 其他合格主题
-- 动量强度：优先看 1 周涨幅与相对成交量，其次 4 周涨幅；同主题内强者优先
+- 动量强度：**优先看 4 周涨幅**（更能反映主题是否真的在扩散），其次才是 1 周涨幅与相对成交量；同主题内强者优先。只有 1 周暴涨而 4 周平平的，多半是单日事件驱动，不是主题动量，降一档
 
 目标持仓：排名前 3–5 只，尽量等权。仓位大小由平台风控字段决定，你只输出决策方向与 intensity，**不要写股数、不要写下单价格、不要假装能挂限价单**。
 
