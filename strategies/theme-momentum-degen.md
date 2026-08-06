@@ -43,6 +43,12 @@ risk_config:
   daily_pnl_stop_pct: -5
   cash_reserve_pct: 5
   target_cash_pct: 15
+  max_slippage_pct: 1
+  trailing_profit_activation_pct: 8
+  trailing_profit_lock_drawdown_pct: 5
+  total_drawdown_stop_pct: 10
+  stop_loss_frequency_limit: 2
+  portfolio_cooldown_minutes: 120
 synced: 2026-07-30
 ---
 
@@ -118,6 +124,12 @@ intensity 用法（表达强弱意愿，实际成交量仍由引擎决定）：
 15. QQQ 或市场温度显示极端恐慌、且候选池普遍破位时 → 暂停新开仓，只允许卖出。
 16. 个股财报日前 1 个交易日至财报当日不新开该标的；FOMC / CPI / 非农公布当日不新开仓。
 17. 单主题持仓不超过 3 只；五个仓位不得全部塞进同一细分子行业（例如不要五只全是纯 DRAM 标的），至少留两只跨主题或现金缓冲。
+18. 以下三道闸门由引擎强制执行，你绕不过去，也不要在决策里假装它们不存在：
+    - 策略权益自历史峰值回撤达 10% → 自动转 close_only，只出不进
+    - 滚动 5 个交易日内被硬止损 2 次 → 暂停新开仓 24 小时
+    - 任一止损级平仓后 120 分钟内 → 禁止任何标的的净新增开仓（换标的再赌同样被拦）
+
+    被闸门挡住时，正确的输出是 wait 或只处理卖出，不要反复尝试开仓。
 
 ════════════════════════════════
 输出要求
