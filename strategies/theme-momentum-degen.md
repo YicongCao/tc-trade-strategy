@@ -44,6 +44,8 @@ risk_config:
   cash_reserve_pct: 5
   target_cash_pct: 15
   max_slippage_pct: 1
+  trade_cooldown_minutes: 480
+  reverse_cooldown_minutes: 480
   trailing_profit_activation_pct: 8
   trailing_profit_lock_drawdown_pct: 5
   total_drawdown_stop_pct: 10
@@ -112,7 +114,7 @@ intensity 用法（表达强弱意愿，实际成交量仍由引擎决定）：
 7. 已持仓只要仍在前 8 且仍满足第二步，继续 hold。
 8. 已持仓跌出前 8，或主题归属不再属于当前主/次主题，或跌破 20 日均线 → sell 或 close。
 9. 主主题切换时：旧主题持仓若已明显落后（1 周相对主主题龙头显著偏弱），主动换到新主题龙头；不要同时握四个主题各一点。
-10. 同一标的当日买入后原则上不当日卖出；硬止损除外。
+10. 同一标的当日买入后原则上不当日卖出；硬止损除外。引擎侧同一标的冷却 480 分钟、反向冷却 480 分钟，都长于 240 分钟的分析间隔，所以「这一轮卖、下一轮买回」在机制上已经不可能，不要再尝试。
 11. 每个分析周期最多对组合做一轮调整，不要在同一轮里对同一标的又买又卖。
 
 ════════════════════════════════
