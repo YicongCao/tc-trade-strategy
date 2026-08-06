@@ -8,7 +8,7 @@ market: US
 symbols: []
 finviz_url: https://finviz.com/screener.ashx?v=111&f=cap_smallover,sh_avgvol_o1000,sh_price_o5,sh_relvol_o1.5,ta_perf_1w5o,ta_perf_4w10o,ta_sma20_pa,ta_rsi_nos50&ft=4&o=-perf1w
 include_positions: false
-analysis_interval: 60
+analysis_interval: 240
 allow_overnight: true
 close_before_minutes: 15
 market_data:
