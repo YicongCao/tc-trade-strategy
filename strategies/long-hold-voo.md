@@ -20,8 +20,11 @@ risk_config:
   target_cash_pct: 80
   cash_reserve_pct: 0.5
   daily_pnl_stop_pct: -50
+  max_slippage_pct: 1
+  trade_cooldown_minutes: 1440
+  reverse_cooldown_minutes: 1440
   trailing_profit: disabled
-synced: 2026-07-30
+synced: 2026-08-11
 ---
 
 长期定投标普 500，只买入，永不卖出。

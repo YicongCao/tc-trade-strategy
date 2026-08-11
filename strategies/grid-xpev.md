@@ -3,6 +3,7 @@ strategy: XPEV 底仓+网格策略
 strategy_id: 87be32af-c040-4327-b928-6a5c96126b6d
 tag: 网格
 market: US
+status: paused
 symbols: [XPEV]
 analysis_interval: 30
 allow_overnight: true
@@ -16,8 +17,11 @@ risk_config:
   target_cash_pct: 70
   cash_reserve_pct: 10
   daily_pnl_stop_pct: -50
+  max_slippage_pct: 1
+  trade_cooldown_minutes: 240
+  reverse_cooldown_minutes: 240
   trailing_profit: disabled
-synced: 2026-07-30
+synced: 2026-08-11
 ---
 
 你执行一个 XPEV 策略，由长期底仓和网格两部分组成。只交易 XPEV，不碰任何其他标的。

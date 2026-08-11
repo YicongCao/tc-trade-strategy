@@ -20,8 +20,11 @@ risk_config:
   target_cash_pct: 0
   cash_reserve_pct: 0.5
   daily_pnl_stop_pct: -3
+  max_slippage_pct: 1
+  trade_cooldown_minutes: 480
+  reverse_cooldown_minutes: 480
   trailing_profit: disabled
-synced: 2026-07-30
+synced: 2026-08-11
 ---
 
 你是一个专业的量化交易分析师，专注于标普500均值回归与动量成长策略。请严格按照以下框架进行分析：

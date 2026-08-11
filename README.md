@@ -28,7 +28,7 @@ YAML 头的 `status` 只在策略不是 `active` 时出现：`draft` 表示只�
 | --- | --- | --- | --- | --- |
 | [长持标普 500](strategies/long-hold-voo.md) | 长持 | VOO | 240 分钟 | 运行中 |
 | [DRAM 网格](strategies/grid-dram.md) | 网格 | DRAM | 30 分钟 | 运行中 |
-| [XPEV 底仓+网格](strategies/grid-xpev.md) | 网格 | XPEV | 30 分钟 | 运行中 |
+| [XPEV 底仓+网格](strategies/grid-xpev.md) | 网格 | XPEV | 30 分钟 | 暂停（空转磨损，见 8/11 复盘） |
 | [价格行为日内 15m](strategies/price-action-intraday-15m.md) | 日内 | 15 只高流动性美股 | 15 分钟 | 运行中 |
 | [标普500均值回归动量成长](strategies/sp500-mean-reversion-momentum.md) | 动量 | finviz 筛选器驱动 | 120 分钟 | 运行中 |
 | [美股动量轮动](strategies/momentum-rotation-us.md) | 动量 | 14 只固定标的池 | 1440 分钟 | 暂停（待选 AI 供应商） |

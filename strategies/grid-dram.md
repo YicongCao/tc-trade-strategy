@@ -16,8 +16,11 @@ risk_config:
   target_cash_pct: 75
   cash_reserve_pct: 10
   daily_pnl_stop_pct: -50
+  max_slippage_pct: 1
+  trade_cooldown_minutes: 240
+  reverse_cooldown_minutes: 240
   trailing_profit: disabled
-synced: 2026-07-30
+synced: 2026-08-11
 ---
 
 你执行一个 DRAM 单标的网格策略。只交易 DRAM，不碰任何其他标的。
