@@ -1,7 +1,8 @@
 # Trade Copilot MCP 工具参考
 
 > 最后核对：2026-07-30 · 服务器 ID `user-trade-copilot` · 状态 `ready`（已通过 OAuth 认证）
-> 当前连接可见 **23 个功能工具 + 1 个认证工具**，其中 **18 个只读 + 5 个可写**。
+> 当前连接可见 **22 个功能工具 + 1 个认证工具**，其中 **17 个只读 + 5 个可写**。
+> 2026-08-12 变化：`get_retro_overview` / `list_retro_cases` 已下线，新增 `list_ai_providers`。
 
 ## 关键结论（先看这个）
 
@@ -10,7 +11,7 @@
 3. **手机上用这套工具走 Cursor Cloud Agent。** 云端请求从 Cursor 服务器发出、不带本地 IP，绕开了大陆与香港 IP 的前沿模型过滤，且笔记本关机也能跑。授权服务器支持动态客户端注册，接入不需要平台侧配合。见「从云端 / 手机接入」。
 4. **MCP 不能当回测数据源。** K 线一次只能查一个标的、最多 120 根、且不开放分钟级；实时行情一次最多 20 个标的。这个量级只够做归因和抽查，撑不起参数网格搜索。本仓库的回测数据必须另找来源。
 5. **MCP 的行情缺口不代表平台的缺口。** `get_symbol_kline` 对 `DRAM` 返回旧主体历史、对中概 ADR 与 ETF 只返回 1 根，但**平台喂给 AI 策略的 K 线是完整正确的**——见下文"策略引擎的真实行为"。两条数据管道是分开的，不要用 MCP 的缺陷推断平台的缺陷。
-6. **MCP 的真正价值在"对标口径"和"实盘校准"**：`list_transactions` 有真实手续费和已实现盈亏，`get_decision_detail` 能看到 LLM 的完整输入输出，`get_retro_overview` + `list_retro_cases` 有决策的事后价格路径与超额收益。这些是校准本地假设最可靠的输入。
+6. **MCP 的真正价值在"对标口径"和"实盘校准"**：`list_transactions` 有真实手续费和已实现盈亏，`get_decision_detail` 能看到 LLM 的完整输入输出，`list_decisions` 的 `confidence` 与 `execution_status` 能还原决策与执行的差异。这些是校准本地假设最可靠的输入。
 7. **字段口径要抄平台的**，这样本地策略能平移回站内。见文末"平台字段口径"。
 
 ## 工具清单刷新
@@ -149,7 +150,7 @@ OAuth 授权是**按用户**的，团队级共享的 server 也一样，每个�
 
 **未验证。** 本地那个坑的根因是 MCP 宿主进程按 `~/.cursor/mcp.json` 的配置指纹在内存里长期持有清单，而云端配置存在 Cursor 后端（加密存储，`headers` 与 `CLIENT_SECRET` 保存后不可回读），是另一套实现，不能直接套结论。
 
-**接入后先做一次核对**：让 Cloud Agent 调 `GetMcpTools` 数一下工具数量。应该是 **23 个功能工具 + 1 个 `mcp_auth`**，并且能看到 `create_strategy` / `update_strategy` / `archive_strategy` / `unarchive_strategy` / `confirm_proposal` 和 `get_retro_overview` / `list_retro_cases`。若数量偏少或出现 `list_signal_performance`，说明云端同样有缓存问题。
+**接入后先做一次核对**：让 Cloud Agent 调 `GetMcpTools` 数一下工具数量。截至 2026-08-12 应该是 **22 个功能工具 + 1 个 `mcp_auth`**，并且能看到 5 个写工具 `create_strategy` / `update_strategy` / `archive_strategy` / `unarchive_strategy` / `confirm_proposal`。若写工具缺失，或出现已下线的 `list_signal_performance` / `get_retro_overview` / `list_retro_cases`，说明云端同样有缓存问题。
 
 云端没有「改配置指纹」这个旋钮，对应的做法是**在 MCP 下拉里把 server 删掉重加**。
 
@@ -171,17 +172,32 @@ OAuth 授权是**按用户**的，团队级共享的 server 也一样，每个�
 
 | 工具 | 参数 | 返回要点 |
 | --- | --- | --- |
-| `list_user_strategies` | `include_archived?`（默认 false） | 策略精简列表：`id`、`name`、`market`、`status`、`tag_name`。**不含** `system_prompt` / `risk_config` / 现金。用它拿 `strategy_ids` 再调其他工具 |
-| `get_strategy_profile` | `strategy_ids[]`（必填，可多个） | 完整属性：描述、标的池、`finviz_url`、`system_prompt`、`market_data`、`risk_config`、资金与盈亏 |
+| `list_user_strategies` | `include_archived?`（默认 false） | 策略精简列表：`id`、`name`、`market`、`status`、`tag_name`，**另含各策略当前的 AI 供应商 id / 名称 / 模型**。不含 `system_prompt` / `risk_config` / 现金 / api_key。用它拿 `strategy_ids` 再调其他工具 |
+| `get_strategy_profile` | `strategy_ids[]`（必填，可多个） | 完整属性：描述、标的池、`finviz_url`、`system_prompt`、`market_data`、`risk_config`、资金与盈亏、当前 AI 供应商 |
 | `get_strategy_screener_pool` | `strategy_ids[]`（必填） | 最近一轮 finviz 筛选命中的候选池 `symbols[]` + `total_count` + `updated_at`。**是候选清单，不是持仓**；超 100 个截断 |
 | `preview_finviz_screener` | `finviz_url`（必填）、`limit?`（默认 30，上限 50） | 干跑一个 finviz URL，返回命中 ticker 与 `total`。改选股条件前先用它验证 URL 合法性 |
+| `list_ai_providers` | 无 | 全部 AI 供应商：`id`、`name`、`model`、`protocol`、`api_base_url`、`temperature`、`enable_thinking`、限速、单价、`disabled`、被几个策略引用（总数 / active 数）。**不返回 api_key，也不返回最大输出长度** |
+
+`list_ai_providers` 的主要用途是把供应商名称映射成 uuid——`update_strategy` 的 `ai_provider_id` 只认 uuid 不认名称。改策略模型前必须先调它。
+
+### ⚠️ 供应商参数没有写工具，只能走 UI
+
+写工具白名单全部作用于策略（`create_strategy` / `update_strategy` / `archive_strategy` / `unarchive_strategy` / `confirm_proposal`），**没有任何修改 AI 供应商的 MCP 工具**。
+
+以下参数只能在平台「AI 供应商」页上改：**最大输出长度、`enable_thinking`、`temperature`、api_base_url、限速、单价**。
+
+MCP 能做的只有「把某个策略换到另一个已存在的供应商」，用 `update_strategy` 改 `ai_provider_id`。
+
+这条限制在 2026-08-12 撞上过一次实际问题：推理模型开着 `enable_thinking`、最大输出长度偏小，思维链把输出预算吃光，再平衡调用返回 `finish_reason: length` 且正文为空。**只能让用户去 UI 调，MCP 无解。** 详见 `reviews/2026-08-12-ai-truncation-and-recurring-warnings.md`。
+
+改供应商参数时注意它是**共享设置**：`list_ai_providers` 的 `used_by_strategies` 会告诉你有几个策略在引用，改一次影响全部。
 
 ### 持仓与绩效
 
 | 工具 | 参数 | 返回要点 |
 | --- | --- | --- |
 | `get_positions` | `strategy_ids[]`（必填） | 当前持仓：`current_price`、`unrealized_pnl`、`day_change_pct`，按 `market_value` 降序 + 汇总。分析涨跌**优先用它**，别从决策流水反推持仓 |
-| `get_daily_snapshots` | `strategy_ids[]`（必填）、`date_from?`（默认 365 天前）、`date_to?`（默认昨天） | 每日 `total_assets`、`daily_pnl`、`daily_pnl_pct`、`cumulative_twr_pct`（TWR 链式连乘）。范围上限 366 天 |
+| `get_daily_snapshots` | `strategy_ids[]`（必填）、`date_from?`（默认 365 天前）、`date_to?`（默认昨天） | 每日 `total_assets`、`daily_pnl`、`daily_pnl_pct`、`cumulative_twr_pct`（TWR 链式连乘）。范围上限 366 天。**2026-08 新增 `per_strategy_summary`**：逐策略给出天数、总盈亏、期末资产、累计 TWR、最好/最差单日，比逐条 snapshot 好用得多；另新增 `currency` 计价币种 |
 | `list_transactions` | `strategy_ids[]`（必填）、`symbol?`、`date_from?`/`date_to?`（默认近 30 天）、`limit?`（默认 50，上限 200，跨策略共享） | 真实成交流水，**含 `fees` 与 `realized_pnl`**，按 `executed_at` 倒序 + 窗口汇总。`truncated=true` 时汇总只覆盖返回窗口 |
 
 ### 决策与信号
@@ -191,29 +207,17 @@ OAuth 授权是**按用户**的，团队级共享的 server 也一样，每个�
 | `list_decisions` | 全可选：`strategy_ids?`、`symbol?`、`date_from?`/`date_to?`（默认近 30 天）、`execution_status?`、`decision?`、`limit?`（默认 20，上限 200） | 决策流水。**反查"哪些策略买了某标的"时直接传 `symbol` 不传 `strategy_ids`**，一次跨全部策略；不传 `strategy_ids` 时**必须**传 `symbol`。`summary` 截断到 200 字符 |
 | `get_decision_detail` | `decision_id`（必填）、`include_ai_text?`（默认 true） | 单条决策全文，含决策当时 LLM 的原始请求/响应。**单条返回很大**，仅在需要具体理由时调 |
 
-### 复盘（两步走）
+### ⚠️ 复盘工具已下线（2026-08-12）
 
-旧版的 `list_signal_performance` 已被服务端删除，拆成了下面两个工具。**必须先 overview 选方向，再拉 cases**。
+服务端的复盘工具链换过两轮，目前**一个都不剩**：
 
-| 工具 | 参数 | 返回要点 |
-| --- | --- | --- |
-| `get_retro_overview` | `strategy_ids[]`（必填）、`date_from?`/`date_to?` | 按「决策类型 × 执行状态」的分层画像：样本数、平均/中位收益、超额收益、实际盈亏、各类问题标签计数 |
-| `list_retro_cases` | `strategy_ids[]`（必填）、`date_from?`/`date_to?`、`decision?`（open/buy/sell/close）、`symbol?`、`flag?`、`execution_status?`（默认 filled，可选 skipped/any）、`sort?`（默认 `worst_excess`）、`limit?`（上限 100） | 具体案例：当时的 `summary` 理由 + 事后 d1/d3/d5 价格路径与窗口高低价 + 基准同期收益 + 实际成交与已实现盈亏 + 问题标签 |
+```
+list_signal_performance  →  拆成 get_retro_overview + list_retro_cases  →  两个都下线
+```
 
-`execution_status` 的口径是这里最容易算错的地方：**`filled` 才是真实成交的决策，`skipped` 是被再平衡毙掉的信号**（仅抽样评估，用来衡量过滤质量）。两者混算得到的是"AI 嘴上说买的能力"，不是策略赚钱能力。
+现在做决策质量分析只能手工组合 `list_decisions`（拿 confidence、decision、execution_status）+ `list_transactions`（拿成交价与已实现盈亏）+ `get_symbol_quotes`（拿事后价格），自己算事后表现。8/11 的组合复盘就是这么做的。
 
-`flag` 问题标签取值：
-
-| 值 | 判定 |
-| --- | --- |
-| `sold_before_run_up` | 卖出后 5 日内最高价超卖价 5%（卖飞） |
-| `stopped_at_bottom` | 卖出后几乎没再跌却收更高（割在地板） |
-| `bought_the_top` | 买入后最高价没超买价 1%（买在山顶） |
-| `underwater_exit` | 实际亏损离场 |
-| `not_executed` | 未成交 |
-| `corp_action` | 窗口内有拆股，收益失真 |
-
-`list_retro_cases` 不给"对/错"判定，要自己结合当时的理由归因——**止盈平仓后继续上涨并不等于判断错误**，得看当时的理由说的是什么。`high_5d` / `low_5d` 用来区分"卖飞"和"躲过暴跌后反弹"。
+**下线前记下来的一条口径仍然有效**：`execution_status` 里 **`filled` 才是真实成交的决策，`skipped` 是被再平衡毙掉的信号**。两者混算得到的是"AI 嘴上说买的能力"，不是策略赚钱能力。这条在用 `list_decisions` 自己统计时同样要守。
 
 枚举值：
 
@@ -536,7 +540,7 @@ kdj       : period 9, k_smooth 3, d_smooth 3
 | 长持标普 500 | `f9f1d84d-6552-470f-9074-36363e1f3559` | active | 长持 |
 | 美股动量轮动 | `85f67f09-6682-4a1b-8af5-55fe51086620` | paused | 动量 |
 
-成交历史仍然很短（最早的策略 2026-04 建立，实际出单从 2026-07-29 才开始），`list_transactions` / `get_retro_overview` / `get_daily_snapshots` 的样本量还不足以校准回测假设。本地回测暂时仍用自己假设的费率和滑点，并在结论里注明。
+成交历史仍然很短（最早的策略 2026-04 建立，实际出单从 2026-07-29 才开始），`list_transactions` / `list_decisions` / `get_daily_snapshots` 的样本量还不足以校准回测假设。本地回测暂时仍用自己假设的费率和滑点，并在结论里注明。
 
 平台上的「网格策略」是用 AI 策略接口配的，不是平台自带网格引擎；网格引擎相关的配置字段（分时段滑点、必亏配置警告等）没有 MCP 工具可读取，只能参照 UI。
 
