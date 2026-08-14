@@ -1,8 +1,8 @@
 ---
 strategy: us-mushroom
 strategy_id: be0c97d8-f885-4457-82e3-1746802fc9ae
-status: paused
-ai_provider_id: null
+status: active
+ai_provider_id: 58526477-576f-4825-bb9a-50bd82e09647
 tag: 突破
 market: US
 symbols: [XPEV, VGT, XLE, VST, VRT, XE, VIXY, WDC, XLP, XLV, XME, VSH, ZS, VRSN, SQ, XBI, ZSL, WMT, YINN, YANG, V, UUUU, USD, URA, VG, UFOX, UEC, UBER, U, TNK, UDOW, TSEM, TZA, URNM, TSM, TSLA, TTMI, TNA, TEST, TMF, TLT, TMO, TER, TECL, TECH, TAIL, SYM, SVIX, STCE, STM, STRL, STX, STNG, SQM, SQQQ, SPYU, SPXU, SPXS, SOXS, SPY, SPMO, SOXX, SOXL, SNDK, SOLS, SMR, SNPS, SMST, SETM, SGRT, SOFI, SMCI, SCHD, SEI, SIL, RSP, RTX, ROBO, SANM, RDW, REMX, RKLB, PURE, QQQJ, QQQI, Q, PPG, POWI, PLAY, ORCL, ONTO, PLTR, PBW, PAAS, OKTA, OXY, ONDS, NXT, NVTS, OKLO, NTR, NVMI, NOW, NOK, NVDA, NEXT, NET, NOC, NASA, NEE, TQQQ, NE, MSTX, MXL, NAIL, NBIS, MRAAY, MSTR, MTSI, MRVL, MSCI, MPWR, MP, MU, MEME, MPNGY, MOS, MOD, MBLY, MELI, MDB, MAGS, MAX, LYB, MAGC, LNG, LUNR, LRCX, LITE, LMT, KWEB, LGN, LABU, LAB, KMN, LABD, KTOS, LEU, KRE, KORU, KEYS, IWM, KLAC, JDST, JBL, IBD, IREN, IDMO, ITB, HYG, HWM, HYMC, INTC, HEI, HOOD, HIGH, HBMX, HIMX, HII, HASI, HAL, GSAT, GRAB, JD, GNRC, GLW, GOOG, GLD, GEN, GE, GEV, GDXU, GDS, GD, FSLR, FXI, GDXJ, FOUR, FUTU, FOTO, FORM, FNGD, FN, FTAI, FLKR, FLUT, FLY, FIGR, FLNC, FIX, FNGU, FCX, FFTY, FLEX, FANG, EXE, FAZ, EWY, EUV, ETN, ESLT, EQNR, EURL, ERX, EWT, EQT, EMXC, ENPH, EPD, EOG, EME, DXYZ, DUST, EAT, DOW, DRS, DRAM, DDOG, DOCN, CSIQ, DD, DAL, CRSP, DAR, CWEB, DELL, CRWV, CRWD, CRDO, CRCL, COPX, CQQQ, COHR, COIN, CLS, CNQ, CNQQ, CELH, CF, CIEN, CCJ, CAOS, CBRS, BRK.B, BOTZ, BMNR, BLSH, BITX, BL, BILI, BIDU, BE, AXTI, AVGO, BABA, ARKX, ARM, ATI, ASTS, ARKQ, ARKK, ARKG, ARKB, AR, APLD, APD, AMZN, AMD, AMKR, AMAT, APP, ALB, AKAM, AFRM, AIR, ADEA, ACMR, AEIS, AEHR, ACM, AGX, .VVIX, ALAB, AAOI, AA, AAPL, XAUUSD, .KOSPI, CRML]
@@ -30,17 +30,24 @@ market_data:
   include_news: false
   fundamentals: false
 risk_config:
+  trading_mode: normal
   max_positions: 5
-  max_position_pct: 18
+  max_position_pct: 20
   stop_loss_pct: 8
   take_profit_pct: 20
-  cash_reserve_pct: 10
+  target_cash_pct: 0
+  cash_reserve_pct: 0
   max_slippage_pct: 1
+  daily_pnl_stop_pct: -3
+  enforce_next_day_sell: false
   trade_cooldown_minutes: 1440
   reverse_cooldown_minutes: 1440
   total_drawdown_stop_pct: 20
   stop_loss_frequency_limit: 3
   portfolio_cooldown_minutes: 30
+  allow_rebalance_close_override: true
+  trailing_profit_activation_pct: 8
+  trailing_profit_lock_drawdown_pct: 5
 synced: 2026-08-14
 ---
 
