@@ -399,9 +399,9 @@ overview.sector   → 23 个板块 {name, group(primary|sub), symbol, price, tur
 
 `target_cash_pct` 会反向施压：设为 0 时，平台在 AI 请求里主动写入"现金占比已超过目标 0%，应通过换仓 close 弱仓 → open 强仓消化"，等于催 AI 把现金用光。想让策略只用部分资金，**必须把 `target_cash_pct` 调高**，光靠提示词说"只买 1720 股"没用。
 
-### 风控参数是喂给 LLM 的"软参考"，不是硬触发
+### 风控参数同时是 LLM 的"软参考"和引擎的硬触发
 
-AI 请求原文里逐条标注：
+AI 请求原文里逐条标注成软参考：
 
 ```
 - 止损（软参考）: 50% — 浮亏接近此值时综合趋势/动能/位置判断,
@@ -410,7 +410,15 @@ AI 请求原文里逐条标注：
 - 当日熔断线（软）: ≤-50% — 触及此线时停止 open/buy/加仓，仅允许 hold/sell/close
 ```
 
-所以 `stop_loss_pct` 不会机械平仓，只是提示词里的一句建议。平台功能文档称其为"独立硬止损"，与 AI 策略路径的实际行为不符——**硬止损可能只在网格引擎等非 AI 路径上生效**。
+> **2026-08-14 更正。** 本节此前写「所以 `stop_loss_pct` 不会机械平仓，只是提示词里的一句建议，硬止损可能只在网格引擎等非 AI 路径上生效」——**这个结论是错的**，它只看到了 AI 请求里的措辞，没看到引擎侧。
+>
+> 两次实测证明引擎会机械执行：8/04 赌狗 AXTI 浮亏 −8.85% 触发 `system:hard-stop-loss`（该策略 `stop_loss_pct: 8`）；8/13 均值回归 COHR 浮亏 −5.39% 触发 `system:hard-stop-loss`（`stop_loss_pct: 5`）。
+
+正确的理解是**两个作用面并存**：这些字段既以「软参考」的措辞进入 AI 请求让 LLM 参考，**也被引擎当硬触发机械执行**。
+
+所以把 `stop_loss_pct` 设成 50 的效果不是「关掉了硬止损」，而是「把触发线设到了实际到不了的位置」。对网格与 `open_only` 策略这是有意为之；对需要止损的策略要设成真实可达的值。
+
+引擎侧还有另外两个同类的自动触发，`model` 字段可以区分来源：`system:trailing-stop`（移动止盈，由 `trailing_profit_activation_pct` 与 `trailing_profit_lock_drawdown_pct` 控制）、`system:rebalance`（二阶段再平衡改写）。完整的七段流程与各段的控制旋钮见 `strategy-pipeline.md`。
 
 ### AI 请求里实际包含什么
 
