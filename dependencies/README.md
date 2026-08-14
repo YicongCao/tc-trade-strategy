@@ -4,12 +4,13 @@
 
 | 文件 | 内容 |
 | --- | --- |
-| `trade-copilot-mcp.md` | Trade Copilot MCP 服务器的 23 个工具（18 只读 + 5 可写）：参数、返回字段、限制、实测返回样例，以及平台策略配置的真实字段口径 |
+| **`strategy-pipeline.md`** | **先读这个。** AI 策略从候选池到成交的七段流程，标明每段能控制什么、控制不了什么，文末有「想改某个行为该动哪个旋钮」对照表 |
+| `trade-copilot-mcp.md` | Trade Copilot MCP 服务器的 22 个工具（17 只读 + 5 可写）：参数、返回字段、限制、实测返回样例，以及平台策略配置的真实字段口径 |
 | `trade-copilot-platform.md` | Trade Copilot 平台六大功能域的能力清单，每项标注对本地策略开发的含义；文末有"能力归属速查表" |
 
 ## 四条影响开发决策的结论
 
-**一、AI 策略接口表达不了网格。** AI 的输出只有 `decision`（open/buy/sell/close/hold/wait）加 `intensity`（light/medium/heavy），**没有股数、没有价格、不能挂限价单**。提示词里写"每格买 30 股"是无效的。仓位大小由 `cash_reserve_pct` 和 `max_position_pct` 算出来，不由提示词决定。网格必须走平台自带的网格引擎。
+**一、AI 策略接口表达不了网格。** AI 的输出只有 `decision`（open/buy/sell/close/hold/wait）加 `intensity`，**没有股数、没有价格、不能挂限价单**。提示词里写"每格买 30 股"是无效的。仓位大小由 `cash_reserve_pct` 和 `max_position_pct` 算出来，**与 `intensity` 无关**（三次实测都打满 `max_position_pct` 上限）。网格必须走平台自带的网格引擎。
 
 **二、MCP 写工具已可用，仓库不再只能是镜像。** 5 个写工具 `create_strategy` / `update_strategy` / `archive_strategy` / `unarchive_strategy` / `confirm_proposal` 走两段式提案：先拿 `proposal_id` 与 diff，展示给用户同意后再 `confirm_proposal`。**工具清单只在 `~/.cursor/mcp.json` 的配置指纹变化时才刷新**——换新对话没用、重新 `mcp_auth` 也没用，得给配置块加个无害字段（如 `"headers": {}`）触发重连再授权，详见 `trade-copilot-mcp.md`。
 

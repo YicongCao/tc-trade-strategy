@@ -16,7 +16,11 @@ tests/        # 单元测试
 dependencies/ # 外部系统能力参考（Trade Copilot 平台与 MCP 工具）
 ```
 
-写策略前先读 `dependencies/README.md`，里面说明了哪些能力可以直接调平台、哪些必须本地自建。
+写策略前先读 [dependencies/strategy-pipeline.md](dependencies/strategy-pipeline.md)——它把「候选池 → 上下文 → LLM 决策 → 二阶段再平衡 → 引擎硬触发 → 下单量 → 执行」这七段串起来，标明每段你能控制什么。
+
+**这里最容易踩的坑是把整个流程当成「写提示词让大模型选股」**：提示词只管第 3 段，后面四段全由配置字段和引擎逻辑决定。写「每格买 30 股」「不要频繁换仓」「收盘前必须清仓」都是无效的，对应的旋钮在文末的对照表里。
+
+`dependencies/README.md` 说明哪些能力可以直接调平台、哪些必须本地自建。
 
 ## 策略清单
 
