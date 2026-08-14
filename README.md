@@ -57,6 +57,34 @@ MCP 已经开放写工具（`create_strategy` / `update_strategy` / `archive_str
 
 这个命令是按手机上使用设计的，配合 Cursor Cloud Agent 可以在外面一句话跑完整轮复盘，接入方式见 `dependencies/trade-copilot-mcp.md` 的「从云端 / 手机接入」。
 
+## us-mushroom 盘前预筛
+
+本地预筛从 `data/symbols.txt` 读取完整清单，通过 Yahoo Finance 下载复权日 K，
+保留至少 200 根完整日 K 的标的，再按均线趋势、距 60 日枢轴点的位置、量价结构和
+相对 SPY 强度选出前 20 只。它只负责缩小请求体；最终杯柄、双底、平底以及
+MACD/KDJ 的 50/50 评分仍由平台上的 `us-mushroom` 完成。
+
+```bash
+python3 -m venv .venv
+.venv/bin/pip install -e ".[dev]"
+.venv/bin/premarket-screen
+```
+
+结果写入 `results/premarket/`，行情缓存写入 `data/cache/yahoo/`，两者都不入库。
+特殊代码会自动映射：`BRK.B → BRK-B`、`.VVIX → ^VVIX`、
+`.KOSPI → ^KS11`、`SQ → XYZ`、`XAUUSD → GC=F`（黄金期货代理）。
+无效代码或不足 200 根的标的会进入失败报告。
+
+macOS 可安装每日盘前任务：
+
+```bash
+chmod +x scripts/*.sh
+scripts/install_premarket_launchd.sh
+```
+
+任务每天北京时间 21:00 和 22:00 各检查一次，以兼容纽约夏令时切换；只有纽约工作日
+08:30–09:30 才实际执行。电脑关机或休眠时任务不会在云端补跑。
+
 ## 计划
 
 **第一阶段：打地基**
