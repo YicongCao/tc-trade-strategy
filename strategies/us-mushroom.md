@@ -8,7 +8,7 @@ market: US
 symbols: [SPY, QQQ, IWM, SMH, XLK, XLE, XLV, XBI, ARKG, ARKX, GLD, GDXJ, ARKB, SNDK, WDC, MU, STX, NVDA, AVGO, AMD, MRVL, PLTR, CRWV, LITE, COHR, GDXU, PAAS, AU, UUUU, UEC, URA, MRNA, BNTX, TEM, CRSP, COIN, HOOD, MSTR, MARA, CRCL, BITX, RKLB, LUNR, ASTS, RDW, VRT, VST, APP, NBIS, IREN, SOFI]
 finviz_url: https://finviz.com/screener.ashx?v=111&f=cap_smallover,sh_avgvol_o500,sh_price_o10,sh_relvol_o1.5,ta_perf_1wup,ta_sma20_pa&ft=4&o=-relativevolume
 description: 结合经典基地突破、强势动量延续和行业轮动，从精简核心池与动态放量池中选择最多 5 只确认信号；重点覆盖存储、黄金矿业、生物科技、加密资产和航天等高相对强度主题。
-analysis_interval: 240
+analysis_interval: 120
 allow_overnight: true
 close_before_minutes: 15
 market_data:
