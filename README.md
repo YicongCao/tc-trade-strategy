@@ -30,13 +30,14 @@ YAML 头的 `status` 只在策略不是 `active` 时出现：`draft` 表示只�
 
 | 策略 | 标签 | 标的 | 分析间隔 | 状态 |
 | --- | --- | --- | --- | --- |
-| [长持标普 500](strategies/long-hold-voo.md) | 长持 | VOO | 240 分钟 | 运行中 |
-| [DRAM 网格](strategies/grid-dram.md) | 网格 | DRAM | 30 分钟 | 运行中 |
+| [长持标普 500](strategies/long-hold-voo.md) | 长持 | VOO | 240 分钟 | 运行中（`open_only`，定投未实现） |
+| [DRAM 网格](strategies/grid-dram.md) | 网格 | DRAM | 30 分钟 | 运行中（网格表已被行情甩开，见 8/26 复盘） |
 | [XPEV 底仓+网格](strategies/grid-xpev.md) | 网格 | XPEV | 30 分钟 | 暂停（空转磨损，见 8/11 复盘） |
 | [价格行为日内 15m](strategies/price-action-intraday-15m.md) | 日内 | 15 只高流动性美股 | 15 分钟 | 运行中 |
-| [标普500均值回归动量成长](strategies/sp500-mean-reversion-momentum.md) | 动量 | finviz 筛选器驱动 | 120 分钟 | 运行中 |
+| [标普500均值回归动量成长](strategies/sp500-mean-reversion-momentum.md) | 动量 | finviz 筛选器驱动 | 120 分钟 | 运行中（缺三道组合闸门，见 8/26 复盘） |
 | [美股动量轮动](strategies/momentum-rotation-us.md) | 动量 | 14 只固定标的池 | 1440 分钟 | 暂停（待选 AI 供应商） |
-| [主题动量赌狗](strategies/theme-momentum-degen.md) | 赌狗 | finviz 高动量池 · AI/科技/航空/存储 | 60 分钟 | 草稿（待部署） |
+| [主题动量赌狗](strategies/theme-momentum-degen.md) | 赌狗 | finviz 高动量池 · AI/科技/航空/存储 | 240 分钟 | 运行中 |
+| [us-mushroom](strategies/us-mushroom.md) | 突破 | 86 只手写全行业池 + finviz 相对量筛选 | 120 分钟 | 运行中 |
 
 改动流程是单向的：**先在平台改，再把改完的提示词同步回这里**，仓库是镜像而不是源头。同步后用 `get_strategy_profile` 回读核对一次，别只信 UI 的保存提示。
 
@@ -49,7 +50,7 @@ MCP 已经开放写工具（`create_strategy` / `update_strategy` / `archive_str
 - `<日期>-expectations.md` —— 开盘前写，冻结基线数字、给出可证伪的预测、单列当轮要验证的机制问题
 - `<日期>-review.md` —— 收盘后写，逐条判定命中还是落空
 
-跨多个交易日的阶段性复盘用 `<日期>-portfolio-review.md`，与上面这对日更文档区分开，不参与 `/review` 的配对逻辑。
+跨多个交易日的阶段性复盘用 `<日期>-portfolio-review.md`，与上面这对日更文档区分开，不参与 `/review` 的配对逻辑。单点专题（某个策略的候选池修复、某类配置告警的处置口径、逐策略的思路复盘）用自述性后缀，例如 `2026-08-26-strategy-intent-vs-execution.md`。
 
 关键约束是**预测必须在开盘前写完并且带数值区间**，事后不许放宽标准，否则复盘会退化成给结果编理由。
 
