@@ -46,3 +46,7 @@
 三情景键为 bear/base/bull；各项 growth、start_margin、operating_margin、tax_rate、da_ratio、capex_ratio、working_capital_ratio、wacc、terminal_growth、dilution 均为小数。终值第六年以稳定增长率计算营运资本增量；不要延续高速增长期再投资增量。资本开支包括融资租赁资产新增，租赁本金不再重复扣除。
 
 最终对象另含：schema_version、window、generated_at、focus、quality、prices、quotes、macro、events、valuations、comparisons、previous_version、coverage、methodology、gaps。观察值保留 source / observation_date或observed_at / retrieved_at / quality。原始接口响应、新闻全文、账户字段、凭证与缓存禁止入库。
+
+## 关联输出与Daily时段
+
+公共证据可有 delivery_slot（最近已到的北京时间08:00或20:00，带时区ISO时间），定时日报按它而非单一交易日判断是否已发布。旧报告无该字段不回写。私人附录独立写入敏感目录，持仓及其数量、金额、建议不得进入公共证据；字段与失败输入见 ibkr-position-review/references/linked-review.md。关联为私人→公共目录+hash，不生成公共→私人链接。

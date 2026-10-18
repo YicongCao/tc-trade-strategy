@@ -50,10 +50,11 @@ def remote_contains(root, directory):
     )
 
 
-def published_period(root, mode, period):
+def published_period(root, mode, period, delivery_slot=None):
     return any(
         d["window"]["mode"] == mode
         and d["window"]["period"] == period
+        and (delivery_slot is None or d.get("delivery_slot") == delivery_slot)
         and remote_contains(root, p.parent)
         for p, d in all_reports(root)
     )

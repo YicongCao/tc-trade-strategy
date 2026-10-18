@@ -8,6 +8,20 @@ SH = ZoneInfo("Asia/Shanghai")
 MODES = ("weekly", "daily", "realtime")
 
 
+def daily_slot(cutoff: datetime) -> str:
+    """最近已到的北京时间08/20时段；恢复运行仅补这一时段。"""
+    if cutoff.tzinfo is None:
+        raise ValueError("调度截止必须包含时区")
+    local = cutoff.astimezone(SH)
+    if local.hour >= 20:
+        slot = local.replace(hour=20, minute=0, second=0, microsecond=0)
+    elif local.hour >= 8:
+        slot = local.replace(hour=8, minute=0, second=0, microsecond=0)
+    else:
+        slot = (local - timedelta(days=1)).replace(hour=20, minute=0, second=0, microsecond=0)
+    return slot.isoformat()
+
+
 def aware(value: str) -> datetime:
     result = datetime.fromisoformat(value.replace("Z", "+00:00"))
     if result.tzinfo is None:

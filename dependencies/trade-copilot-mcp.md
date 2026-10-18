@@ -10,7 +10,7 @@
 | get_symbol_kline | 历史价格抽查；以当前 schema 的周期和数量上限为准；不使用未完成日线 |
 | list_news_for_period | Twitter/Truth Social 线索；最多50条，分日/主题补查；不是公告/研报/财经新闻全集 |
 
-本仓库研究工作流禁止账户/持仓/交易记录及所有平台写工具。实际工具 schema 优先于文档；若不可见先核对 Codex MCP 连接状态并重连现有授权，不把其他编辑器配置复制为 Codex API。
+tc 接入仍禁止账户/持仓/交易记录及所有平台写工具。关联私人附录通过单独的 ibkr-position-review 只读浏览器流程获取已授权持仓，不调用tc账户接口。实际工具 schema 优先于文档；若不可见先核对 Codex MCP 连接状态并重连现有授权，不把其他编辑器配置复制为 Codex API。
 
 其他公开源：Polymarket Gamma（无需 Key）、Yahoo 复权日线、FRED CSV、Cboe、GPR、SEC submissions/companyfacts 与公司 IR。CNN 恐贪不可访问时留空；有价值的付费源仅建议，不订阅。
 

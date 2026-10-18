@@ -39,6 +39,8 @@ def blocks(data):
             ],
         },
     ]
+    if data.get("delivery_slot"):
+        rows[1]["table"].append(["Daily 北京时间计划时段", data["delivery_slot"]])
     if "indicators" in data:
         rows.append(
             {

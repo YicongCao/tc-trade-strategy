@@ -6,7 +6,7 @@ import subprocess
 from datetime import UTC, date, datetime
 from pathlib import Path
 
-from .calendar import MODES, aware, research_window
+from .calendar import MODES, aware, daily_slot, research_window
 from .evidence import deduplicate_news, probability_change, quote_quality, safe_public_data
 from .fundamentals import check_filings, verify_workpaper
 from .indicators import (
@@ -434,11 +434,17 @@ def main():
                     p.error("需要 --tc 保存的 tc 市场数据包")
                 tc = load(args.tc)
                 window = research_window(args.mode, cutoff, tc["calendar"], args.date)
-                done = published_period(root, args.mode, window["period"])
+                slot = daily_slot(cutoff) if args.scheduled and args.mode == "daily" else None
+                done = published_period(root, args.mode, window["period"], slot)
                 if args.command == "status" or (
                     args.scheduled and done and args.mode != "realtime"
                 ):
-                    result = {"window": window, "published": done, "skip": done}
+                    result = {
+                        "window": window,
+                        "delivery_slot": slot,
+                        "published": done,
+                        "skip": done,
+                    }
                 elif args.command == "prepare":
                     output = root / "results/research-runs" / cutoff.strftime("%Y%m%dT%H%M%S.%fZ")
                     Collector(
@@ -459,6 +465,8 @@ def main():
                         args.date,
                         args.focus,
                     )
+                    if slot:
+                        data["delivery_slot"] = slot
                     directory = save_report(root, data)
                     try:
                         indicator_path = record_history(root, data)

@@ -24,7 +24,7 @@ us-market-research publish --report reports/daily/PERIOD/RUN
 
 ## 定时口径
 
-本机 Codex 当前会话 heartbeat：日报北京时间周二至周六08:00，周报周日10:00；实时手动。任务调用统一技能、每次刷新交易日历、只补最新应生成周期。休市没有新完成周期、或该周期已成功推送时跳过。周报星期五休市时可用周四作为周末；半日市13:00纽约收盘；时区库处理夏令时。
+本机 Codex 当前会话 heartbeat：日报北京时间每天08:00、20:00（包括周末/假日），周报周日10:00；实时手动。任务调用统一技能、每次刷新交易日历、只补最新应生成周期。Daily以 delivery_slot（北京时间日期+08/20时段）去重，早晚可共享最近已完成纽约交易日，但消息、报价及私人附录按实际时点刷新；不能因没有新收盘日跳过。Weekly以交易周去重，公共已发布时仍检查私人附录。周报星期五休市时可用周四作为周末；半日市13:00纽约收盘；时区库处理夏令时。
 
 电脑休眠或 Codex 关闭不保证运行；恢复后标真实生成时间，不回填虚构时点。成功推送通知路径，失败或需要处理的缺口通知原因。调度通过 Codex 原生 automation_update 管理；配置状态见 `docs/migration.md`。不通过 launchd 再调用旧筛选器。
 
@@ -39,3 +39,17 @@ us-market-research publish --report reports/daily/PERIOD/RUN
 ## 周报/日报 Polymarket 观察
 
 weekly/daily 每次主动搜索风险预警、参考事件和临近催化剂，不能只复用旧跟踪清单。分析输入必须带 polymarket_watch，构建会验证合约引用、事件时点和确认/失效条件，并在 Markdown/HTML 输出三个固定栏目。概率与质量直接取本次 events，不另抄一份。无合格合约也保留栏目及搜索覆盖、数据缺口。详见技能 references/polymarket-watch.md。已有报告不改写，后续运行使用新契约。
+
+## 两个关联输出
+
+三种模式默认先生成公共 reports，再调用 ibkr-position-review 只读授权的 IBKR Trader，逐项研究持仓公司/指数催化剂，结合市场报告提出条件式调整建议。私人结果仅存 sensitive/position-reviews/{mode}/{period}/{public_run}/{private_run}/，其中 report.md、index.html、review.json 同源；仅私人文件记录公共路径与证据hash，公共报告不写回私人路径或持仓。
+
+站点定位配置为本地 sensitive/position-reviews/browser-target.json，只含授权url、不含登录信息。输入契约见私人技能 references/linked-review.md。写入命令：
+
+```bash
+.venv/bin/python -m tc_trade_strategy.position_review --public-report reports/daily/PERIOD/RUN --input sensitive/position-reviews/inputs/RUN.json
+```
+
+无法读取当前持仓时生成unavailable附录与缺口，公共报告继续；不以旧持仓生成当前建议。私人重试生成新版本，不覆盖、不提交。需要电脑、应用、Chrome连接和已授权登录会话可用；配置成功不等于无人值守浏览器访问已验证。
+
+Daily定时运行 status/prepare/build 全部加 --scheduled，build 的 --cutoff 须覆盖全部实际取证（默认实际运行时间），如跨下一个08/20时段则重新检查去重。恢复只补最近已到时段，不逐个追补漏跑。日报仍以最近完整交易日为主体，晚间盘前/其他阶段的增量按日历单列；周末照常检查最新消息和风险，不编造新交易日。
