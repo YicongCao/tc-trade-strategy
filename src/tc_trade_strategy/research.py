@@ -177,6 +177,21 @@ def assemble(root, mode, cutoff, tc, snapshot, analysis, financials, target=None
                 "baseline": p.relative_to(root).as_posix(),
                 "baseline_cutoff": d["window"]["cutoff"],
                 "close_change_pct": changes,
+                "macro_change": {
+                    s: {
+                        "change": v["value"] - d["macro"][s]["value"],
+                        "unit": v.get("unit"),
+                        "observation_date": v["observation_date"],
+                    }
+                    for s, v in macro.items()
+                    if s in d.get("macro", {}) and v.get("unit") == d["macro"][s].get("unit")
+                },
+                "event_probability_change": {
+                    str(e["id"]): probability_change(e, old)
+                    for e in snapshot.get("polymarket", {}).get("markets", [])
+                    for old in d["events"]
+                    if e["id"] == old["id"] and str(e["id"]) in analysis["event_reviews"]
+                },
                 "note": "收盘价快照变化；同一收盘日为零，不代表盘中没有变化",
             }
         )
