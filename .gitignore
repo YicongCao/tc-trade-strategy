@@ -29,3 +29,8 @@ logs/
 .vscode/
 .idea/
 .DS_Store
+
+# 本地报告快照与构建依赖
+node_modules/
+reports/src/snapshots/
+.codex/config.toml

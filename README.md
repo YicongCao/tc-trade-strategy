@@ -7,6 +7,10 @@
 ## 目录结构
 
 ```
+AGENTS.md     # Codex 常驻项目约定
+.agents/skills/ # Codex 项目技能：tc-review、market-research
+reports/      # 独立 HTML 报告组件与构建器
+src/          # 行情采集与筛选代码
 strategies/   # Trade Copilot 上线运行中的策略提示词原文，一个文件一个策略
 backtest/     # 回测引擎、撮合与手续费/滑点模型
 data/         # 行情数据加载与缓存（原始数据不入库）
@@ -41,7 +45,7 @@ YAML 头的 `status` 只在策略不是 `active` 时出现：`draft` 表示只�
 
 改动流程是单向的：**先在平台改，再把改完的提示词同步回这里**，仓库是镜像而不是源头。同步后用 `get_strategy_profile` 回读核对一次，别只信 UI 的保存提示。
 
-MCP 已经开放写工具（`create_strategy` / `update_strategy` / `archive_strategy` / `unarchive_strategy`），走两段式提案：先拿 `proposal_id` 和 diff，再 `confirm_proposal` 才真正生效。**工具清单只在 `~/.cursor/mcp.json` 的配置指纹变化时才刷新**，换新对话和重新 OAuth 都没用，办法见 `dependencies/trade-copilot-mcp.md` 的「工具清单刷新」。
+MCP 已经开放写工具（`create_strategy` / `update_strategy` / `archive_strategy` / `unarchive_strategy`），走两段式提案：先拿 `proposal_id` 和 diff，再 `confirm_proposal` 才真正生效。Codex 的连接配置与诊断见 [MCP 参考](dependencies/trade-copilot-mcp.md)。
 
 ## 每日循环
 
@@ -50,13 +54,13 @@ MCP 已经开放写工具（`create_strategy` / `update_strategy` / `archive_str
 - `<日期>-expectations.md` —— 开盘前写，冻结基线数字、给出可证伪的预测、单列当轮要验证的机制问题
 - `<日期>-review.md` —— 收盘后写，逐条判定命中还是落空
 
-跨多个交易日的阶段性复盘用 `<日期>-portfolio-review.md`，与上面这对日更文档区分开，不参与 `/review` 的配对逻辑。单点专题（某个策略的候选池修复、某类配置告警的处置口径、逐策略的思路复盘）用自述性后缀，例如 `2026-08-26-strategy-intent-vs-execution.md`。
+跨多个交易日的阶段性复盘用 `<日期>-portfolio-review.md`，与上面这对日更文档区分开，不参与 `$tc-review` 的配对逻辑。单点专题使用自述性后缀，例如 `2026-08-26-strategy-intent-vs-execution.md`。
 
-关键约束是**预测必须在开盘前写完并且带数值区间**，事后不许放宽标准，否则复盘会退化成给结果编理由。
+关键约束是**预测必须在开盘前写完并且带数值区间**，事后不许放宽标准。
 
-复盘用 `/review` 触发（`.cursor/commands/review.md`），可选带日期参数如 `/review 2026-07-30`，不带则取最新一份预期文档。它会照抄该文档自带的检查清单执行，所以清单跟着预期文档走、每轮可以不一样。
+复盘用 `$tc-review` 或“对照最新盘前预期复盘”触发，工作流位于 `.agents/skills/tc-review/SKILL.md`。可指定日期，如 `$tc-review 2026-07-30`；不指定则取最新预期。它沿用该文档的检查清单。
 
-这个命令是按手机上使用设计的，配合 Cursor Cloud Agent 可以在外面一句话跑完整轮复盘，接入方式见 `dependencies/trade-copilot-mcp.md` 的「从云端 / 手机接入」。
+Codex 使用入口、常用提示词和迁移说明见 [Codex 工作流](dependencies/codex-workflow.md)。报告支持独立 HTML，构建与预览见 [报告说明](reports/README.md)。
 
 ## us-mushroom 盘前预筛
 

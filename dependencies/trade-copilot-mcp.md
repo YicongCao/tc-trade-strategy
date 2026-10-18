@@ -1,170 +1,40 @@
 # Trade Copilot MCP 工具参考
 
-> 最后核对：2026-07-30 · 服务器 ID `user-trade-copilot` · 状态 `ready`（已通过 OAuth 认证）
-> 当前连接可见 **22 个功能工具 + 1 个认证工具**，其中 **17 个只读 + 5 个可写**。
-> 2026-08-12 变化：`get_retro_overview` / `list_retro_cases` 已下线，新增 `list_ai_providers`。
+> Codex 接入核对：2026-10-18。当前会话可发现 22 个 tc 功能工具，已验证只读查询。下文业务细节包含 7–8 月历史样本，以当前工具 schema 为准。
 
-## 关键结论（先看这个）
+## Codex 接入
 
-1. **写工具走两段式提案。** `create_strategy` / `update_strategy` / `archive_strategy` / `unarchive_strategy` 都只生成草案，返回 `proposal_id` 与字段级 diff，**必须把 diff 展示给用户并取得同意后**再调 `confirm_proposal` 才落库。草案 15 分钟过期，期间若策略被别处改动会返回 `stale`。详见「写工具」一节。
-2. **工具清单只在配置指纹变化时才刷新。** 换新对话没用、重新 OAuth 也没用——踩过两次，排查过程和唯一有效的刷新办法见「工具清单刷新」一节。
-3. **手机上用这套工具走 Cursor Cloud Agent。** 云端请求从 Cursor 服务器发出、不带本地 IP，绕开了大陆与香港 IP 的前沿模型过滤，且笔记本关机也能跑。授权服务器支持动态客户端注册，接入不需要平台侧配合。见「从云端 / 手机接入」。
-4. **MCP 不能当回测数据源。** K 线一次只能查一个标的、最多 120 根、且不开放分钟级；实时行情一次最多 20 个标的。这个量级只够做归因和抽查，撑不起参数网格搜索。本仓库的回测数据必须另找来源。
-5. **MCP 的行情缺口不代表平台的缺口。** `get_symbol_kline` 对 `DRAM` 返回旧主体历史、对中概 ADR 与 ETF 只返回 1 根，但**平台喂给 AI 策略的 K 线是完整正确的**——见下文"策略引擎的真实行为"。两条数据管道是分开的，不要用 MCP 的缺陷推断平台的缺陷。
-6. **MCP 的真正价值在"对标口径"和"实盘校准"**：`list_transactions` 有真实手续费和已实现盈亏，`get_decision_detail` 能看到 LLM 的完整输入输出，`list_decisions` 的 `confidence` 与 `execution_status` 能还原决策与执行的差异。这些是校准本地假设最可靠的输入。
-7. **字段口径要抄平台的**，这样本地策略能平移回站内。见文末"平台字段口径"。
+端点为 `https://tc.zkd.me/api/mcp`，使用 Streamable HTTP。当前已在用户级 `~/.codex/config.toml` 配置并授权；无需重复添加。新环境按 Codex 的 MCP 设置或 CLI 接入：
 
-## 工具清单刷新
-
-服务端更新工具后，Cursor 侧的清单会长期停在旧版本。这个坑踩过两次，2026-07-30 排查清楚了。
-
-### 现象
-
-平台的 MCP 接入页写着 23 个工具，而 `GetMcpTools` 只返回 17 个，且两边是**错位**的：客户端有个服务端已经删掉的 `list_signal_performance`，缺了服务端新增的 `get_retro_overview` / `list_retro_cases` 和 5 个写工具。
-
-调用 `list_signal_performance`，服务端回 `Unknown tool: list_signal_performance`——客户端在请求一个不存在的工具，证明它拿的是旧快照。
-
-### 无效的办法（都试过）
-
-- **开新对话**：无效。工具清单跟对话无关，一个全新对话看到的还是同一份旧清单。
-- **重新 OAuth**：无效。完整走一遍清凭证 + 浏览器授权 + 拿新 token，清单纹丝不动。
-- **调 `mcp_auth`**：无效，同上。
-- 顺带排除：不是权限问题（接入页「允许 MCP 写操作」开关是开启状态，页面小字的"当前默认关闭"说的是默认值不是当前值）；不是端点问题（只有 `https://tc.zkd.me/api/mcp` 一个端点，没有只读版与完整版之分）。
-
-### 清单存在哪
-
-不在磁盘上。`state.vscdb` 里跟本服务器相关的键只有 OAuth 凭证（`mcpOAuth.secret.*` / `mcpOAuth.global.*`），没有任何 tool schema；`storage.json` 里也搜不到工具名。所以清单是每次建连时从服务端 `tools/list` 拿的，然后**由 MCP 宿主进程按配置指纹在内存里长期持有**。
-
-日志里能看到这个指纹：
-
-```
-[McpProxyFetch] Built VS Code proxy-aware MCP fetch for
-user-trade-copilot::mcpScope:profile:ZGVmYXVsdA:cfg:NTQ3MmVmZTA
+```bash
+codex mcp add trade-copilot --url https://tc.zkd.me/api/mcp
+codex mcp login trade-copilot
+codex mcp list
 ```
 
-末尾的 `cfg:<hash>` 是 `~/.cursor/mcp.json` 里该服务器配置块的哈希。**只要哈希不变，无论连接断开重连多少次、token 换几茬，进程都复用同一份清单。**
+对应配置（不含凭证）：
 
-### 有效的办法：改配置指纹
-
-给 `~/.cursor/mcp.json` 的服务器配置块加一个无害字段，让哈希变掉：
-
-```json
-{
-  "mcpServers": {
-    "trade-copilot": {
-      "url": "https://tc.zkd.me/api/mcp",
-      "headers": {}
-    }
-  }
-}
+```toml
+[mcp_servers.trade-copilot]
+url = "https://tc.zkd.me/api/mcp"
 ```
 
-保存后 Cursor 立刻重连并重新拉取 `tools/list`。**代价是本地凭证会被一并清掉**（日志：`MCP OAuth credentials cleared (local housekeeping)`），连接进入 `needsAuth`，调一次 `mcp_auth` 重新授权即可，几秒钟。
+也可按官方规范使用受信任项目的 `.codex/config.toml`。本仓库不重复提交已有用户级连接，不复制 OAuth token 或硬编码回调地址。
 
-保留服务器名不变很重要——OAuth token 是按 `[<server-id>::mcpScope:profile:<profile>]` 存的，改名会连带丢掉更多状态。下次再要刷新，把 `"headers": {}` 删掉（或改成别的无害字段）即可，哈希变了就会重拉。
+来源：[Codex MCP 官方说明](https://learn.chatgpt.com/docs/extend/mcp?surface=cli)。仅验证本地 Codex；其他客户端或云端是否支持相同连接须单独验证，不能推断自动继承认证。
 
-### 诊断方法
+## 发现与诊断
 
-两种"工具不存在"的报错要分清，它们指向完全不同的问题：
+先检查连接状态和当前工具清单，再执行 `get_market_overview` 等只读查询。鉴权失败按当前客户端提示重新登录；缺工具时区分服务未连接、权限不足、客户端清单过期和服务端已下线。必要时重连或重启后再次检查，不通过修改无关配置字段强制刷新。
 
-| 报错 | 来源 | 含义 |
-| --- | --- | --- |
-| `Unknown tool: xxx` | 服务端 | 客户端清单过期，请求了服务端已删除的工具 |
-| `Tool user-trade-copilot-xxx was not found. Use GetMcpTools to...` | 客户端 | 该工具不在客户端清单里，请求**根本没发出去** |
+旧 IDE 的配置指纹、专用认证工具与云端接入说明已退出当前操作指南；历史内容保存在迁移前的 Git 提交中。
 
-后者意味着**没法绕过清单去调服务端新增的工具**，客户端是硬闸门，只能先刷新清单。
+## 关键边界
 
-## 从云端 / 手机接入
-
-本地桌面端不是唯一入口。把这个 MCP 挂到 Cursor Cloud Agent 上，就能在手机上跑同一套工具，笔记本合盖也不影响。
-
-### 为什么云端这条路对国内用户更顺
-
-Cursor 桌面端会按**你的本地 IP** 做模型过滤：Claude / GPT / Gemini 被服务端从模型列表里隐藏，只剩 Composer、Grok、Kimi、GLM。
-
-**香港节点解决不了这个问题。** Cursor 的 regions 文档不自己维护名单，直接指向三家供应商各自的支持地区表，而三家都排除香港——Anthropic 不在列表、OpenAI 自 2024 年 7 月起列为不支持、Gemini API 返回 `User location is not supported for the API use`。Gemini 这里有个坑：消费级网页版已经对香港开放，但**开发者 API 没有**，Cursor 走的是 API。三家交集为空，所以香港出口和大陆出口的结果一样。
-
-要在桌面端拿回全部模型，节点得落在三家共同支持的地区，日本、新加坡、美国都行。配置上必须开 **TUN 模式全局代理**，只配 HTTP 代理不行——3.8+ 拉模型列表的是独立进程，走自己的 HTTP/2 栈，不吃代理设置。
-
-**Cloud Agent 和网页端的请求从 Cursor 自己的服务器发出，不带你的本地 IP，地区过滤不生效。** 所以走云端这条路，前沿模型全都能用，而且不需要梯子。
-
-### 配置
-
-在 [cursor.com/agents](https://cursor.com/agents) 的 MCP 下拉里添加个人 MCP server，选 **HTTP** 传输：
-
-> **别去 Dashboard → Integrations & MCP 找。** 那个页面的 MCP 部分是团队专属的，只给管理员配 Team MCP Servers，个人版上根本不显示。三个入口容易混：`cursor.com/agents` 的下拉管**云端 agent 的 MCP**（个人版要用的就是这个）；桌面端侧边栏的 **Customize** 管本地 IDE 的 MCP 开关；Dashboard 那个只有团队管理员用得上。本地 `~/.cursor/mcp.json` 与云端配置完全独立，各自持有各自的 OAuth token，都要单独授权一次。
-
-```
-https://tc.zkd.me/api/mcp
-```
-
-注意 Cloud Agent **不支持 SSE 和 `mcp-remote`**，只支持 HTTP 与 stdio。本服务器是 Streamable HTTP，正好匹配。
-
-选 HTTP 而不是 stdio 还有个安全收益：HTTP 的服务器配置**永远不进 agent 的 VM**，agent 拿不到 refresh token 和请求头，工具调用由 Cursor 后端代理转发。stdio 则是在 VM 里起进程，agent 能读到全部环境变量。
-
-### OAuth 不需要平台侧配合
-
-已核实（2026-07-30）：
-
-- 受保护资源声明的授权服务器是 **Supabase Auth**，从 `https://tc.zkd.me/.well-known/oauth-protected-resource` 可读到
-- 该授权服务器的元数据里**有 `registration_endpoint`**，即支持动态客户端注册（DCR）
-- `token_endpoint_auth_methods_supported` 含 `none`，`code_challenge_methods_supported` 含 `S256`，公共客户端 + PKCE 可用
-
-**结论：Cursor 能自助注册 OAuth 客户端，不需要平台运营方把 Cursor 的回调地址加白名单。** 添加完 server 点一次授权就能用。
-
-万一将来平台改成固定客户端、要求白名单，需要登记的回调地址是：
-
-```
-https://www.cursor.com/agents/mcp/oauth/callback   ← 网页与 Cloud Agent
-http://localhost:8787/callback                      ← 桌面端
-```
-
-两个都要登记，因为桌面和云端各走各的。届时在 `mcp.json` 里用 `auth` 对象填 `CLIENT_ID` / `CLIENT_SECRET` / `scopes`。
-
-OAuth 授权是**按用户**的，团队级共享的 server 也一样，每个人得自己授权一次。
-
-### ⚠️ 不要用公司团队账号跑这个
-
-**Cursor 团队管理员能读取团队内所有 Cloud Agent 运行的完整对话记录**（官方文档原文：Team admin 可获取团队范围内运行的详情，including transcripts）。在公司席位上跑这套工具，等于把持仓、盈亏、策略提示词和每次 MCP 返回的账户数据都放进管理员可查阅的范围，企业版还有 Audit Log 留痕。
-
-实操上公司账号也走不通。在 cursor.com/agents 添加 server 时若报 **`User not authorized for this team`**，说明请求是按团队权限校验的：要么管理员没开 **User MCP extensions**（决定成员能否配自己的 server），要么团队启用了 **MCP Allowlist** 而本 URL 不匹配任何已批准模式，要么你是非管理员席位。这三个都得管理员改——但基于上面那条，不建议去申请。
-
-**用个人账号。**
-
-### ⚠️ Cloud Agent 的 MCP 管线有两个未修复缺陷
-
-接入前先知道，官方均已确认（截至 2026-07-30）：
-
-1. **Cloud Agent 授权时不带 scope。** 官方说明：Cloud Agents 不从 MCP server 的 OAuth 元数据里发现 scope，桌面端处理正确但修复尚未应用到云端，**目前无 workaround**。对使用 scope 化授权的 server 会导致拿到无权限的 token、工具调用全部失败。
-2. **配好的 server 有时不会挂载到运行里。** 表现为 UI 显示已连接，但 agent 内 `ListMcpResources` 返回空或报 `Server not found`。
-
-本服务器的授权服务器公布的是 `openid / profile / email / phone` 这类标准 OIDC scope，不是自定义 API scope，**有可能**不受第 1 条影响，但未实测。
-
-**接入后立刻验证，别等到需要用的时候才发现不通**：起一个 cloud agent 调 `list_user_strategies`，能返回策略列表就算通。不通就退回桌面端——桌面端这条路是已知可用的。
-
-顺便在手机上确认一件事：**打开模型选择器，看有没有 Claude 和 GPT。** 模型目录是按"发出列表请求的那个 IP"在服务端过滤的，桌面端从本机发所以会被过滤，网页端与 Cloud Agent 从 Cursor 服务器发所以是全的，但 **iOS 原生 app 属于哪一类没有明确说法**。看不到就改用手机浏览器打开 cursor.com/agents，那条路确定是全的；agent 跨端同步，网页起、app 跟进也可以。注意这只影响"能不能挑模型"，不影响推理本身——云端 agent 的模型调用由 Cursor 后端发出，与手机线路无关。
-
-另外 Cloud Agent **不读仓库里的 `.cursor/mcp.json`**，只认 dashboard 里配的，别指望把配置提交进仓库就能自动生效。
-
-### 云端的工具清单会不会也卡在旧快照
-
-**未验证。** 本地那个坑的根因是 MCP 宿主进程按 `~/.cursor/mcp.json` 的配置指纹在内存里长期持有清单，而云端配置存在 Cursor 后端（加密存储，`headers` 与 `CLIENT_SECRET` 保存后不可回读），是另一套实现，不能直接套结论。
-
-**接入后先做一次核对**：让 Cloud Agent 调 `GetMcpTools` 数一下工具数量。截至 2026-08-12 应该是 **22 个功能工具 + 1 个 `mcp_auth`**，并且能看到 5 个写工具 `create_strategy` / `update_strategy` / `archive_strategy` / `unarchive_strategy` / `confirm_proposal`。若写工具缺失，或出现已下线的 `list_signal_performance` / `get_retro_overview` / `list_retro_cases`，说明云端同样有缓存问题。
-
-云端没有「改配置指纹」这个旋钮，对应的做法是**在 MCP 下拉里把 server 删掉重加**。
-
-排查时还可以用内置的 Cursor Cloud MCP：`get-events` 会返回本次运行的事件，其中 `mcp_auth_error` 表示 MCP 认证失败、该 server 的工具被跳过而运行继续——这种情况下 agent 会表现得像"没有这些工具"，但根因是认证不是清单。
-
-### 别忘了
-
-- Cloud Agent 目前要绑一个仓库才能起，用本仓库即可，顺带让 agent 拿到 `strategies/` 下的策略设计与本文档
-- **GitHub 连接、MCP server 的增删、环境与密钥配置都只能在网页端做**，iOS app 只负责指挥和审阅。在 app 里撞上「connect to GitHub」说明已经走进了它处理不了的分支，那里弹出的提示（包括"升级 Pro"）是兜底文案，不一定是真实原因——先回 `cursor.com/dashboard` 的 Integrations 把 GitHub 断开重连，确认网页端能起 agent 后再回 app
-- iOS 版可用计划是 Start / Pro / Pro+ / Ultra / Teams / Enterprise，**Hobby 免费版不在其中**。若网页端正常而 app 提示升级，多半是两边登进了不同账号上下文（组织走 SSO、手机走邮箱登录落到了同邮箱的个人免费账号）
-- 公司账号还有两个个人版没有的坑：管理员可能全局强制 Privacy Mode (Legacy)，而 Cloud Agent 需要云端存储，这种情况下**手机上根本起不了 agent**；另外不付费的管理员席位在网页能浏览但可能过不了移动端权限校验
-- Android 没有原生 app，在 Chrome 打开 cursor.com/agents 点 Install App 装 PWA；iOS 有原生应用
-- 个人版与商业版账号在 Cursor 侧是独立实体，用另一个邮箱注册即可，互不干扰。注意**企业版不受地区模型限制，个人 Pro 受**，所以个人版的桌面端体验会比商业版差，但云端这条路不受影响
-- `tc.zkd.me` 在 Cloudflare 后面，日志里见过 502 origin_bad_gateway。手机上依赖它时，工具调用失败先看是不是源站抖动，不要误判成配置问题
+- tc 写操作走两段式：生成 proposal 与 diff，取得用户对具体操作的授权后才 `confirm_proposal`，随后回读。已有明确授权不重复询问。
+- 当前 `risk_config` 为顶层浅合并，`market_data` 为整体替换。参数以调用时的 schema 为准，历史案例不是接口契约。
+- tc K 线适合抽查，不能满足本地大批量回测。历史上 MCP 行情和平台策略输入存在管道差异，须分别验证。
+- 真实成交、费用、完整决策输入输出可用于校准执行假设。数据时间和样本限制必须保留。
 
 ## 工具清单
 

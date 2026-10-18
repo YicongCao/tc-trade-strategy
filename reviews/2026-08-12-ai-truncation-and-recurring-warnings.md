@@ -108,7 +108,7 @@ data_source: MCP list_ai_providers / list_decisions / list_transactions / get_po
 3. 长持 VOO 是 `trading_mode: open_only`，**引擎层面不能卖**，三项全是死字段，改成任何数字都不会执行
 4. 给 DRAM 收紧止损会让 LLM 收到「浮亏接近 X% 时考虑平仓」的提示，**与网格「越跌越买」的逻辑直接冲突**；它的退出规则写在提示词里（跌破 34.92 清仓），比一个百分比阈值精确
 
-**处置：不改。** 这批告警会在每次扫描时重复出现，属于预期内的噪声。为免以后每次都重新论证一遍，已把结论固化为 `.cursor/rules/risk-config-warnings.mdc`。
+**处置：不改。** 这批告警会在每次扫描时重复出现，属于预期内的噪声。为免以后每次都重新论证一遍，已把结论固化为 `dependencies/risk-config-warnings.md`。
 
 ## 三、一条需要留意的观察：AXTI 第三次建仓
 
@@ -142,3 +142,5 @@ data_source: MCP list_ai_providers / list_decisions / list_transactions / get_po
 ## 免责声明
 
 本文档为技术研究记录，不构成投资建议。文中「再平衡跑通也不会换仓」的推算基于对 0.10 换仓阈值的理解，该理解来自 8/06 复盘时读到的决策改写记录，未在本次直接验证。
+
+> 2026-10-18 迁移注：本文保留当时的观测和接口语义。当前 `risk_config` 为顶层浅合并，`market_data` 为整体替换，操作前以最新工具 schema 为准。
