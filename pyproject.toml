@@ -11,6 +11,7 @@ dependencies = [
     "numpy",
     "pandas",
     "yfinance",
+    "requests",
 ]
 
 [project.optional-dependencies]
@@ -21,6 +22,7 @@ dev = [
 
 [project.scripts]
 premarket-screen = "tc_trade_strategy.premarket:main"
+market-intelligence = "tc_trade_strategy.intelligence:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

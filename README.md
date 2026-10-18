@@ -88,6 +88,17 @@ scripts/install_premarket_launchd.sh
 
 ## 计划
 
+市场事件预期、跨资产风险和板块轮动采集已增加独立入口：
+
+```bash
+.venv/bin/python -m tc_trade_strategy.intelligence --as-of 2026-10-16
+```
+
+它读取 Polymarket、Yahoo、FRED、Cboe 和 GPR 的公开数据，保存原始响应及时间信息。
+详细来源、ETF 资金流的缺口、AI 泡沫结算规则与预警口径见
+[市场情报数据层](dependencies/market-intelligence.md)。
+
+
 **第一阶段：打地基**
 
 - 确定标的与数据源（先用日线/小时线的公开数据跑通流程）
