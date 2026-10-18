@@ -35,3 +35,7 @@ us-market-research publish --report reports/daily/PERIOD/RUN
 已授权此单独目录，AGENTS 的账户隔离仍适用。若未被 Git 忽略、已被跟踪或有符号链接则拒绝写入。build 的本地历史写入失败时报告仍保留，CLI 明确返回失败原因；处理后可用 indicators 重建。指标定义、质量与决策记录见技能 references/indicators.md 和数据契约。
 
 公开历史较短时比较显示无基线，不推断长期趋势；1/5/20/60次观测与交易日收益分别标注。回看历史报告不是当时可交易的数据回测。不要为补齐历史修改已发布报告。
+
+## 周报/日报 Polymarket 观察
+
+weekly/daily 每次主动搜索风险预警、参考事件和临近催化剂，不能只复用旧跟踪清单。分析输入必须带 polymarket_watch，构建会验证合约引用、事件时点和确认/失效条件，并在 Markdown/HTML 输出三个固定栏目。概率与质量直接取本次 events，不另抄一份。无合格合约也保留栏目及搜索覆盖、数据缺口。详见技能 references/polymarket-watch.md。已有报告不改写，后续运行使用新契约。

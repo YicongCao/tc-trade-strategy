@@ -93,6 +93,53 @@ def validate_analysis(analysis):
     safe_public_data(analysis)
 
 
+def polymarket_watch(analysis, events, mode, cutoff):
+    watch = analysis.get("polymarket_watch")
+    if watch is None:
+        if mode in ("weekly", "daily"):
+            raise ValueError("周报/日报必须记录 Polymarket 搜索与三类观察，缺失时不能省略")
+        return None
+    categories = ("risk_signals", "reference_events", "upcoming_events")
+    if (
+        set(watch) != {"search_summary", *categories}
+        or not isinstance(watch["search_summary"], str)
+        or not watch["search_summary"].strip()
+    ):
+        raise ValueError("Polymarket 观察缺少搜索覆盖或栏目")
+    by_id = {str(e["id"]): e for e in events}
+    required = {
+        "market_id",
+        "reason",
+        "transmission",
+        "confirmation",
+        "invalidation",
+        "event_at",
+        "event_time_source",
+    }
+    for category in categories:
+        if not isinstance(watch[category], list):
+            raise ValueError("Polymarket 栏目必须为数组，缺失时保留空数组")
+        seen = set()
+        for row in watch[category]:
+            if set(row) != required or any(
+                not row[k] for k in required - {"event_at", "event_time_source"}
+            ):
+                raise ValueError("Polymarket 观察缺少资产传导或确认/失效条件")
+            market_id = str(row["market_id"])
+            if market_id not in by_id:
+                raise ValueError("Polymarket 观察引用未经核验或未采集的合约: " + market_id)
+            if market_id in seen:
+                raise ValueError("同一 Polymarket 栏目重复合约")
+            seen.add(market_id)
+            if bool(row["event_at"]) != bool(row["event_time_source"]):
+                raise ValueError("事件时间必须附核验来源，未知时间和来源均为 null")
+            if row["event_at"]:
+                stamp = aware(row["event_at"])
+                if category == "upcoming_events" and stamp <= cutoff:
+                    raise ValueError("临近事件实际时间已过去，须复核结果而非仍称将发生")
+    return watch
+
+
 def assemble(root, mode, cutoff, tc, snapshot, analysis, financials, target=None, focus="全市场"):
     validate_analysis(analysis)
     window = research_window(mode, cutoff, tc["calendar"], target)
@@ -320,6 +367,16 @@ def assemble(root, mode, cutoff, tc, snapshot, analysis, financials, target=None
     data["indicators"] = panel(data, analysis.get("indicator_observations", []))
     validate_assessments(analysis["indicator_assessments"], data["indicators"])
     data["indicator_assessments"] = analysis["indicator_assessments"]
+    watch = polymarket_watch(analysis, events, mode, cutoff)
+    if watch is not None:
+        data["polymarket_watch"] = watch
+        for key, label in (
+            ("risk_signals", "风险预警"),
+            ("reference_events", "参考事件"),
+            ("upcoming_events", "临近事件"),
+        ):
+            if not watch[key]:
+                data["gaps"].append("Polymarket " + label + "：本次未纳入合格合约，见搜索说明")
     # 公共报告只比较公开报告；绝不读取 sensitive 的本地历史或个人资料。
     data["indicator_comparisons"] = compare_history(
         data["indicators"], [d for _, d in prior], cutoff.isoformat()

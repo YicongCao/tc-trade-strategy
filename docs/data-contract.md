@@ -21,6 +21,7 @@
 - news：event_key、summary（简短自行归纳）、event_at、published_at、retrieved_at、source。event_at/published_at 未知为 null；同事件多个来源合并保存。
 - sources：url、checked_at、note；可补 observed_at/published_at。来源应支持相邻关键判断，不用搜索页链接代替原始来源。
 - comparison_analysis：复核前期剧本，说明哪些条件已触发/未触发/无法核验。首次基线明确无上期；不从当天数据重造“上周预测”。
+- polymarket_watch：weekly/daily 构建必填，realtime可选。含非空 search_summary（搜索主题/词、检查时点、失败/截断及空栏目原因），以及 risk_signals、reference_events、upcoming_events 三个数组。每项仅含 market_id、reason、transmission、confirmation、invalidation、event_at、event_time_source；引用本次 event_reviews 已核验且已采集的合约，不另手填概率。事件时间与官方来源未知时均为null，时间已过不能留在 upcoming_events。报告三栏使用同一 events 对象生成概率、规则、质量和跨期比较。没有合格合约保留空栏目并说明，不伪造信号。
 - catalysts：带时间和来源的已确认事件，未知日期注明未定；daily 盘后、weekly 周末增量单列。
 - paid_sources：产品、补足缺口、官方链接、checked_at；没有实际增益可留空。
 

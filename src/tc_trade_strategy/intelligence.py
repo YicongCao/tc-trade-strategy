@@ -26,8 +26,16 @@ CNN_URL = "https://production.dataviz.cnn.io/index/fearandgreed/graphdata"
 # 查询标签只表示发现入口，不表示合约与板块存在已验证的因果关系。
 QUERIES = {
     "美联储": ["Fed decision", "Fed rate"],
-    "宏观政策": ["inflation", "recession", "tariff", "government shutdown"],
-    "科技与半导体": ["Nvidia", "semiconductor", "AI bubble"],
+    "宏观政策": ["inflation", "recession", "tariff", "government shutdown", "CPI", "unemployment"],
+    "科技与半导体": [
+        "Nvidia",
+        "semiconductor",
+        "AI bubble",
+        "Micron",
+        "chip export",
+        "AI spending",
+    ],
+    "地缘催化剂": ["ceasefire", "Iran"],
     "软件": ["Microsoft", "software"],
     "能源与油气": ["crude oil", "Hormuz"],
     "金融": ["bank", "stablecoin"],
@@ -245,9 +253,13 @@ def price_metrics(frame: pd.DataFrame, benchmark: pd.Series, as_of: date) -> dic
     if {"High", "Low"} <= set(frame.columns):
         high, low = frame["High"].reindex(close.index), frame["Low"].reindex(close.index)
         valid = high.notna() & low.notna() & close.shift().notna() & (high >= low)
-        tr = pd.concat(
-            [high - low, (high - close.shift()).abs(), (low - close.shift()).abs()], axis=1
-        ).max(axis=1).where(valid)
+        tr = (
+            pd.concat(
+                [high - low, (high - close.shift()).abs(), (low - close.shift()).abs()], axis=1
+            )
+            .max(axis=1)
+            .where(valid)
+        )
         if len(tr) >= 14 and tr.tail(14).notna().all():
             result["atr14_sma"] = float(tr.tail(14).mean())
             result["atr14_pct"] = float(result["atr14_sma"] / close.iloc[-1] * 100)

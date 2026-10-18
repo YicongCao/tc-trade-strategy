@@ -15,7 +15,7 @@ from tc_trade_strategy.evidence import (
 from tc_trade_strategy.fundamentals import verify_workpaper
 from tc_trade_strategy.publishing import git, publish, published_period, run_lock, save_report
 from tc_trade_strategy.reporting import render
-from tc_trade_strategy.research import assemble
+from tc_trade_strategy.research import assemble, polymarket_watch
 from tc_trade_strategy.valuation import (
     dcf,
     implied_growth,
@@ -265,6 +265,12 @@ def research_data(tmp_path):
         ai_analysis="ai",
         comparison_analysis="none",
         event_reviews={},
+        polymarket_watch={
+            "search_summary": "fixture: searched, no eligible markets",
+            "risk_signals": [],
+            "reference_events": [],
+            "upcoming_events": [],
+        },
         indicator_assessments=[
             {
                 "question": "market",
@@ -305,6 +311,37 @@ def test_core_failure_stops_report(tmp_path):
     tc["retrieved_at"] = (cut + timedelta(seconds=1)).isoformat()
     with pytest.raises(ValueError, match="伪造"):
         assemble(tmp_path, "daily", cut, tc, snap, a, {})
+
+
+def test_polymarket_watch_required_and_references_verified_contracts(tmp_path):
+    tc, snap, analysis, cutoff = research_data(tmp_path)
+    watch = analysis.pop("polymarket_watch")
+    for mode in ("weekly", "daily"):
+        with pytest.raises(ValueError, match="Polymarket"):
+            assemble(tmp_path, mode, cutoff, tc, snap, analysis, {})
+    entry = {
+        "market_id": "1",
+        "reason": "risk repriced",
+        "transmission": "rates to equities",
+        "confirmation": "independent evidence",
+        "invalidation": "reversal",
+        "event_at": None,
+        "event_time_source": None,
+    }
+    watch["risk_signals"] = [entry]
+    analysis["polymarket_watch"] = watch
+    with pytest.raises(ValueError, match="未经核验"):
+        polymarket_watch(analysis, [], "daily", cutoff)
+    assert polymarket_watch(analysis, [{"id": "1"}], "daily", cutoff) == watch
+    watch["upcoming_events"] = [
+        {
+            **entry,
+            "event_at": "2026-11-28T00:00:00Z",
+            "event_time_source": "https://official.example",
+        }
+    ]
+    with pytest.raises(ValueError, match="已过去"):
+        polymarket_watch(analysis, [{"id": "1"}], "daily", cutoff)
 
 
 def init_repo(tmp_path):

@@ -234,6 +234,55 @@ def blocks(data):
             ],
         }
     )
+    if "polymarket_watch" in data:
+        watch = data["polymarket_watch"]
+        by_id = {str(e["id"]): e for e in data["events"]}
+        rows.append(
+            {"title": "Polymarket 搜索覆盖与限制", "tag": "事件", "text": watch["search_summary"]}
+        )
+        for key, label in (
+            ("risk_signals", "值得警惕的信号"),
+            ("reference_events", "有参考价值的事件"),
+            ("upcoming_events", "将要发生的事件及概率"),
+        ):
+            table = [
+                [
+                    "合约 / 结算定义",
+                    "Yes % / 同规则跨期变化",
+                    "质量与时点",
+                    "入选原因 / 资产传导",
+                    "确认 / 失效",
+                    "事件时间 / 官方来源",
+                ]
+            ]
+            for item in watch[key]:
+                event = by_id[str(item["market_id"])]
+                table.append(
+                    [
+                        [event["question"], event["resolution_summary"], event["url"]],
+                        [event["yes_probability"] * 100, event.get("comparison")],
+                        {
+                            "spread": event.get("spread"),
+                            "volume24h_usd": event.get("volume24h_usd"),
+                            "liquidity_usd": event.get("liquidity_usd"),
+                            "quality_flags": event.get("quality_flags"),
+                            "retrieved_at": event["retrieved_at"],
+                            "contract_end_at": event["end_at"],
+                        },
+                        [item["reason"], item["transmission"]],
+                        [item["confirmation"], item["invalidation"]],
+                        [item["event_at"], item["event_time_source"]],
+                    ]
+                )
+            rows.append({"title": "Polymarket · " + label, "tag": "事件", "table": table})
+            if not watch[key]:
+                rows.append(
+                    {
+                        "title": label + " · 本次无合格合约",
+                        "tag": "缺口",
+                        "text": "本次未纳入合格合约，不代表相关风险或事件不存在。见搜索覆盖与限制。",
+                    }
+                )
     for event in data["events"]:
         rows.append(
             {
