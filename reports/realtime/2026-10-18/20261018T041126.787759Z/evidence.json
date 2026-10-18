@@ -1,0 +1,4355 @@
+{
+  "summary": "周末休市：当前交易主线是AI融资回报率重估与能源供给风险；最新政策增加下周方向分歧。",
+  "themes": [
+    {
+      "title": "AI资本开支的融资与回报率重估",
+      "status": "首次基线",
+      "event": "最新SEC披露显示云/AI投资仍大，需关注资本承诺如何转换为现金流；没有新披露时不重复编造基本面更新。",
+      "reaction": "10月16日SMH -3.41%、IGV -4.80%；近5交易日CRWV -25.21%、SMH -10.53%。",
+      "interpretation": "估值和融资压力是可解释假说；价格下跌并不足以证明全行业AI需求崩塌。",
+      "beneficiaries": [
+        "待确认现金流兑现的大型平台，相对观察MSFT/META"
+      ],
+      "adverse": [
+        "高融资依赖算力商",
+        "高估值半导体/光通信/云基础设施篮子"
+      ],
+      "counterevidence": "TSMC业绩资料和五家公司最新披露保留需求增长证据；公司现金流、资本开支节奏差异很大。",
+      "next_catalyst": "新财报及资本开支指引；下次披露前只更新价格、压力证据和估值，不编造新财务。",
+      "sources": [
+        "https://investor.tsmc.com/english/quarterly-results/2026/q3",
+        "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm",
+        "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/msft-20260630.htm"
+      ]
+    },
+    {
+      "title": "能源供给风险与通胀尾部",
+      "status": "首次基线",
+      "event": "海峡风险线索持续，但周末俄制裁豁免提供相反供应因素。",
+      "reaction": "XLE 1日+2.52%、5日+4.86%；XOP 5日+4.63%；OIH 5日-1.66%。",
+      "interpretation": "市场可能同时交易供应溢价和成长去估值；缺乏增长恶化证据时不把它直接定性为滞涨。",
+      "beneficiaries": [
+        "XLE",
+        "XOP"
+      ],
+      "adverse": [
+        "航空运输成本",
+        "能源密集型制造利润率；需公司核验"
+      ],
+      "counterevidence": "油服未同步上涨；豁免新制裁可能缓和供给约束。",
+      "next_catalyst": "下周原油开盘与海峡通行数据；官方政策后续执行。",
+      "sources": [
+        "https://www.whitehouse.gov/presidential-actions/2026/10/implementing-the-lindsey-o-graham-sanctioning-russia-and-iran-act-of-2026/",
+        "https://polymarket.com/event/strait-of-hormuz-traffic-returns-to-normal-by-december-31"
+      ]
+    },
+    {
+      "title": "防御板块与等权相对占优",
+      "status": "首次基线",
+      "event": "价格广度出现成长与防御分化；没有当前全市场资金身份数据。",
+      "reaction": "5日XLP +5.02%、XLV +3.45%、RSP +0.49%，QQQ -5.52%；ITA +1.17%而ARKX -7.22%。",
+      "interpretation": "更像资金偏好变化的价格证据；金融、工业并未整体成为一致强势主线。",
+      "beneficiaries": [
+        "必需消费",
+        "医疗",
+        "相对观察公用事业"
+      ],
+      "adverse": [
+        "高估值成长",
+        "部分航天主题"
+      ],
+      "counterevidence": "最新可核验申赎只有10月5–9日，XLK当时仍净申购，不能用10月16日跌价重写该窗口。",
+      "next_catalyst": "下一交易周行业相对收益、申赎更新、信用风险。",
+      "sources": [
+        "https://www.etf.com/sections/weekly-etf-flows/etf-inflows-top-41b-investors-pile-brazil-long-bonds",
+        "https://www.ssga.com/us/en/individual/etfs/state-street-technology-select-sector-spdr-etf-xlk",
+        "https://www.vaneck.com/us/en/investments/semiconductor-etf-smh/overview/"
+      ]
+    }
+  ],
+  "risk_analysis": "同日VIX 19.99低于VIX3M 20.50（差-0.51），尚未倒挂；VVIX109.91、MOVE101.10提示股债波动应并看。黄金连续报价4181.10美元/盎司、WTI101.41、Brent109.86，期货换月可能影响收益。HY OAS最新3.23个百分点（323bp），近20次观测+0.53个百分点（53bp）；IG0.84个百分点。金融压力STLFSI仍负，不能仅凭科技股下跌宣布系统性危机。黄金、美元、国债、信用和GPR分别解释，不合成虚构避险/战争指数。",
+  "rotation_analysis": "第一层：19ETF同日期收盘与相对SPY变化是价格量能代理。第二层：先核验发行人，XLK仅有10月15日659.41百万份和NAV189.19，SMH仅有10月16日NAV539.75与净资产65.68十亿美元，缺窗口首尾可比份额，未估算当前净申赎；公开资金流报告回退至10月5–9日。第三层：本次无可核验最新机构持仓研究，无法识别主力身份；不读取账户或把交易量当净流入。",
+  "ai_analysis": "合约层：AI2026约7.10%、2027年6月底15.50%，对应严格三项联合触发，且期限和规则澄清不同，不能当全行业崩溃概率或直接相减。经营层：当前价格/融资压力比“需求归零”证据更强；H100页面10月17日2.82美元/GPU小时不支持≤1美元的单日条件，但缺逐日历史，不能判断五日条件。估值层：四家公司已用最新SEC底稿计算5年FCFF三情景与反向增长；这是对高资本开支长期持续的压力测试，不是客观目标价。META最新季报没有单列融资租赁负债，暂停精确估值。未来股数/折旧/长期资本开支/终值极敏感，公司整体价值不全部归于AI。",
+  "trade_scenarios": [
+    {
+      "title": "AI风险扩散：等待价格与信用共振",
+      "catalyst": "融资条件、云资本开支/回报率披露、10月FOMC前预期重估",
+      "symbols": [
+        "SMH",
+        "NVDA",
+        "MSFT",
+        "AMZN",
+        "GOOGL",
+        "META",
+        "CRWV",
+        "VRT"
+      ],
+      "confirmation": "研究假设：SMH相对SPY连续5交易日落后≥10个百分点，同时HY OAS升破400bp且融资/订单出现可核验负面披露；单独跌价不确认。",
+      "invalidation": "SMH相对强势恢复且HY OAS回落至300bp以下；最新财报收入与现金流改善，融资完成。",
+      "horizon": "未来5–15个美股交易日，每日报告复核；财报触发后重新估值",
+      "counterevidence": "当前HY OAS约323bp，未达假设400bp；大型云公司与供应链需求披露并非全面转负。",
+      "status": "观察中；阈值为研究假设，未触发完整组合，未给交易方向"
+    },
+    {
+      "title": "能源相对强势能否延续",
+      "catalyst": "霍尔木兹实际通行量、供给政策、俄制裁豁免后供应变化",
+      "symbols": [
+        "XLE",
+        "XOP",
+        "OIH",
+        "CL=F",
+        "BZ=F"
+      ],
+      "confirmation": "研究假设：XLE相对SPY的5日超额保持正值、Brent连续两次收盘高于110美元，并有航运/供应数据支持；开盘跳空不追认。",
+      "invalidation": "Brent回落至100美元以下且XLE连续5日跑输SPY；通行7日均值恢复或供应明显增加。",
+      "horizon": "下一交易日至未来2周",
+      "counterevidence": "OIH周表现弱于能源开采；俄制裁豁免可能改善供给。油价高并不能单独证明滞涨。",
+      "status": "观察中；当前Brent109.86，价格确认未完成"
+    },
+    {
+      "title": "防御轮动还是市场广度改善",
+      "catalyst": "下一交易周利率、信用与行业盈利消息",
+      "symbols": [
+        "RSP",
+        "SPY",
+        "XLP",
+        "XLV",
+        "XLU",
+        "XLF",
+        "KRE",
+        "XLI",
+        "ITA",
+        "ARKX"
+      ],
+      "confirmation": "研究假设：RSP/SPY连续3个交易日改善，XLP/XLV相对强势，同时信用不再走阔；检查金融和工业是否跟随。",
+      "invalidation": "RSP相对SPY转弱或信用持续走阔；防御板块与成长板块同时下跌。",
+      "horizon": "下一交易周（10月19–23日）",
+      "counterevidence": "板块收益不是净流入；航天与国防分化，不能将ITA上涨推演为所有航天受益。",
+      "status": "观察中"
+    }
+  ],
+  "comparison_analysis": "与已发布日报比较：仍处周末休市，43个价格序列重新采集后最近完成日仍为10月16日；6个重点合约重新查询且结算规则未变，概率与日报相同。宏观、申赎窗口与五家公司最新财报无可核验更新。三个条件剧本继续观察，未有新增交易日确认。首次实时报告无上一份实时基线；不把抓取时间变化称为新成交。",
+  "catalysts": [
+    {
+      "event": "下一美股常规交易日",
+      "date": "2026-10-19",
+      "timezone": "America/New_York",
+      "source": "tc get_trading_calendar"
+    },
+    {
+      "event": "下一FOMC会议（非下周）",
+      "date": "2026-10-27/2026-10-28",
+      "timezone": "America/New_York",
+      "source": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+    },
+    {
+      "event": "盘后/周末增量：俄制裁豁免与海峡消息",
+      "date": "2026-10-16/2026-10-18",
+      "note": "具体行政令发布时间未核验，不假定周五收盘前已定价；海峡损害报道仍待独立核验。",
+      "source": "https://www.whitehouse.gov/presidential-actions/2026/10/implementing-the-lindsey-o-graham-sanctioning-russia-and-iran-act-of-2026/"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.whitehouse.gov/presidential-actions/2026/10/implementing-the-lindsey-o-graham-sanctioning-russia-and-iran-act-of-2026/",
+      "checked_at": "2026-10-18T04:11:15.793923+00:00",
+      "note": "核验10月16日行政令：豁免新法若干制裁和关税，非取消所有既有俄制裁；未确认具体发布时分，作为盘后/周末增量。"
+    },
+    {
+      "url": "https://investor.tsmc.com/english/quarterly-results/2026/q3",
+      "checked_at": "2026-10-18T04:03:30.162293+00:00",
+      "note": "核验Q3业绩资料页面；作为需求尚未全面崩塌的反证，非本周价格支撑保证。"
+    },
+    {
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "checked_at": "2026-10-18T04:03:30.162293+00:00",
+      "note": "核验2026年FOMC日历；10月27–28日、12月8–9日。"
+    },
+    {
+      "url": "https://www.etf.com/sections/weekly-etf-flows/etf-inflows-top-41b-investors-pile-brazil-long-bonds",
+      "checked_at": "2026-10-18T04:03:30.162293+00:00",
+      "note": "10月12日发表，窗口10月5–9日，仅选取相关ETF净申赎。"
+    },
+    {
+      "url": "https://www.silicondata.com/products/silicon-index/h100",
+      "checked_at": "2026-10-18T04:11:15.793923+00:00",
+      "note": "页面主数据10月17日H100 2.82 USD/GPU-hour；正文FAQ存在旧数字，不混用；无逐日序列，不判断连续5天条件。"
+    },
+    {
+      "url": "https://www.ssga.com/us/en/individual/etfs/state-street-technology-select-sector-spdr-etf-xlk",
+      "checked_at": "2026-10-18T04:03:30.162293+00:00",
+      "note": "发行人仅核验10月15日份额659.41百万、NAV189.19；缺可比前期份额，不能估流量。"
+    },
+    {
+      "url": "https://www.vaneck.com/us/en/investments/semiconductor-etf-smh/overview/",
+      "checked_at": "2026-10-18T04:03:30.162293+00:00",
+      "note": "发行人10月16日NAV539.75、净资产65.68十亿美元；缺完整同窗口份额序列。"
+    },
+    {
+      "url": "https://www.matteoiacoviello.com/gpr.htm",
+      "checked_at": "2026-10-18T04:03:30.162293+00:00",
+      "note": "GPR是新闻文本地缘风险，不是实时战争强度；最新可取观测10月13日。"
+    },
+    {
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+      "checked_at": "2026-10-18T04:11:15.793923+00:00",
+      "note": "NVDA SEC结构化财务；filed=2026-08-26，底稿保留TTM与最新披露。"
+    },
+    {
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "checked_at": "2026-10-18T04:11:15.793923+00:00",
+      "note": "MSFT SEC结构化财务；filed=2026-07-29，底稿保留TTM与最新披露。"
+    },
+    {
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
+      "checked_at": "2026-10-18T04:11:15.793923+00:00",
+      "note": "AMZN SEC结构化财务；filed=2026-07-31，底稿保留TTM与最新披露。"
+    },
+    {
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001652044.json",
+      "checked_at": "2026-10-18T04:11:15.793923+00:00",
+      "note": "GOOGL SEC结构化财务；filed=2026-07-23，底稿保留TTM与最新披露。"
+    },
+    {
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326801.json",
+      "checked_at": "2026-10-18T04:11:15.793923+00:00",
+      "note": "META SEC结构化财务；filed=2026-07-30，底稿保留TTM与最新披露。"
+    },
+    {
+      "url": "https://apnews.com/article/c27809783ae3230b44c26e5ee4bea056",
+      "checked_at": "2026-10-18T04:11:15.793923+00:00",
+      "note": "搜索摘要支持周五科技承压叙事，原页访问失败；不据此补填未核验的细节或时间。"
+    }
+  ],
+  "paid_sources": [
+    {
+      "product": "LSEG Lipper Fund Flows",
+      "gap": "补充可下载的每日/每周ETF和基金流量历史；仍需核验估计口径，不能识别最终机构身份。",
+      "url": "https://www.lseg.com/en/data-catalogue/funds",
+      "checked_at": "2026-10-18T04:03:30.162293+00:00"
+    },
+    {
+      "product": "Silicon Data历史指数",
+      "gap": "补齐同口径GPU租金逐日序列，核验连续5日阈值和融资回报率；需先确认具体数据覆盖及授权。",
+      "url": "https://www.silicondata.com/products/silicon-index/h100",
+      "checked_at": "2026-10-18T04:03:30.162293+00:00"
+    }
+  ],
+  "flows": [
+    {
+      "symbol": "XLK",
+      "value_million": 1496.06,
+      "start": "2026-10-05",
+      "end": "2026-10-09",
+      "quality": "public_report",
+      "source": "https://www.etf.com/sections/weekly-etf-flows/etf-inflows-top-41b-investors-pile-brazil-long-bonds"
+    },
+    {
+      "symbol": "TLT",
+      "value_million": 1207.29,
+      "start": "2026-10-05",
+      "end": "2026-10-09",
+      "quality": "public_report",
+      "source": "https://www.etf.com/sections/weekly-etf-flows/etf-inflows-top-41b-investors-pile-brazil-long-bonds"
+    },
+    {
+      "symbol": "SMH",
+      "value_million": -1665.5,
+      "start": "2026-10-05",
+      "end": "2026-10-09",
+      "quality": "public_report",
+      "source": "https://www.etf.com/sections/weekly-etf-flows/etf-inflows-top-41b-investors-pile-brazil-long-bonds"
+    },
+    {
+      "symbol": "DRAM",
+      "value_million": -694.28,
+      "start": "2026-10-05",
+      "end": "2026-10-09",
+      "quality": "public_report",
+      "source": "https://www.etf.com/sections/weekly-etf-flows/etf-inflows-top-41b-investors-pile-brazil-long-bonds"
+    },
+    {
+      "symbol": "IYW",
+      "value_million": -830.57,
+      "start": "2026-10-05",
+      "end": "2026-10-09",
+      "quality": "public_report",
+      "source": "https://www.etf.com/sections/weekly-etf-flows/etf-inflows-top-41b-investors-pile-brazil-long-bonds"
+    }
+  ],
+  "schema_version": 1,
+  "window": {
+    "mode": "realtime",
+    "period": "2026-10-18",
+    "start_date": "2026-10-16",
+    "end_date": "2026-10-16",
+    "cutoff": "2026-10-18T04:11:26.726291+00:00",
+    "cutoff_ny": "2026-10-18T00:11:26.726291-04:00",
+    "cutoff_shanghai": "2026-10-18T12:11:26.726291+08:00",
+    "market_phase": "休市",
+    "next_session": "2026-10-19",
+    "note": "价格窗口与发布后消息分开；研究截止时间不等于所有来源观测时间"
+  },
+  "generated_at": "2026-10-18T04:11:26.742265+00:00",
+  "focus": "全市场",
+  "prices": {
+    "SPY": {
+      "value": 763.25,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -1.1065157971047346,
+      "relative_spy_1d_pp": 0.0,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -1.9677109547117544,
+      "relative_spy_5d_pp": 0.0,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": 0.204807408997576,
+      "relative_spy_20d_pp": 0.0,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 3.6529427157609318,
+      "relative_spy_60d_pp": 0.0,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -2.0331446058168168,
+      "sma200": 721.8774676513672,
+      "volume_vs_previous20_ratio": 1.5237915747093984,
+      "last_close_times_volume_usd_proxy": 48874866400.0,
+      "name": "标普500 ETF",
+      "kind": "risk_or_theme_proxy",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/SPY/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "QQQ": {
+      "value": 709.7999877929688,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -2.500001676790009,
+      "relative_spy_1d_pp": -1.3934858796852745,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -5.519990237884931,
+      "relative_spy_5d_pp": -3.552279283173177,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -1.5122883912027651,
+      "relative_spy_20d_pp": -1.7170958002003411,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 2.685065753829141,
+      "relative_spy_60d_pp": -0.9678769619317906,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -6.563460905432783,
+      "sma200": 673.6598583984374,
+      "volume_vs_previous20_ratio": 1.902179911817831,
+      "last_close_times_volume_usd_proxy": 47338903525.8728,
+      "name": "纳指100 ETF",
+      "kind": "risk_or_theme_proxy",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/QQQ/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "RSP": {
+      "value": 214.08999633789062,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -0.42325751726017824,
+      "relative_spy_1d_pp": 0.6832582798445563,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": 0.49286663764938066,
+      "relative_spy_5d_pp": 2.460577592361135,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": 1.2269799667198988,
+      "relative_spy_20d_pp": 1.0221725577223228,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 1.4037199619727048,
+      "relative_spy_60d_pp": -2.249222753788227,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -3.535144324276862,
+      "sma200": 205.34707359313964,
+      "volume_vs_previous20_ratio": 1.2455322595607,
+      "last_close_times_volume_usd_proxy": 2141563642.3675537,
+      "name": "标普等权 ETF",
+      "kind": "risk_or_theme_proxy",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/RSP/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "GLD": {
+      "value": 382.010009765625,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -0.18290133654252916,
+      "relative_spy_1d_pp": 0.9236144605622054,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -0.6682554725602419,
+      "relative_spy_5d_pp": 1.2994554821515125,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -4.776030864919267,
+      "relative_spy_20d_pp": -4.980838273916843,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 2.823541414232511,
+      "relative_spy_60d_pp": -0.8294013015284207,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -10.759921688161644,
+      "sma200": 414.97845016479494,
+      "volume_vs_previous20_ratio": 1.1644581436329073,
+      "last_close_times_volume_usd_proxy": 3462194919.506836,
+      "name": "黄金 ETF",
+      "kind": "risk_or_theme_proxy",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/GLD/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "GC=F": {
+      "value": 4181.10009765625,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": 0.2637826369247698,
+      "relative_spy_1d_pp": 1.3702984340295044,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -0.834848294993551,
+      "relative_spy_5d_pp": 1.1328626597182034,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -5.509724741080946,
+      "relative_spy_20d_pp": -5.714532150078522,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 3.2319428191810884,
+      "relative_spy_60d_pp": -0.4209998965798434,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -10.998759600519437,
+      "sma200": 4540.697501220703,
+      "volume_vs_previous20_ratio": 1.0625704866400962,
+      "name": "COMEX 黄金近月连续报价",
+      "kind": "risk_or_theme_proxy",
+      "unit": "USD_per_troy_ounce",
+      "source": "https://finance.yahoo.com/quote/GC=F/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "CL=F": {
+      "value": 101.41000366210938,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": 3.511281411191103,
+      "relative_spy_1d_pp": 4.617797208295837,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": 10.408280181607,
+      "relative_spy_5d_pp": 12.375991136318753,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": 1.1066805349734254,
+      "relative_spy_20d_pp": 0.9018731259758495,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 10.00108577561123,
+      "relative_spy_60d_pp": 6.348143059850298,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -4.176507693915877,
+      "sma200": 84.19110000610351,
+      "volume_vs_previous20_ratio": 0.7727133235822167,
+      "name": "WTI 原油近月连续报价",
+      "kind": "risk_or_theme_proxy",
+      "unit": "USD_per_barrel",
+      "source": "https://finance.yahoo.com/quote/CL=F/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "BZ=F": {
+      "value": 109.86000061035156,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": 3.7197908888950693,
+      "relative_spy_1d_pp": 4.826306685999803,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": 4.908326327093526,
+      "relative_spy_5d_pp": 6.876037281805281,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": 5.766821705380809,
+      "relative_spy_20d_pp": 5.562014296383233,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 9.1071585525897,
+      "relative_spy_60d_pp": 5.4542158368287685,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": 0.0,
+      "sma200": 89.90874988555908,
+      "volume_vs_previous20_ratio": 1.3237370046326404,
+      "name": "Brent 原油近月连续报价",
+      "kind": "risk_or_theme_proxy",
+      "unit": "USD_per_barrel",
+      "source": "https://finance.yahoo.com/quote/BZ=F/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "TLT": {
+      "value": 80.05000305175781,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": 0.1000398022177107,
+      "relative_spy_1d_pp": 1.2065555993224453,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": 2.654526296118931,
+      "relative_spy_5d_pp": 4.622237250830685,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -1.080119594063511,
+      "relative_spy_20d_pp": -1.284927003061087,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": -2.602628295057674,
+      "relative_spy_60d_pp": -6.255571010818606,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -3.8397511566012454,
+      "sma200": 83.40497394561767,
+      "volume_vs_previous20_ratio": 0.8427941798993984,
+      "last_close_times_volume_usd_proxy": 3385906999.081421,
+      "name": "长期美债 ETF",
+      "kind": "risk_or_theme_proxy",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/TLT/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "UUP": {
+      "value": 28.920000076293945,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -0.27586180588294873,
+      "relative_spy_1d_pp": 0.8306539912217858,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -0.34459124704450117,
+      "relative_spy_5d_pp": 1.6231197076672532,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": 1.8668569849943584,
+      "relative_spy_20d_pp": 1.6620495759967824,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 1.2605063623368107,
+      "relative_spy_60d_pp": -2.392436353424121,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -0.7209031600505234,
+      "sma200": 27.83645004272461,
+      "volume_vs_previous20_ratio": 1.1219019826265226,
+      "last_close_times_volume_usd_proxy": 62039184.16366577,
+      "name": "美元 ETF",
+      "kind": "risk_or_theme_proxy",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/UUP/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "HYG": {
+      "value": 76.86000061035156,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -0.3500540032165489,
+      "relative_spy_1d_pp": 0.7564617938881857,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -0.47909197267801407,
+      "relative_spy_5d_pp": 1.4886189820337403,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -1.6911163913195915,
+      "relative_spy_20d_pp": -1.8959238003171675,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": -1.5500342721243787,
+      "relative_spy_60d_pp": -5.202976987885311,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -2.871549181491151,
+      "sma200": 77.90053077697753,
+      "volume_vs_previous20_ratio": 1.1846586727287396,
+      "last_close_times_volume_usd_proxy": 5913508528.959656,
+      "name": "高收益债 ETF",
+      "kind": "risk_or_theme_proxy",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/HYG/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "LQD": {
+      "value": 103.4000015258789,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -0.0966168832087888,
+      "relative_spy_1d_pp": 1.0098989138959458,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": 0.9667003499344906,
+      "relative_spy_5d_pp": 2.934411304646245,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -0.8155059491617433,
+      "relative_spy_20d_pp": -1.0203133581593193,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": -1.4365067994533964,
+      "relative_spy_60d_pp": -5.089449515214328,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -2.4124131850812636,
+      "sma200": 105.98772159576416,
+      "volume_vs_previous20_ratio": 0.8014235277852748,
+      "last_close_times_volume_usd_proxy": 2946021143.474579,
+      "name": "投资级债 ETF",
+      "kind": "risk_or_theme_proxy",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/LQD/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "^VIX": {
+      "value": 19.989999771118164,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": 21.44593489057658,
+      "relative_spy_1d_pp": 22.552450687681315,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": 34.703501115747535,
+      "relative_spy_5d_pp": 36.67121207045929,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": 34.97636194959357,
+      "relative_spy_20d_pp": 34.77155454059599,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 7.5888043767594615,
+      "relative_spy_60d_pp": 4.041062620774349,
+      "window_60d": [
+        "2026-07-24",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -3.2429820002049525,
+      "sma200": 18.129050035476684,
+      "volume_vs_previous20_ratio": null,
+      "name": "VIX",
+      "kind": "risk_or_theme_proxy",
+      "unit": "index",
+      "source": "https://finance.yahoo.com/quote/^VIX/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "^VIX3M": {
+      "value": 20.5,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": 10.870742313482907,
+      "relative_spy_1d_pp": 11.977258110587641,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": 15.36296832813866,
+      "relative_spy_5d_pp": 17.330679282850415,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": 12.390352287506046,
+      "relative_spy_20d_pp": 12.18554487850847,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": -0.48543873600934706,
+      "relative_spy_60d_pp": -4.138381451770279,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -4.651162790697672,
+      "sma200": 20.44430006980896,
+      "volume_vs_previous20_ratio": null,
+      "name": "VIX3M",
+      "kind": "risk_or_theme_proxy",
+      "unit": "index",
+      "source": "https://finance.yahoo.com/quote/^VIX3M/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "^VVIX": {
+      "value": 109.91000366210938,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": 18.73177489948148,
+      "relative_spy_1d_pp": 19.838290696586213,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": 29.488698419678006,
+      "relative_spy_5d_pp": 31.45640937438976,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": 25.783940394676684,
+      "relative_spy_20d_pp": 25.57913298567911,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 7.575614790914864,
+      "relative_spy_60d_pp": 3.9226720751539323,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": 0.0,
+      "sma200": 98.37200004577636,
+      "volume_vs_previous20_ratio": null,
+      "name": "VVIX",
+      "kind": "risk_or_theme_proxy",
+      "unit": "index",
+      "source": "https://finance.yahoo.com/quote/^VVIX/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "^MOVE": {
+      "value": 101.0999984741211,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -1.3562293088307364,
+      "relative_spy_1d_pp": -0.24971351172600187,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": 0.3972209910636737,
+      "relative_spy_5d_pp": 1.7771898224635652,
+      "window_5d": [
+        "2026-10-08",
+        "2026-10-16"
+      ],
+      "return_20d_pct": 32.64234696267623,
+      "relative_spy_20d_pp": 32.308580069633685,
+      "window_20d": [
+        "2026-09-17",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 32.485914963491695,
+      "relative_spy_60d_pp": 30.113008742799366,
+      "window_60d": [
+        "2026-07-22",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -11.003521274560224,
+      "sma200": 75.74959966659546,
+      "volume_vs_previous20_ratio": null,
+      "name": "美债波动 MOVE",
+      "kind": "risk_or_theme_proxy",
+      "unit": "index",
+      "source": "https://finance.yahoo.com/quote/^MOVE/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "NVDA": {
+      "value": 214.1300048828125,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -1.427054691201457,
+      "relative_spy_1d_pp": -0.3205388940967224,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -6.607638685076777,
+      "relative_spy_5d_pp": -4.639927730365023,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -3.6622122792917877,
+      "relative_spy_20d_pp": -3.8670196882893637,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 2.6871134156783105,
+      "relative_spy_60d_pp": -0.9658293000826212,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -10.495736513042775,
+      "sma200": 202.65686584472655,
+      "volume_vs_previous20_ratio": 1.1155839766439712,
+      "last_close_times_volume_usd_proxy": 25878703153.112793,
+      "name": "Nvidia",
+      "kind": "risk_or_theme_proxy",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/NVDA/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "MSFT": {
+      "value": 529.0499877929688,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -1.9260741883090238,
+      "relative_spy_1d_pp": -0.8195583912042892,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -1.125090072111301,
+      "relative_spy_5d_pp": 0.8426208826004533,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": 7.1428549355714965,
+      "relative_spy_20d_pp": 6.9380475265739205,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 38.90821073100346,
+      "relative_spy_60d_pp": 35.25526801524253,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -2.6497422192672038,
+      "sma200": 434.0294845581055,
+      "volume_vs_previous20_ratio": 1.076222856816965,
+      "last_close_times_volume_usd_proxy": 13128428352.081299,
+      "name": "Microsoft",
+      "kind": "risk_or_theme_proxy",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/MSFT/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "AMZN": {
+      "value": 250.0,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -1.868423068563152,
+      "relative_spy_1d_pp": -0.7619072714584174,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -4.7364985034838885,
+      "relative_spy_5d_pp": -2.768787548772134,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -1.462302083359024,
+      "relative_spy_20d_pp": -1.6671094923565999,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 6.993065172385915,
+      "relative_spy_60d_pp": 3.340122456624983,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -11.978026311392565,
+      "sma200": 242.72809982299805,
+      "volume_vs_previous20_ratio": 1.107352716539024,
+      "last_close_times_volume_usd_proxy": 10076500000.0,
+      "name": "Amazon",
+      "kind": "risk_or_theme_proxy",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/AMZN/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "GOOGL": {
+      "value": 340.5899963378906,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -2.4712229690871723,
+      "relative_spy_1d_pp": -1.3647071719824377,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -3.147929024892837,
+      "relative_spy_5d_pp": -1.1802180701810827,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -2.560511526073561,
+      "relative_spy_20d_pp": -2.765318935071137,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 7.277193304213947,
+      "relative_spy_60d_pp": 3.624250588453015,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -9.755349891638044,
+      "sma200": 340.5565817260742,
+      "volume_vs_previous20_ratio": 1.0934303952422537,
+      "last_close_times_volume_usd_proxy": 9712332453.570557,
+      "name": "Alphabet",
+      "kind": "risk_or_theme_proxy",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/GOOGL/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "META": {
+      "value": 709.3300170898438,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -3.717824234782219,
+      "relative_spy_1d_pp": -2.611308437677484,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -1.2996181894910364,
+      "relative_spy_5d_pp": 0.668092765220718,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": 6.630084263330538,
+      "relative_spy_20d_pp": 6.425276854332962,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 17.124213820473464,
+      "relative_spy_60d_pp": 13.471271104712532,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -8.77840602478721,
+      "sma200": 631.066664428711,
+      "volume_vs_previous20_ratio": 0.9308493628676774,
+      "last_close_times_volume_usd_proxy": 14608367969.958496,
+      "name": "Meta",
+      "kind": "risk_or_theme_proxy",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/META/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "CRWV": {
+      "value": 61.38999938964844,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -11.909890602653173,
+      "relative_spy_1d_pp": -10.803374805548438,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -25.207117421844714,
+      "relative_spy_5d_pp": -23.23940646713296,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -24.545232388017347,
+      "relative_spy_20d_pp": -24.75003979701492,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": -24.303328551556124,
+      "relative_spy_60d_pp": -27.956271267317057,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -43.01494711157704,
+      "sma200": 92.44007499694824,
+      "volume_vs_previous20_ratio": 2.4915171672157324,
+      "last_close_times_volume_usd_proxy": 5824474416.091919,
+      "name": "CoreWeave",
+      "kind": "risk_or_theme_proxy",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/CRWV/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "MU": {
+      "value": 878.8400268554688,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -5.626902187235128,
+      "relative_spy_1d_pp": -4.520386390130394,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -14.579368983472474,
+      "relative_spy_5d_pp": -12.611658028760719,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -13.469348533747816,
+      "relative_spy_20d_pp": -13.674155942745392,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": -11.233139806996439,
+      "relative_spy_60d_pp": -14.88608252275737,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -19.90282702023629,
+      "sma200": 717.6230960083008,
+      "volume_vs_previous20_ratio": 1.1121574311484703,
+      "last_close_times_volume_usd_proxy": 26622964585.54077,
+      "name": "Micron",
+      "kind": "risk_or_theme_proxy",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/MU/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "DRAM": {
+      "value": 46.45000076293945,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -5.838234261532483,
+      "relative_spy_1d_pp": -4.731718464427749,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -18.77950362242834,
+      "relative_spy_5d_pp": -16.811792667716585,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -22.076832264160075,
+      "relative_spy_20d_pp": -22.28163967315765,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": -20.325898163285405,
+      "relative_spy_60d_pp": -23.978840879046338,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -26.98836601259378,
+      "sma200": null,
+      "volume_vs_previous20_ratio": 1.5621289996943135,
+      "last_close_times_volume_usd_proxy": 2194488481.044388,
+      "name": "存储 ETF",
+      "kind": "risk_or_theme_proxy",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/DRAM/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "VRT": {
+      "value": 206.4199981689453,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -3.878929839839207,
+      "relative_spy_1d_pp": -2.7724140427344723,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -14.976522280735827,
+      "relative_spy_5d_pp": -13.008811326024073,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -17.230041832417886,
+      "relative_spy_20d_pp": -17.434849241415463,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": -32.09097459615088,
+      "relative_spy_60d_pp": -35.74391731191181,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -32.19355896148629,
+      "sma200": 268.20271324157716,
+      "volume_vs_previous20_ratio": 1.303529636141007,
+      "last_close_times_volume_usd_proxy": 1326186562.236023,
+      "name": "Vertiv",
+      "kind": "risk_or_theme_proxy",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/VRT/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "XLK": {
+      "value": 183.47000122070312,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -3.023416220143371,
+      "relative_spy_1d_pp": -1.9169004230386366,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -7.701980909856154,
+      "relative_spy_5d_pp": -5.734269955144399,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -3.1201963525999465,
+      "relative_spy_20d_pp": -3.3250037615975225,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 2.933097925079542,
+      "relative_spy_60d_pp": -0.7198447906813898,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -9.1732667224242,
+      "sma200": 167.1787100982666,
+      "volume_vs_previous20_ratio": 1.9561881645286077,
+      "last_close_times_volume_usd_proxy": 2807934980.682373,
+      "name": "科技",
+      "kind": "sector_etf",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/XLK/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "XLE": {
+      "value": 68.23999786376953,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": 2.52403901261693,
+      "relative_spy_1d_pp": 3.6305548097216644,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": 4.855556152131157,
+      "relative_spy_5d_pp": 6.823267106842912,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": 6.741751305950605,
+      "relative_spy_20d_pp": 6.536943896953029,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 15.603938237052638,
+      "relative_spy_60d_pp": 11.950995521291706,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": 0.0,
+      "sma200": 56.99058931350708,
+      "volume_vs_previous20_ratio": 1.160513937908838,
+      "last_close_times_volume_usd_proxy": 2559614079.8721313,
+      "name": "能源",
+      "kind": "sector_etf",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/XLE/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "XLF": {
+      "value": 55.52000045776367,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": 0.45232494649796173,
+      "relative_spy_1d_pp": 1.5588407436026963,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": 1.4434513468571941,
+      "relative_spy_5d_pp": 3.4111623015689485,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -0.2568991005241994,
+      "relative_spy_20d_pp": -0.4617065095217754,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": -0.2033065949162416,
+      "relative_spy_60d_pp": -3.8562493106771734,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -4.8557123632102295,
+      "sma200": 53.334525165557864,
+      "volume_vs_previous20_ratio": 1.0992335920929095,
+      "last_close_times_volume_usd_proxy": 2386566083.677292,
+      "name": "金融",
+      "kind": "sector_etf",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/XLF/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "XLI": {
+      "value": 167.75999450683594,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -0.07743456029848383,
+      "relative_spy_1d_pp": 1.0290812368062507,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -0.8803577507616289,
+      "relative_spy_5d_pp": 1.0873532039501255,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -0.9067034931401485,
+      "relative_spy_20d_pp": -1.1115109021377245,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": -7.545969191853786,
+      "relative_spy_60d_pp": -11.198911907614718,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -9.811337749283123,
+      "sma200": 172.18019317626954,
+      "volume_vs_previous20_ratio": 1.2533793740100738,
+      "last_close_times_volume_usd_proxy": 1562516588.83667,
+      "name": "工业",
+      "kind": "sector_etf",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/XLI/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "XLV": {
+      "value": 176.7100067138672,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -0.2708932337747383,
+      "relative_spy_1d_pp": 0.8356225633299963,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": 3.4541357295257535,
+      "relative_spy_5d_pp": 5.421846684237508,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": 5.342540928380357,
+      "relative_spy_20d_pp": 5.137733519382781,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 9.877535568765804,
+      "relative_spy_60d_pp": 6.224592853004872,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -0.2708932337747383,
+      "sma200": 156.41548500061035,
+      "volume_vs_previous20_ratio": 0.9914860052661494,
+      "last_close_times_volume_usd_proxy": 1510464124.3881226,
+      "name": "医疗",
+      "kind": "sector_etf",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/XLV/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "XLP": {
+      "value": 87.62000274658203,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": 1.0844513591333316,
+      "relative_spy_1d_pp": 2.190967156238066,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": 5.022177185760257,
+      "relative_spy_5d_pp": 6.9898881404720115,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": 6.517219861671264,
+      "relative_spy_20d_pp": 6.312412452673688,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 5.992382263798501,
+      "relative_spy_60d_pp": 2.3394395480375696,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": 0.0,
+      "sma200": 83.04426120758056,
+      "volume_vs_previous20_ratio": 2.029647857423826,
+      "last_close_times_volume_usd_proxy": 2050290540.2694702,
+      "name": "必需消费",
+      "kind": "sector_etf",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/XLP/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "XLY": {
+      "value": 112.45999908447266,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -0.8376726452343108,
+      "relative_spy_1d_pp": 0.26884315187042374,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -0.3455909569532456,
+      "relative_spy_5d_pp": 1.6221199977585088,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": 1.5110245602523609,
+      "relative_spy_20d_pp": 1.3062171512547849,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 3.6297223936648804,
+      "relative_spy_60d_pp": -0.023220322096051405,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -5.967223928146415,
+      "sma200": 115.46322769165039,
+      "volume_vs_previous20_ratio": 2.5225169158865417,
+      "last_close_times_volume_usd_proxy": 1823336457.156372,
+      "name": "可选消费",
+      "kind": "sector_etf",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/XLY/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "XLC": {
+      "value": 110.31999969482422,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -1.8854524195575206,
+      "relative_spy_1d_pp": -0.778936622452786,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -0.05435546302470229,
+      "relative_spy_5d_pp": 1.913355491687052,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -0.11407550383635279,
+      "relative_spy_20d_pp": -0.3188829128339288,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 5.032827064499346,
+      "relative_spy_60d_pp": 1.3798843487384138,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -3.8605667147501355,
+      "sma200": 112.89169105529785,
+      "volume_vs_previous20_ratio": 0.9994879136405602,
+      "last_close_times_volume_usd_proxy": 737478165.9599304,
+      "name": "通信",
+      "kind": "sector_etf",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/XLC/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "XLU": {
+      "value": 42.209999084472656,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": 1.3445319041484272,
+      "relative_spy_1d_pp": 2.4510477012531617,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": 1.9318986718386721,
+      "relative_spy_5d_pp": 3.8996096265504265,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": 3.4558820435744986,
+      "relative_spy_20d_pp": 3.2510746345769226,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": -7.944651473550568,
+      "relative_spy_60d_pp": -11.5975941893115,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -8.143517654551625,
+      "sma200": 43.76641328811645,
+      "volume_vs_previous20_ratio": 0.9054734034907285,
+      "last_close_times_volume_usd_proxy": 1346739567.7894592,
+      "name": "公用事业",
+      "kind": "sector_etf",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/XLU/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "XLRE": {
+      "value": 42.15999984741211,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": 0.40485392271962795,
+      "relative_spy_1d_pp": 1.5113697198243625,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": 1.3217957918600032,
+      "relative_spy_5d_pp": 3.2895067465717576,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -0.0355646471126847,
+      "relative_spy_20d_pp": -0.2403720561102607,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": -5.417416166360733,
+      "relative_spy_60d_pp": -9.070358882121665,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -7.596444617308762,
+      "sma200": 42.627599773406985,
+      "volume_vs_previous20_ratio": 1.102492343328109,
+      "last_close_times_volume_usd_proxy": 339729494.7704315,
+      "name": "房地产",
+      "kind": "sector_etf",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/XLRE/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "XLB": {
+      "value": 50.91999816894531,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": 0.7120189594070458,
+      "relative_spy_1d_pp": 1.8185347565117804,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": 3.0143594063735346,
+      "relative_spy_5d_pp": 4.982070361085289,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": 2.329126313920571,
+      "relative_spy_20d_pp": 2.124318904922995,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 1.7186916451183532,
+      "relative_spy_60d_pp": -1.9342510706425786,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -4.687286903692711,
+      "sma200": 50.48094394683838,
+      "volume_vs_previous20_ratio": 1.076660011719799,
+      "last_close_times_volume_usd_proxy": 638995057.0220947,
+      "name": "材料",
+      "kind": "sector_etf",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/XLB/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "SMH": {
+      "value": 539.7899780273438,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -3.408855470735972,
+      "relative_spy_1d_pp": -2.3023396736312374,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -10.531556074233595,
+      "relative_spy_5d_pp": -8.56384511952184,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -5.795815352994104,
+      "relative_spy_20d_pp": -6.00062276199168,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": -6.960030003666295,
+      "relative_spy_60d_pp": -10.612972719427226,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -14.846196996712246,
+      "sma200": 511.3454507446289,
+      "volume_vs_previous20_ratio": 2.59670691423599,
+      "last_close_times_volume_usd_proxy": 9914484463.42163,
+      "name": "半导体",
+      "kind": "sector_etf",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/SMH/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "IGV": {
+      "value": 104.33999633789062,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -4.799272088924766,
+      "relative_spy_1d_pp": -3.692756291820032,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -7.393274133690941,
+      "relative_spy_5d_pp": -5.4255631789791865,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -0.009585181003091137,
+      "relative_spy_20d_pp": -0.21439259000066713,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 19.793338881506205,
+      "relative_spy_60d_pp": 16.140396165745273,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -7.393274133690941,
+      "sma200": 93.72108837127685,
+      "volume_vs_previous20_ratio": 2.1858480413557984,
+      "last_close_times_volume_usd_proxy": 1640339516.4276123,
+      "name": "软件",
+      "kind": "sector_etf",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/IGV/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "XOP": {
+      "value": 200.3800048828125,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": 2.816976504878399,
+      "relative_spy_1d_pp": 3.9234923019831336,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": 4.626148920583306,
+      "relative_spy_5d_pp": 6.593859875295061,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": 5.544820588889143,
+      "relative_spy_20d_pp": 5.340013179891567,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 14.527485419489782,
+      "relative_spy_60d_pp": 10.87454270372885,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": 0.0,
+      "sma200": 165.84353801727295,
+      "volume_vs_previous20_ratio": 0.8190221040429988,
+      "last_close_times_volume_usd_proxy": 491291695.9716797,
+      "name": "油气开采",
+      "kind": "sector_etf",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/XOP/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "OIH": {
+      "value": 382.17999267578125,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": 1.4843719674579647,
+      "relative_spy_1d_pp": 2.5908877645626993,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -1.6647372500477653,
+      "relative_spy_5d_pp": 0.3029737046639891,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -4.145870214832392,
+      "relative_spy_20d_pp": -4.350677623829968,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": -0.20367630998038289,
+      "relative_spy_60d_pp": -3.8566190257413147,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -12.460487326411085,
+      "sma200": 393.25774963378905,
+      "volume_vs_previous20_ratio": 0.8576531313170962,
+      "last_close_times_volume_usd_proxy": 83506328.3996582,
+      "name": "油服",
+      "kind": "sector_etf",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/OIH/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "ITA": {
+      "value": 209.07000732421875,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": 1.0390533415325143,
+      "relative_spy_1d_pp": 2.145569138637249,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": 1.1710687148370313,
+      "relative_spy_5d_pp": 3.1387796695487857,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -2.2306346312009673,
+      "relative_spy_20d_pp": -2.4354420401985433,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": -12.138531871652958,
+      "relative_spy_60d_pp": -15.79147458741389,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -17.339718702149774,
+      "sma200": 229.67143707275392,
+      "volume_vs_previous20_ratio": 2.0468848526811656,
+      "last_close_times_volume_usd_proxy": 346115397.12524414,
+      "name": "航空与国防",
+      "kind": "sector_etf",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/ITA/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "ARKX": {
+      "value": 29.875,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -2.145432924710089,
+      "relative_spy_1d_pp": -1.0389171276053544,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -7.220499092706268,
+      "relative_spy_5d_pp": -5.252788137994513,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -6.98941160192944,
+      "relative_spy_20d_pp": -7.194219010927016,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": -3.442147755897107,
+      "relative_spy_60d_pp": -7.095090471658039,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -14.300058872836862,
+      "sma200": 32.58857497215271,
+      "volume_vs_previous20_ratio": 1.0518944993386758,
+      "last_close_times_volume_usd_proxy": 16156400.0,
+      "name": "航天主题",
+      "kind": "sector_etf",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/ARKX/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "KRE": {
+      "value": 69.80999755859375,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": 0.08601800515233293,
+      "relative_spy_1d_pp": 1.1925338022570675,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": 1.159245613098281,
+      "relative_spy_5d_pp": 3.1269565678100353,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -3.4947053658044736,
+      "relative_spy_20d_pp": -3.6995127748020495,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": -6.576717548756528,
+      "relative_spy_60d_pp": -10.22966026451746,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -9.909404668533561,
+      "sma200": 70.03041896820068,
+      "volume_vs_previous20_ratio": 0.9626980781466342,
+      "last_close_times_volume_usd_proxy": 1064204545.7824707,
+      "name": "区域银行",
+      "kind": "sector_etf",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/KRE/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "SKYY": {
+      "value": 158.50999450683594,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "return_1d_pct": -4.867363370553224,
+      "relative_spy_1d_pp": -3.760847573448489,
+      "window_1d": [
+        "2026-10-15",
+        "2026-10-16"
+      ],
+      "return_5d_pct": -9.365889953672223,
+      "relative_spy_5d_pp": -7.398178998960469,
+      "window_5d": [
+        "2026-10-09",
+        "2026-10-16"
+      ],
+      "return_20d_pct": -2.166405180265518,
+      "relative_spy_20d_pp": -2.371212589263094,
+      "window_20d": [
+        "2026-09-18",
+        "2026-10-16"
+      ],
+      "return_60d_pct": 22.1939508288703,
+      "relative_spy_60d_pp": 18.541008113109367,
+      "window_60d": [
+        "2026-07-23",
+        "2026-10-16"
+      ],
+      "drawdown_from_63d_high_pct": -9.365889953672223,
+      "sma200": 134.6468999862671,
+      "volume_vs_previous20_ratio": 1.030787946846341,
+      "last_close_times_volume_usd_proxy": 34919751.78985596,
+      "name": "云计算",
+      "kind": "sector_etf",
+      "unit": "USD_per_share",
+      "source": "https://finance.yahoo.com/quote/SKYY/history/",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    }
+  },
+  "macro": {
+    "BAMLH0A0HYM2": {
+      "value": 3.23,
+      "observation_date": "2026-10-15",
+      "lag_calendar_days": 1,
+      "change_20_observations": 0.5299999999999998,
+      "name": "美国高收益债 OAS",
+      "unit": "percentage_points",
+      "source": "https://fred.stlouisfed.org/series/BAMLH0A0HYM2",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "lagged"
+    },
+    "BAMLC0A0CM": {
+      "value": 0.84,
+      "observation_date": "2026-10-15",
+      "lag_calendar_days": 1,
+      "change_20_observations": 0.05999999999999994,
+      "name": "美国投资级债 OAS",
+      "unit": "percentage_points",
+      "source": "https://fred.stlouisfed.org/series/BAMLC0A0CM",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "lagged"
+    },
+    "DGS10": {
+      "value": 5.1,
+      "observation_date": "2026-10-15",
+      "lag_calendar_days": 1,
+      "change_20_observations": 0.08999999999999986,
+      "name": "10 年美债名义收益率",
+      "unit": "percent",
+      "source": "https://fred.stlouisfed.org/series/DGS10",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "lagged"
+    },
+    "DFII10": {
+      "value": 2.78,
+      "observation_date": "2026-10-15",
+      "lag_calendar_days": 1,
+      "change_20_observations": 0.09999999999999964,
+      "name": "10 年美债实际收益率",
+      "unit": "percent",
+      "source": "https://fred.stlouisfed.org/series/DFII10",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "lagged"
+    },
+    "T10YIE": {
+      "value": 2.35,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "change_20_observations": 0.020000000000000018,
+      "name": "10 年盈亏平衡通胀率",
+      "unit": "percent",
+      "source": "https://fred.stlouisfed.org/series/T10YIE",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "STLFSI4": {
+      "value": -0.7206,
+      "observation_date": "2026-10-09",
+      "lag_calendar_days": 7,
+      "change_20_observations": 0.03969999999999996,
+      "name": "圣路易斯联储金融压力",
+      "unit": "index",
+      "source": "https://fred.stlouisfed.org/series/STLFSI4",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "lagged"
+    },
+    "CBOE_VIX": {
+      "value": 19.99,
+      "observation_date": "2026-10-16",
+      "lag_calendar_days": 0,
+      "change_20_observations": 5.179999999999998,
+      "unit": "index",
+      "source": "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "ok"
+    },
+    "GPRD": {
+      "value": 342.40484619140625,
+      "observation_date": "2026-10-13",
+      "lag_calendar_days": 3,
+      "change_20_observations": 131.41326904296875,
+      "unit": "index",
+      "source": "https://www.matteoiacoviello.com/gpr.htm",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "lagged"
+    },
+    "GPRD_ACT": {
+      "value": 444.5500183105469,
+      "observation_date": "2026-10-13",
+      "lag_calendar_days": 3,
+      "change_20_observations": 262.2535095214844,
+      "unit": "index",
+      "source": "https://www.matteoiacoviello.com/gpr.htm",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "lagged"
+    },
+    "GPRD_THREAT": {
+      "value": 317.8273620605469,
+      "observation_date": "2026-10-13",
+      "lag_calendar_days": 3,
+      "change_20_observations": 13.720794677734375,
+      "unit": "index",
+      "source": "https://www.matteoiacoviello.com/gpr.htm",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "lagged"
+    },
+    "GPRD_MA7": {
+      "value": 186.58416748046875,
+      "observation_date": "2026-10-13",
+      "lag_calendar_days": 3,
+      "change_20_observations": 33.02671813964844,
+      "unit": "index",
+      "source": "https://www.matteoiacoviello.com/gpr.htm",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "lagged"
+    },
+    "GPRD_MA30": {
+      "value": 177.90203857421875,
+      "observation_date": "2026-10-13",
+      "lag_calendar_days": 3,
+      "change_20_observations": 22.317123413085938,
+      "unit": "index",
+      "source": "https://www.matteoiacoviello.com/gpr.htm",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "quality": "lagged"
+    }
+  },
+  "quotes": [
+    {
+      "symbol": "SPY",
+      "value": 763.25,
+      "change_pct": -1.1065186125759552,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.625000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "QQQ",
+      "value": 709.8,
+      "change_pct": -2.500000000000006,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.625000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "RSP",
+      "value": 214.09,
+      "change_pct": -0.4232558139534868,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.625000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "NVDA",
+      "value": 214.13,
+      "change_pct": -1.4270588776872415,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.625000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "MSFT",
+      "value": 529.05,
+      "change_pct": -1.9260714815364264,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.625000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "AMZN",
+      "value": 250,
+      "change_pct": -1.8684251844873572,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.625000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "GOOGL",
+      "value": 340.59,
+      "change_pct": -2.471221579520088,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.625000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "META",
+      "value": 709.33,
+      "change_pct": -3.7178303833206625,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.625000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "XLK",
+      "value": 183.47,
+      "change_pct": -3.0234156139330826,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.625000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "XLE",
+      "value": 68.24,
+      "change_pct": 2.5240384615384506,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.625000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "XLF",
+      "value": 55.52,
+      "change_pct": 0.45232495024425545,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.625000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "XLI",
+      "value": 167.76,
+      "change_pct": -0.07743165167669037,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.625000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "XLV",
+      "value": 176.71,
+      "change_pct": -0.27089564873863636,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.625000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "XLP",
+      "value": 87.62,
+      "change_pct": 1.0844485463774776,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.625000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "XLY",
+      "value": 112.46,
+      "change_pct": -0.8376686359227608,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.625000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "XLC",
+      "value": 110.32,
+      "change_pct": -1.8854500177872686,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.625000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "XLU",
+      "value": 42.21,
+      "change_pct": 1.3445378151260559,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.625000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "XLRE",
+      "value": 42.16,
+      "change_pct": 0.40485829959512876,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.625000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "XLB",
+      "value": 50.92,
+      "change_pct": 0.712025316455695,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.625000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "SMH",
+      "value": 539.79,
+      "change_pct": -3.408846897144096,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.625000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "IGV",
+      "value": 104.34,
+      "change_pct": -4.799270072992693,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.597000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "XOP",
+      "value": 200.38,
+      "change_pct": 2.8169736774590843,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.597000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "OIH",
+      "value": 382.18,
+      "change_pct": 1.4843729254627134,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.597000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "ITA",
+      "value": 209.07,
+      "change_pct": 1.0390489077904532,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.597000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "ARKX",
+      "value": 29.88,
+      "change_pct": -2.1290533901080972,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.597000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "KRE",
+      "value": 69.81,
+      "change_pct": 0.08602150537634735,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.597000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "SKYY",
+      "value": 158.51,
+      "change_pct": -4.867362861601256,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.597000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "GLD",
+      "value": 382.01,
+      "change_pct": -0.18290611690313519,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.597000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "TLT",
+      "value": 80.05,
+      "change_pct": 0.10003751406777328,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.597000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "UUP",
+      "value": 28.92,
+      "change_pct": -0.27586206896551135,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.597000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "HYG",
+      "value": 76.86,
+      "change_pct": -0.35005834305717104,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.597000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "LQD",
+      "value": 103.4,
+      "change_pct": -0.09661835748791722,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.597000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "CRWV",
+      "value": 61.39,
+      "change_pct": -11.909886640837993,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.597000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "MU",
+      "value": 878.84,
+      "change_pct": -5.6269060607362205,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.597000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "DRAM",
+      "value": 46.45,
+      "change_pct": -5.838232312994112,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.597000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    },
+    {
+      "symbol": "VRT",
+      "value": 206.42,
+      "change_pct": -3.878928987194418,
+      "observed_at": null,
+      "provider_timestamp": "2026-10-18T04:09:26.597000+00:00",
+      "retrieved_at": "2026-10-18T04:09:34+00:00",
+      "quality": "unverified_trade_timestamp",
+      "source": "tc MCP get_symbol_quotes"
+    }
+  ],
+  "events": [
+    {
+      "id": "2589812",
+      "event_id": "606422",
+      "rule_hash": "fbc973610971c579003bb7db1464373da28fb0d8484ae204350268d22f83fb7e",
+      "event": "Fed Decision in October?",
+      "question": "Will there be no change in Fed interest rates after the October 2026 meeting?",
+      "yes_probability": 0.865,
+      "best_bid_first_outcome": 0.86,
+      "best_ask_first_outcome": 0.87,
+      "spread": 0.010000000000000009,
+      "liquidity_usd": 1079943.6972,
+      "volume24h_usd": 61874.33240599999,
+      "change_1d_pp": null,
+      "change_1w_pp": 3.0,
+      "outcomes": [
+        "Yes",
+        "No"
+      ],
+      "end_at": "2026-10-29T03:59:00+00:00",
+      "updated_at": "2026-10-18T04:07:13.669572Z",
+      "url": "https://polymarket.com/event/fed-decision-in-october-20260617190323537",
+      "resolution_source": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "quality_flags": [],
+      "passes_snapshot_filter": true,
+      "discovery_topics": [
+        "美联储"
+      ],
+      "watched": true,
+      "resolution_summary": "以10月27–28日FOMC前后联邦基金目标区间上限不变结算；非25bp标准变动向上取整至25bp档；若下一会议期限仍无声明按不变档结算。",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "comparison": {
+        "status": "no_baseline"
+      }
+    },
+    {
+      "id": "2176270",
+      "event_id": "455875",
+      "rule_hash": "b0c8ba27f4437b0d8ab819ae170bec118166232e39cdcaefb95bd352d29073d4",
+      "event": "Strait of Hormuz traffic returns to normal by December 31?",
+      "question": "Strait of Hormuz traffic returns to normal by December 31?",
+      "yes_probability": 0.115,
+      "best_bid_first_outcome": 0.11,
+      "best_ask_first_outcome": 0.12,
+      "spread": 0.009999999999999995,
+      "liquidity_usd": 581951.9612,
+      "volume24h_usd": 18796.641872000004,
+      "change_1d_pp": null,
+      "change_1w_pp": -5.0,
+      "outcomes": [
+        "Yes",
+        "No"
+      ],
+      "end_at": "2027-01-01T04:59:00+00:00",
+      "updated_at": "2026-10-18T04:05:13.24894Z",
+      "url": "https://polymarket.com/event/strait-of-hormuz-traffic-returns-to-normal-by-december-31",
+      "resolution_source": "https://portwatch.imf.org/pages/cb5856222a5b4105adc6ee7e880a1730",
+      "quality_flags": [],
+      "passes_snapshot_filter": true,
+      "discovery_topics": [
+        "能源与油气"
+      ],
+      "watched": true,
+      "resolution_summary": "期限内IMF Portwatch霍尔木兹海峡船舶通行7日均值任一天达到60；不是新闻宣布开放。末日数据允许14日等待；窗口内修订及先前达标有专门处理，见原规则。",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "comparison": {
+        "status": "no_baseline"
+      }
+    },
+    {
+      "id": "4951227",
+      "event_id": "1078055",
+      "rule_hash": "0c455b139d74a669b793323a95aea1e08486656281c457348bd488137e37ae8a",
+      "event": "What will WTI Crude Oil (WTI) hit in October 2026?",
+      "question": "Will WTI Crude Oil (WTI) hit (HIGH) $105 in October?",
+      "yes_probability": 0.47,
+      "best_bid_first_outcome": 0.46,
+      "best_ask_first_outcome": 0.48,
+      "spread": 0.019999999999999962,
+      "liquidity_usd": 37115.5748,
+      "volume24h_usd": 17265.398528,
+      "change_1d_pp": -0.5,
+      "change_1w_pp": 25.5,
+      "outcomes": [
+        "Yes",
+        "No"
+      ],
+      "end_at": "2026-11-01T03:59:59.999000+00:00",
+      "updated_at": "2026-10-18T04:03:13.808971Z",
+      "url": "https://polymarket.com/event/what-price-will-wti-hit-in-october-2026",
+      "resolution_source": "https://app.pyth.com/explore?search=CLL",
+      "quality_flags": [],
+      "passes_snapshot_filter": true,
+      "discovery_topics": [
+        "能源与油气"
+      ],
+      "watched": true,
+      "resolution_summary": "10月交易时段内，Pyth的ICE WTI活跃月合约1分钟最终高价达到105美元即Yes；按规则提前3个交易时段换月，数据不可用时可依ICE日高低。不是月末价格，也不能以Yahoo CL=F直接结算。",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "comparison": {
+        "status": "no_baseline"
+      }
+    },
+    {
+      "id": "3215008",
+      "event_id": "770450",
+      "rule_hash": "933a10a15eeec0ff1de30468fa20540301ed243f75cc3572d42946192f81a123",
+      "event": "Fed Decision in December?",
+      "question": "Will the Fed increase interest rates by 25 bps after the December 2026 meeting?",
+      "yes_probability": 0.755,
+      "best_bid_first_outcome": 0.75,
+      "best_ask_first_outcome": 0.76,
+      "spread": 0.010000000000000009,
+      "liquidity_usd": 132277.7616,
+      "volume24h_usd": 10279.87682,
+      "change_1d_pp": -1.0,
+      "change_1w_pp": 1.0,
+      "outcomes": [
+        "Yes",
+        "No"
+      ],
+      "end_at": "2026-12-09T23:59:00+00:00",
+      "updated_at": "2026-10-18T04:05:13.24894Z",
+      "url": "https://polymarket.com/event/fed-decision-in-december-20260729232808632",
+      "resolution_source": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "quality_flags": [],
+      "passes_snapshot_filter": true,
+      "discovery_topics": [
+        "美联储"
+      ],
+      "watched": true,
+      "resolution_summary": "以12月8–9日FOMC前后目标区间上限上调25bp档结算；非标准变动按规则向上取整；不是全年累计加息25bp。",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "comparison": {
+        "status": "no_baseline"
+      }
+    },
+    {
+      "id": "691340",
+      "event_id": "85299",
+      "rule_hash": "fc153b2136a8dfbadcd169dce1add40690acb1748566b99716fe7ae8fcb07330",
+      "event": "AI bubble burst by...?",
+      "question": "AI bubble burst in 2026?",
+      "yes_probability": 0.071,
+      "best_bid_first_outcome": 0.065,
+      "best_ask_first_outcome": 0.077,
+      "spread": 0.011999999999999997,
+      "liquidity_usd": 49309.37464,
+      "volume24h_usd": 3741.958616,
+      "change_1d_pp": null,
+      "change_1w_pp": 1.05,
+      "outcomes": [
+        "Yes",
+        "No"
+      ],
+      "end_at": "2027-01-01T04:59:00+00:00",
+      "updated_at": "2026-10-18T04:07:13.669572Z",
+      "url": "https://polymarket.com/event/ai-bubble-burst-by",
+      "resolution_source": "https://www.silicondata.com/products/silicon-index",
+      "quality_flags": [],
+      "passes_snapshot_filter": true,
+      "discovery_topics": [
+        "科技与半导体"
+      ],
+      "watched": true,
+      "resolution_summary": "期限前同一90天窗口内至少三项触发：NVDA较收盘历史高点跌50%；SOXX跌40%；OpenAI或Anthropic破产；OpenAI被收购；指定SiliconData H100租金连续5天≤1美元；TSM/ASML/AVGO/ANET/SMCI之一较收盘历史高点跌50%。以公司/交易所及可信报道裁决；2026版未含2027版额外90天举例澄清，两个期限不作同定义比较。",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "comparison": {
+        "status": "no_baseline"
+      }
+    },
+    {
+      "id": "4838928",
+      "event_id": "85299",
+      "rule_hash": "bd0420587e08487fffa5050e7fd9b79ffff909a9f843d3f620207ee859462505",
+      "event": "AI bubble burst by...?",
+      "question": "AI bubble burst by June 30, 2027?",
+      "yes_probability": 0.155,
+      "best_bid_first_outcome": 0.15,
+      "best_ask_first_outcome": 0.16,
+      "spread": 0.010000000000000009,
+      "liquidity_usd": 28039.4017,
+      "volume24h_usd": 3080.630586,
+      "change_1d_pp": -1.0,
+      "change_1w_pp": -3.0,
+      "outcomes": [
+        "Yes",
+        "No"
+      ],
+      "end_at": "2027-07-01T03:59:00+00:00",
+      "updated_at": "2026-10-18T04:07:13.669572Z",
+      "url": "https://polymarket.com/event/ai-bubble-burst-by",
+      "resolution_source": "https://www.silicondata.com/products/silicon-index",
+      "quality_flags": [],
+      "passes_snapshot_filter": true,
+      "discovery_topics": [
+        "科技与半导体"
+      ],
+      "watched": true,
+      "resolution_summary": "期限前同一90天窗口内至少三项触发：NVDA较收盘历史高点跌50%；SOXX跌40%；OpenAI或Anthropic破产；OpenAI被收购；指定SiliconData H100租金连续5天≤1美元；TSM/ASML/AVGO/ANET/SMCI之一较收盘历史高点跌50%。以公司/交易所及可信报道裁决；2026版未含2027版额外90天举例澄清，两个期限不作同定义比较。",
+      "retrieved_at": "2026-10-18T04:09:36.815505+00:00",
+      "comparison": {
+        "status": "no_baseline"
+      }
+    }
+  ],
+  "valuations": [
+    {
+      "symbol": "NVDA",
+      "inputs": {
+        "symbol": "NVDA",
+        "status": "reviewed",
+        "fiscal_period": "TTM 至 2026-07-26；最新 10-Q / filed 2026-08-26",
+        "filing_date": "2026-08-26",
+        "disclosure_check": {
+          "checked_at": "2026-10-18T04:09:51.520723+00:00",
+          "status": "verified",
+          "source": "https://data.sec.gov/submissions/CIK0001045810.json",
+          "latest_filing_date": "2026-08-26"
+        },
+        "sources": [
+          "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+          "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm"
+        ],
+        "observations": {
+          "ttm_revenue_million": 302970,
+          "revenue_quarters": [
+            {
+              "end": "2025-10-26",
+              "value": 57006000000,
+              "filed": "2025-11-19",
+              "duration_days": 91
+            },
+            {
+              "end": "2026-01-25",
+              "value": 68127000000,
+              "filed": "2026-02-25",
+              "duration_days": 91
+            },
+            {
+              "end": "2026-04-26",
+              "value": 81615000000,
+              "filed": "2026-05-20",
+              "duration_days": 91
+            },
+            {
+              "end": "2026-07-26",
+              "value": 96221000000,
+              "filed": "2026-08-26",
+              "duration_days": 91
+            }
+          ],
+          "cash_million": 22443.0,
+          "liquid_investments_million": 34143.0,
+          "debt_million": 33366.0,
+          "finance_lease_million": 0,
+          "diluted_shares_million": 24285.0,
+          "latest_operating_income_million": 63734.0,
+          "observed_end": "2026-07-26",
+          "unit": "USD million; shares million; revenue_quarters.value USD",
+          "revenue_tag": "Revenues",
+          "latest_reported_revenue_million": 96221.0,
+          "income_statement_window": "最近单季度",
+          "ttm_bridge_note": "采用同版 FY2026全年 + FY2027半年 - FY2026半年；与四季逐项求和差1百万为披露舍入差。"
+        },
+        "accounting_policy": "经营租赁费用留在EBIT且不重复扣租赁负债；融资租赁计入净债务，新增资产在资本开支中，融资本金不再扣。SBC保留为费用；新增净稀释假设0，不把同一SBC再次扣价。现金和可交易债券按账面近似可用现金；非经营私募投资不加回、税务价值未建模。股数采用最新披露的稀释口径，非当日实时股数。10-Q Note14 表明融资租赁费用不重大；模型按不重大近似零，不将其称为精确零负债。未确认担保仅作为压力情景，非已到期净债务。市场化股权42783和非市场化股权51157不作为类现金；非经营资产加回为0的保守假设。",
+        "assumption_note": "三情景均为研究假设，不是公司指引。资本开支从起始压力水平向第5年终点线性收敛，经营利润率同样收敛；DA终点比例固定，需持续核验算力折旧。终值敏感性远高于短期行情，不将模型差价直接当交易信号。",
+        "scenarios": {
+          "bear": {
+            "growth": 0.14,
+            "start_margin": 0.6623710000935347,
+            "operating_margin": 0.6,
+            "tax_rate": 0.17,
+            "da_ratio": 0.015,
+            "capex_ratio": 0.055,
+            "working_capital_ratio": 0.12,
+            "wacc": 0.12,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.04
+          },
+          "base": {
+            "growth": 0.2,
+            "start_margin": 0.6623710000935347,
+            "operating_margin": 0.65,
+            "tax_rate": 0.17,
+            "da_ratio": 0.015,
+            "capex_ratio": 0.04,
+            "working_capital_ratio": 0.12,
+            "wacc": 0.11,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.04
+          },
+          "bull": {
+            "growth": 0.26,
+            "start_margin": 0.6623710000935347,
+            "operating_margin": 0.7000000000000001,
+            "tax_rate": 0.17,
+            "da_ratio": 0.015,
+            "capex_ratio": 0.025,
+            "working_capital_ratio": 0.12,
+            "wacc": 0.1,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.04
+          }
+        },
+        "base": {
+          "revenue": 302970,
+          "net_debt": -23220.0,
+          "diluted_shares": 24285.0,
+          "non_operating_assets": 0
+        }
+      },
+      "scenarios": {
+        "bear": {
+          "assumptions": {
+            "growth": 0.14,
+            "start_margin": 0.6623710000935347,
+            "operating_margin": 0.6,
+            "tax_rate": 0.17,
+            "da_ratio": 0.015,
+            "capex_ratio": 0.055,
+            "working_capital_ratio": 0.12,
+            "wacc": 0.12,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.04
+          },
+          "enterprise_value": 2375470.5882446687,
+          "equity_value": 2398690.5882446687,
+          "per_share": 98.77251753117845,
+          "terminal_fcff": 272100.27519506676,
+          "terminal_value_share": 0.6841724855793618,
+          "years": [
+            {
+              "year": 1,
+              "revenue": 345385.80000000005,
+              "fcff": 171545.35635536612
+            },
+            {
+              "year": 2,
+              "revenue": 393739.8120000001,
+              "fcff": 190303.86779783806
+            },
+            {
+              "year": 3,
+              "revenue": 448863.3856800002,
+              "fcff": 210952.4734596369
+            },
+            {
+              "year": 4,
+              "revenue": 511704.2596752003,
+              "fcff": 233652.73289790188
+            },
+            {
+              "year": 5,
+              "revenue": 583342.8560297284,
+              "fcff": 258574.3964990722
+            }
+          ],
+          "upside_pct": -53.87264032182975
+        },
+        "base": {
+          "assumptions": {
+            "growth": 0.2,
+            "start_margin": 0.6623710000935347,
+            "operating_margin": 0.65,
+            "tax_rate": 0.17,
+            "da_ratio": 0.015,
+            "capex_ratio": 0.04,
+            "working_capital_ratio": 0.12,
+            "wacc": 0.11,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.04
+          },
+          "enterprise_value": 3719500.673008141,
+          "equity_value": 3742720.673008141,
+          "per_share": 154.11656055211617,
+          "terminal_fcff": 395309.71043711994,
+          "terminal_value_share": 0.7420258263847993,
+          "years": [
+            {
+              "year": 1,
+              "revenue": 363564.0,
+              "fcff": 182768.83778459587
+            },
+            {
+              "year": 2,
+              "revenue": 436276.8,
+              "fcff": 218426.6734061363
+            },
+            {
+              "year": 3,
+              "revenue": 523532.16,
+              "fcff": 261036.889764909
+            },
+            {
+              "year": 4,
+              "revenue": 628238.592,
+              "fcff": 311954.1257309454
+            },
+            {
+              "year": 5,
+              "revenue": 753886.3104,
+              "fcff": 372796.78049279994
+            }
+          ],
+          "upside_pct": -28.02663940699952
+        },
+        "bull": {
+          "assumptions": {
+            "growth": 0.26,
+            "start_margin": 0.6623710000935347,
+            "operating_margin": 0.7000000000000001,
+            "tax_rate": 0.17,
+            "da_ratio": 0.015,
+            "capex_ratio": 0.025,
+            "working_capital_ratio": 0.12,
+            "wacc": 0.1,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.04
+          },
+          "enterprise_value": 5867830.043775933,
+          "equity_value": 5891050.043775933,
+          "per_share": 242.57978356087844,
+          "terminal_fcff": 560248.2344229799,
+          "terminal_value_share": 0.7904570567864613,
+          "years": [
+            {
+              "year": 1,
+              "revenue": 381742.2,
+              "fcff": 194403.14653382567
+            },
+            {
+              "year": 2,
+              "revenue": 480995.172,
+              "fcff": 249395.44511746528
+            },
+            {
+              "year": 3,
+              "revenue": 606053.91672,
+              "fcff": 319842.08625891083
+            },
+            {
+              "year": 4,
+              "revenue": 763627.9350672,
+              "fcff": 410061.84870396747
+            },
+            {
+              "year": 5,
+              "revenue": 962171.198184672,
+              "fcff": 525574.5625893511
+            }
+          ],
+          "upside_pct": 13.286217731903438
+        }
+      },
+      "implied_growth": {
+        "status": "solved",
+        "growth": 0.29112673790675314,
+        "note": "其余假设固定时的五年收入 CAGR，不是一致预期或事件概率"
+      },
+      "sensitivity": [
+        {
+          "wacc": 0.09,
+          "growth": 0.2,
+          "per_share": 205.5705118701567
+        },
+        {
+          "wacc": 0.09,
+          "growth": 0.15000000000000002,
+          "per_share": 169.45437267376474
+        },
+        {
+          "wacc": 0.11,
+          "growth": 0.2,
+          "per_share": 154.11656055211617
+        },
+        {
+          "wacc": 0.11,
+          "growth": 0.15000000000000002,
+          "per_share": 127.74320152952973
+        },
+        {
+          "wacc": 0.13,
+          "growth": 0.2,
+          "per_share": 122.46294862237077
+        },
+        {
+          "wacc": 0.13,
+          "growth": 0.15000000000000002,
+          "per_share": 102.04481128261975
+        }
+      ],
+      "status": "scenario_analysis",
+      "price": 214.1300048828125,
+      "note": "主观经营情景，非目标价承诺；公司整体估值不等于 AI 单一业务价值"
+    },
+    {
+      "symbol": "MSFT",
+      "inputs": {
+        "symbol": "MSFT",
+        "status": "reviewed",
+        "fiscal_period": "TTM 至 2026-06-30；最新 10-K / filed 2026-07-29",
+        "filing_date": "2026-07-29",
+        "disclosure_check": {
+          "checked_at": "2026-10-18T04:09:54.008742+00:00",
+          "status": "verified",
+          "source": "https://data.sec.gov/submissions/CIK0000789019.json",
+          "latest_filing_date": "2026-07-29"
+        },
+        "sources": [
+          "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+          "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/msft-20260630.htm"
+        ],
+        "observations": {
+          "ttm_revenue_million": 331839.0,
+          "revenue_quarters": [
+            {
+              "end": "2025-09-30",
+              "value": 77673000000,
+              "filed": "2025-10-29",
+              "duration_days": 92
+            },
+            {
+              "end": "2025-12-31",
+              "value": 81273000000,
+              "filed": "2026-01-28",
+              "duration_days": 92
+            },
+            {
+              "end": "2026-03-31",
+              "value": 82886000000,
+              "filed": "2026-04-29",
+              "duration_days": 90
+            },
+            {
+              "end": "2026-06-30",
+              "value": 90007000000,
+              "filed": "2026-07-29",
+              "duration_days": 91
+            }
+          ],
+          "cash_million": 20935.0,
+          "liquid_investments_million": 55908.0,
+          "debt_million": 40294.0,
+          "finance_lease_million": 66594.0,
+          "diluted_shares_million": 7453.0,
+          "latest_operating_income_million": 155237.0,
+          "observed_end": "2026-06-30",
+          "unit": "USD million; shares million; revenue_quarters.value USD",
+          "revenue_tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "latest_reported_revenue_million": 331839.0,
+          "income_statement_window": "FY2026 全年"
+        },
+        "accounting_policy": "经营租赁费用留在EBIT且不重复扣租赁负债；融资租赁计入净债务，新增资产在资本开支中，融资本金不再扣。SBC保留为费用；新增净稀释假设0，不把同一SBC再次扣价。现金和可交易债券按账面近似可用现金；非经营私募投资不加回、税务价值未建模。股数采用最新披露的稀释口径，非当日实时股数。融资租赁66594计入债务；资本开支假设涵盖新增租赁，现金支出115948加融资租赁资产新增24608为本年经济资本开支140556。",
+        "assumption_note": "三情景均为研究假设，不是公司指引。资本开支从起始压力水平向第5年终点线性收敛，经营利润率同样收敛；DA终点比例固定，需持续核验算力折旧。终值敏感性远高于短期行情，不将模型差价直接当交易信号。",
+        "scenarios": {
+          "bear": {
+            "growth": 0.08000000000000002,
+            "start_margin": 0.4678081840892722,
+            "operating_margin": 0.42,
+            "tax_rate": 0.2,
+            "da_ratio": 0.15,
+            "capex_ratio": 0.265,
+            "working_capital_ratio": 0.04,
+            "wacc": 0.105,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.4235668501893991
+          },
+          "base": {
+            "growth": 0.14,
+            "start_margin": 0.4678081840892722,
+            "operating_margin": 0.47,
+            "tax_rate": 0.2,
+            "da_ratio": 0.15,
+            "capex_ratio": 0.25,
+            "working_capital_ratio": 0.04,
+            "wacc": 0.095,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.4235668501893991
+          },
+          "bull": {
+            "growth": 0.2,
+            "start_margin": 0.4678081840892722,
+            "operating_margin": 0.52,
+            "tax_rate": 0.2,
+            "da_ratio": 0.15,
+            "capex_ratio": 0.235,
+            "working_capital_ratio": 0.04,
+            "wacc": 0.085,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.4235668501893991
+          }
+        },
+        "base": {
+          "revenue": 331839.0,
+          "net_debt": 30045.0,
+          "diluted_shares": 7453.0,
+          "non_operating_assets": 0
+        }
+      },
+      "scenarios": {
+        "bear": {
+          "assumptions": {
+            "growth": 0.08000000000000002,
+            "start_margin": 0.4678081840892722,
+            "operating_margin": 0.42,
+            "tax_rate": 0.2,
+            "da_ratio": 0.15,
+            "capex_ratio": 0.265,
+            "working_capital_ratio": 0.04,
+            "wacc": 0.105,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.4235668501893991
+          },
+          "enterprise_value": 1095971.745792289,
+          "equity_value": 1065926.745792289,
+          "per_share": 143.01982366728686,
+          "terminal_fcff": 109961.56061620849,
+          "terminal_value_share": 0.7612725313587377,
+          "years": [
+            {
+              "year": 1,
+              "revenue": 358386.12,
+              "fcff": 43644.54650400003
+            },
+            {
+              "year": 2,
+              "revenue": 387057.00960000005,
+              "fcff": 56450.273552640036
+            },
+            {
+              "year": 3,
+              "revenue": 418021.5703680001,
+              "fcff": 71025.5918314368
+            },
+            {
+              "year": 4,
+              "revenue": 451463.2959974401,
+              "fcff": 87571.6792841042
+            },
+            {
+              "year": 5,
+              "revenue": 487580.35967723536,
+              "fcff": 106310.5769414772
+            }
+          ],
+          "upside_pct": -72.96667102027148
+        },
+        "base": {
+          "assumptions": {
+            "growth": 0.14,
+            "start_margin": 0.4678081840892722,
+            "operating_margin": 0.47,
+            "tax_rate": 0.2,
+            "da_ratio": 0.15,
+            "capex_ratio": 0.25,
+            "working_capital_ratio": 0.04,
+            "wacc": 0.095,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.4235668501893991
+          },
+          "enterprise_value": 2016629.3660528865,
+          "equity_value": 1986584.3660528865,
+          "per_share": 266.54828472465937,
+          "terminal_fcff": 180113.7044247866,
+          "terminal_value_share": 0.8104981642920013,
+          "years": [
+            {
+              "year": 1,
+              "revenue": 378296.46,
+              "fcff": 49493.08459200003
+            },
+            {
+              "year": 2,
+              "revenue": 431257.96440000006,
+              "fcff": 71543.77182576
+            },
+            {
+              "year": 3,
+              "revenue": 491634.0794160001,
+              "fcff": 98798.5870269696
+            },
+            {
+              "year": 4,
+              "revenue": 560462.8505342401,
+              "fcff": 132282.492556733
+            },
+            {
+              "year": 5,
+              "revenue": 638927.6496090338,
+              "fcff": 173205.43932910162
+            }
+          ],
+          "upside_pct": -49.617561501775
+        },
+        "bull": {
+          "assumptions": {
+            "growth": 0.2,
+            "start_margin": 0.4678081840892722,
+            "operating_margin": 0.52,
+            "tax_rate": 0.2,
+            "da_ratio": 0.15,
+            "capex_ratio": 0.235,
+            "working_capital_ratio": 0.04,
+            "wacc": 0.085,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.4235668501893991
+          },
+          "enterprise_value": 3643500.569450825,
+          "equity_value": 3613455.569450825,
+          "per_share": 484.83235870801354,
+          "terminal_fcff": 279320.98116787197,
+          "terminal_value_share": 0.8497374828283523,
+          "years": [
+            {
+              "year": 1,
+              "revenue": 398206.8,
+              "fcff": 55779.65016000002
+            },
+            {
+              "year": 2,
+              "revenue": 477848.16,
+              "fcff": 88947.20678399998
+            },
+            {
+              "year": 3,
+              "revenue": 573417.7919999999,
+              "fcff": 133150.60005119996
+            },
+            {
+              "year": 4,
+              "revenue": 688101.3503999999,
+              "fcff": 191477.46235392
+            },
+            {
+              "year": 5,
+              "revenue": 825721.6204799998,
+              "fcff": 267809.04557568
+            }
+          ],
+          "upside_pct": -8.357930272225754
+        }
+      },
+      "implied_growth": {
+        "status": "solved",
+        "growth": 0.31599619259213785,
+        "note": "其余假设固定时的五年收入 CAGR，不是一致预期或事件概率"
+      },
+      "sensitivity": [
+        {
+          "wacc": 0.075,
+          "growth": 0.14,
+          "per_share": 387.27079852497184
+        },
+        {
+          "wacc": 0.075,
+          "growth": 0.09000000000000001,
+          "per_share": 312.25038853093076
+        },
+        {
+          "wacc": 0.095,
+          "growth": 0.14,
+          "per_share": 266.54828472465937
+        },
+        {
+          "wacc": 0.095,
+          "growth": 0.09000000000000001,
+          "per_share": 215.62928602709212
+        },
+        {
+          "wacc": 0.115,
+          "growth": 0.14,
+          "per_share": 199.98867989071127
+        },
+        {
+          "wacc": 0.115,
+          "growth": 0.09000000000000001,
+          "per_share": 162.3006547331218
+        }
+      ],
+      "status": "scenario_analysis",
+      "price": 529.0499877929688,
+      "note": "主观经营情景，非目标价承诺；公司整体估值不等于 AI 单一业务价值"
+    },
+    {
+      "symbol": "AMZN",
+      "inputs": {
+        "symbol": "AMZN",
+        "status": "reviewed",
+        "fiscal_period": "TTM 至 2026-06-30；最新 10-Q / filed 2026-07-31",
+        "filing_date": "2026-07-31",
+        "disclosure_check": {
+          "checked_at": "2026-10-18T04:09:56.327207+00:00",
+          "status": "verified",
+          "source": "https://data.sec.gov/submissions/CIK0001018724.json",
+          "latest_filing_date": "2026-07-31"
+        },
+        "sources": [
+          "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
+          "https://www.sec.gov/Archives/edgar/data/1018724/000101872426000026/amzn-20260630.htm"
+        ],
+        "observations": {
+          "ttm_revenue_million": 775680.0,
+          "revenue_quarters": [
+            {
+              "end": "2025-09-30",
+              "value": 180169000000,
+              "filed": "2025-10-31",
+              "duration_days": 92
+            },
+            {
+              "end": "2025-12-31",
+              "value": 213386000000,
+              "filed": "2026-02-06",
+              "duration_days": 92
+            },
+            {
+              "end": "2026-03-31",
+              "value": 181519000000,
+              "filed": "2026-04-30",
+              "duration_days": 90
+            },
+            {
+              "end": "2026-06-30",
+              "value": 200606000000,
+              "filed": "2026-07-31",
+              "duration_days": 91
+            }
+          ],
+          "cash_million": 78213.0,
+          "liquid_investments_million": 44775.0,
+          "debt_million": 133320.0,
+          "finance_lease_million": 13451.0,
+          "diluted_shares_million": 10903.0,
+          "latest_operating_income_million": 27461.0,
+          "observed_end": "2026-06-30",
+          "unit": "USD million; shares million; revenue_quarters.value USD",
+          "revenue_tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "latest_reported_revenue_million": 200606.0,
+          "income_statement_window": "最近单季度"
+        },
+        "accounting_policy": "经营租赁费用留在EBIT且不重复扣租赁负债；融资租赁计入净债务，新增资产在资本开支中，融资本金不再扣。SBC保留为费用；新增净稀释假设0，不把同一SBC再次扣价。现金和可交易债券按账面近似可用现金；非经营私募投资不加回、税务价值未建模。股数采用最新披露的稀释口径，非当日实时股数。总长期债务132995（含当前部分）加短期借款325，融资租赁13451另加；未将其他长期负债全部误作有息债务。",
+        "assumption_note": "三情景均为研究假设，不是公司指引。资本开支从起始压力水平向第5年终点线性收敛，经营利润率同样收敛；DA终点比例固定，需持续核验算力折旧。终值敏感性远高于短期行情，不将模型差价直接当交易信号。",
+        "scenarios": {
+          "bear": {
+            "growth": 0.06,
+            "start_margin": 0.1368902226254449,
+            "operating_margin": 0.12000000000000001,
+            "tax_rate": 0.23,
+            "da_ratio": 0.12,
+            "capex_ratio": 0.195,
+            "working_capital_ratio": 0.02,
+            "wacc": 0.11,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.23
+          },
+          "base": {
+            "growth": 0.12,
+            "start_margin": 0.1368902226254449,
+            "operating_margin": 0.17,
+            "tax_rate": 0.23,
+            "da_ratio": 0.12,
+            "capex_ratio": 0.18,
+            "working_capital_ratio": 0.02,
+            "wacc": 0.1,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.23
+          },
+          "bull": {
+            "growth": 0.18,
+            "start_margin": 0.1368902226254449,
+            "operating_margin": 0.22000000000000003,
+            "tax_rate": 0.23,
+            "da_ratio": 0.12,
+            "capex_ratio": 0.16499999999999998,
+            "working_capital_ratio": 0.02,
+            "wacc": 0.09000000000000001,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.23
+          }
+        },
+        "base": {
+          "revenue": 775680.0,
+          "net_debt": 23783.0,
+          "diluted_shares": 10903.0,
+          "non_operating_assets": 0
+        }
+      },
+      "scenarios": {
+        "bear": {
+          "assumptions": {
+            "growth": 0.06,
+            "start_margin": 0.1368902226254449,
+            "operating_margin": 0.12000000000000001,
+            "tax_rate": 0.23,
+            "da_ratio": 0.12,
+            "capex_ratio": 0.195,
+            "working_capital_ratio": 0.02,
+            "wacc": 0.11,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.23
+          },
+          "enterprise_value": 149545.51847636644,
+          "equity_value": 125762.51847636644,
+          "per_share": 11.534671051670774,
+          "terminal_fcff": 17994.333535928035,
+          "terminal_value_share": 0.8400952781093737,
+          "years": [
+            {
+              "year": 1,
+              "revenue": 822220.8,
+              "fcff": -1091.6611866887927
+            },
+            {
+              "year": 2,
+              "revenue": 871554.0480000001,
+              "fcff": 2676.7232253824127
+            },
+            {
+              "year": 3,
+              "revenue": 923847.2908800001,
+              "fcff": 6901.243747174228
+            },
+            {
+              "year": 4,
+              "revenue": 979278.1283328001,
+              "fcff": 11623.070527969689
+            },
+            {
+              "year": 5,
+              "revenue": 1038034.8160327682,
+              "fcff": 16886.6720449708
+            }
+          ],
+          "upside_pct": -95.38613157933169
+        },
+        "base": {
+          "assumptions": {
+            "growth": 0.12,
+            "start_margin": 0.1368902226254449,
+            "operating_margin": 0.17,
+            "tax_rate": 0.23,
+            "da_ratio": 0.12,
+            "capex_ratio": 0.18,
+            "working_capital_ratio": 0.02,
+            "wacc": 0.1,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.23
+          },
+          "enterprise_value": 976941.6997198903,
+          "equity_value": 953158.6997198903,
+          "per_share": 87.42169125193894,
+          "terminal_fcff": 98660.75994782177,
+          "terminal_value_share": 0.836086324201166,
+          "years": [
+            {
+              "year": 1,
+              "revenue": 868761.6000000001,
+              "fcff": 7264.167488781601
+            },
+            {
+              "year": 2,
+              "revenue": 973012.9920000002,
+              "fcff": 22827.29901377661
+            },
+            {
+              "year": 3,
+              "revenue": 1089774.5510400003,
+              "fcff": 42020.97809293183
+            },
+            {
+              "year": 4,
+              "revenue": 1220547.4971648005,
+              "fcff": 65492.42704528599
+            },
+            {
+              "year": 5,
+              "revenue": 1367013.1968245767,
+              "fcff": 93991.92166166696
+            }
+          ],
+          "upside_pct": -65.03132349922443
+        },
+        "bull": {
+          "assumptions": {
+            "growth": 0.18,
+            "start_margin": 0.1368902226254449,
+            "operating_margin": 0.22000000000000003,
+            "tax_rate": 0.23,
+            "da_ratio": 0.12,
+            "capex_ratio": 0.16499999999999998,
+            "working_capital_ratio": 0.02,
+            "wacc": 0.09000000000000001,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.23
+          },
+          "enterprise_value": 2619239.2563461466,
+          "equity_value": 2595456.2563461466,
+          "per_share": 238.04973460021523,
+          "terminal_fcff": 225387.87365228517,
+          "terminal_value_share": 0.8604180823334864,
+          "years": [
+            {
+              "year": 1,
+              "revenue": 915302.3999999999,
+              "fcff": 16615.969284252067
+            },
+            {
+              "year": 2,
+              "revenue": 1080056.832,
+              "fcff": 47471.12813176314
+            },
+            {
+              "year": 3,
+              "revenue": 1274467.06176,
+              "fcff": 88895.78675956833
+            },
+            {
+              "year": 4,
+              "revenue": 1503871.1328768,
+              "fcff": 143695.25794191431
+            },
+            {
+              "year": 5,
+              "revenue": 1774567.9367946237,
+              "fcff": 215342.3152588948
+            }
+          ],
+          "upside_pct": -4.7801061599139105
+        }
+      },
+      "implied_growth": {
+        "status": "solved",
+        "growth": 0.38975908974642637,
+        "note": "其余假设固定时的五年收入 CAGR，不是一致预期或事件概率"
+      },
+      "sensitivity": [
+        {
+          "wacc": 0.08,
+          "growth": 0.12,
+          "per_share": 125.54632176746377
+        },
+        {
+          "wacc": 0.08,
+          "growth": 0.06999999999999999,
+          "per_share": 100.46407469088054
+        },
+        {
+          "wacc": 0.1,
+          "growth": 0.12,
+          "per_share": 87.42169125193894
+        },
+        {
+          "wacc": 0.1,
+          "growth": 0.06999999999999999,
+          "per_share": 70.07404158275234
+        },
+        {
+          "wacc": 0.12000000000000001,
+          "growth": 0.12,
+          "per_share": 65.58357993711606
+        },
+        {
+          "wacc": 0.12000000000000001,
+          "growth": 0.06999999999999999,
+          "per_share": 52.64914390161393
+        }
+      ],
+      "status": "scenario_analysis",
+      "price": 250.0,
+      "note": "主观经营情景，非目标价承诺；公司整体估值不等于 AI 单一业务价值"
+    },
+    {
+      "symbol": "GOOGL",
+      "inputs": {
+        "symbol": "GOOGL",
+        "status": "reviewed",
+        "fiscal_period": "TTM 至 2026-06-30；最新 10-Q / filed 2026-07-23",
+        "filing_date": "2026-07-23",
+        "disclosure_check": {
+          "checked_at": "2026-10-18T04:09:58.825297+00:00",
+          "status": "verified",
+          "source": "https://data.sec.gov/submissions/CIK0001652044.json",
+          "latest_filing_date": "2026-07-23"
+        },
+        "sources": [
+          "https://data.sec.gov/api/xbrl/companyfacts/CIK0001652044.json",
+          "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000071/goog-20260630.htm"
+        ],
+        "observations": {
+          "ttm_revenue_million": 445867.0,
+          "revenue_quarters": [
+            {
+              "end": "2025-09-30",
+              "value": 102346000000,
+              "filed": "2025-10-30",
+              "duration_days": 92
+            },
+            {
+              "end": "2025-12-31",
+              "value": 113829000000,
+              "filed": "2026-02-05",
+              "duration_days": 92
+            },
+            {
+              "end": "2026-03-31",
+              "value": 109896000000,
+              "filed": "2026-04-30",
+              "duration_days": 90
+            },
+            {
+              "end": "2026-06-30",
+              "value": 119796000000,
+              "filed": "2026-07-23",
+              "duration_days": 91
+            }
+          ],
+          "cash_million": 55911.0,
+          "liquid_investments_million": 186563.0,
+          "debt_million": 100164,
+          "finance_lease_million": 2590.0,
+          "diluted_shares_million": 12309.0,
+          "latest_operating_income_million": 40770.0,
+          "observed_end": "2026-06-30",
+          "unit": "USD million; shares million; revenue_quarters.value USD",
+          "revenue_tag": "Revenues",
+          "latest_reported_revenue_million": 119796.0,
+          "income_statement_window": "最近单季度"
+        },
+        "accounting_policy": "经营租赁费用留在EBIT且不重复扣租赁负债；融资租赁计入净债务，新增资产在资本开支中，融资本金不再扣。SBC保留为费用；新增净稀释假设0，不把同一SBC再次扣价。现金和可交易债券按账面近似可用现金；非经营私募投资不加回、税务价值未建模。股数采用最新披露的稀释口径，非当日实时股数。优先股按完全转换处理：季度稀释股数12309减已计入的16，再加合同最大转换股数54.45825；不再扣19000优先股本金。未来3年优先股息按年1203.125、10%折现约2991.99计入权益桥调整，此为保守假设；capped call 未赋值。",
+        "assumption_note": "三情景均为研究假设，不是公司指引。资本开支从起始压力水平向第5年终点线性收敛，经营利润率同样收敛；DA终点比例固定，需持续核验算力折旧。终值敏感性远高于短期行情，不将模型差价直接当交易信号。",
+        "scenarios": {
+          "bear": {
+            "growth": 0.07,
+            "start_margin": 0.3403285585495342,
+            "operating_margin": 0.31,
+            "tax_rate": 0.2,
+            "da_ratio": 0.09,
+            "capex_ratio": 0.21500000000000002,
+            "working_capital_ratio": 0.03,
+            "wacc": 0.11,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.36
+          },
+          "base": {
+            "growth": 0.13,
+            "start_margin": 0.3403285585495342,
+            "operating_margin": 0.36,
+            "tax_rate": 0.2,
+            "da_ratio": 0.09,
+            "capex_ratio": 0.2,
+            "working_capital_ratio": 0.03,
+            "wacc": 0.1,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.36
+          },
+          "bull": {
+            "growth": 0.19,
+            "start_margin": 0.3403285585495342,
+            "operating_margin": 0.41,
+            "tax_rate": 0.2,
+            "da_ratio": 0.09,
+            "capex_ratio": 0.185,
+            "working_capital_ratio": 0.03,
+            "wacc": 0.09000000000000001,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.36
+          }
+        },
+        "base": {
+          "revenue": 445867.0,
+          "net_debt": -136728.0061983471,
+          "diluted_shares": 12347.45825,
+          "non_operating_assets": 0
+        },
+        "equity_bridge_assumptions": {
+          "preferred_coupon_pv_million": 2991.9938016528904,
+          "discount_rate": 0.1,
+          "years": 3
+        }
+      },
+      "scenarios": {
+        "bear": {
+          "assumptions": {
+            "growth": 0.07,
+            "start_margin": 0.3403285585495342,
+            "operating_margin": 0.31,
+            "tax_rate": 0.2,
+            "da_ratio": 0.09,
+            "capex_ratio": 0.21500000000000002,
+            "working_capital_ratio": 0.03,
+            "wacc": 0.11,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.36
+          },
+          "enterprise_value": 689090.9099084479,
+          "equity_value": 825818.916106795,
+          "per_share": 66.88169333205035,
+          "terminal_fcff": 78372.18081206847,
+          "terminal_value_share": 0.7940568400379739,
+          "years": [
+            {
+              "year": 1,
+              "revenue": 477077.69,
+              "fcff": 11663.433468458574
+            },
+            {
+              "year": 2,
+              "revenue": 510473.12830000004,
+              "fcff": 24806.488266413024
+            },
+            {
+              "year": 3,
+              "revenue": 546206.247281,
+              "fcff": 39732.41991208557
+            },
+            {
+              "year": 4,
+              "revenue": 584440.68459067,
+              "fcff": 56626.43019564695
+            },
+            {
+              "year": 5,
+              "revenue": 625351.532512017,
+              "fcff": 75690.91306133768
+            }
+          ],
+          "upside_pct": -80.36298950316241
+        },
+        "base": {
+          "assumptions": {
+            "growth": 0.13,
+            "start_margin": 0.3403285585495342,
+            "operating_margin": 0.36,
+            "tax_rate": 0.2,
+            "da_ratio": 0.09,
+            "capex_ratio": 0.2,
+            "working_capital_ratio": 0.03,
+            "wacc": 0.1,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.36
+          },
+          "enterprise_value": 1492453.36439971,
+          "equity_value": 1629181.370598057,
+          "per_share": 131.94467538272966,
+          "terminal_fcff": 149263.10607436267,
+          "terminal_value_share": 0.8279936692908769,
+          "years": [
+            {
+              "year": 1,
+              "revenue": 503829.70999999996,
+              "fcff": 17109.527949587075
+            },
+            {
+              "year": 2,
+              "revenue": 569327.5722999999,
+              "fcff": 39344.16793737509
+            },
+            {
+              "year": 3,
+              "revenue": 643340.1566989998,
+              "fcff": 67070.66329963987
+            },
+            {
+              "year": 4,
+              "revenue": 726974.3770698697,
+              "fcff": 101341.1310179518
+            },
+            {
+              "year": 5,
+              "revenue": 821481.0460889527,
+              "fcff": 143388.42613326103
+            }
+          ],
+          "upside_pct": -61.25996746779647
+        },
+        "bull": {
+          "assumptions": {
+            "growth": 0.19,
+            "start_margin": 0.3403285585495342,
+            "operating_margin": 0.41,
+            "tax_rate": 0.2,
+            "da_ratio": 0.09,
+            "capex_ratio": 0.185,
+            "working_capital_ratio": 0.03,
+            "wacc": 0.09000000000000001,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.36
+          },
+          "enterprise_value": 2953770.222821663,
+          "equity_value": 3090498.22902001,
+          "per_share": 250.29428457634268,
+          "terminal_fcff": 253310.9303783606,
+          "terminal_value_share": 0.8574945641873986,
+          "years": [
+            {
+              "year": 1,
+              "revenue": 530581.73,
+              "fcff": 23144.166870715628
+            },
+            {
+              "year": 2,
+              "revenue": 631392.2587,
+              "fcff": 56678.68903613871
+            },
+            {
+              "year": 3,
+              "revenue": 751356.787853,
+              "fcff": 102120.82520038968
+            },
+            {
+              "year": 4,
+              "revenue": 894114.57754507,
+              "fcff": 162784.87243285147
+            },
+            {
+              "year": 5,
+              "revenue": 1063996.3472786332,
+              "fcff": 242814.6958239146
+            }
+          ],
+          "upside_pct": -26.511557219069903
+        }
+      },
+      "implied_growth": {
+        "status": "solved",
+        "growth": 0.3928877817238875,
+        "note": "其余假设固定时的五年收入 CAGR，不是一致预期或事件概率"
+      },
+      "sensitivity": [
+        {
+          "wacc": 0.08,
+          "growth": 0.13,
+          "per_share": 182.9233396221958
+        },
+        {
+          "wacc": 0.08,
+          "growth": 0.08,
+          "per_share": 149.41270997451736
+        },
+        {
+          "wacc": 0.1,
+          "growth": 0.13,
+          "per_share": 131.94467538272966
+        },
+        {
+          "wacc": 0.1,
+          "growth": 0.08,
+          "per_share": 108.69747842536026
+        },
+        {
+          "wacc": 0.12000000000000001,
+          "growth": 0.13,
+          "per_share": 102.72650037747603
+        },
+        {
+          "wacc": 0.12000000000000001,
+          "growth": 0.08,
+          "per_share": 85.34035969445755
+        }
+      ],
+      "status": "scenario_analysis",
+      "price": 340.5899963378906,
+      "note": "主观经营情景，非目标价承诺；公司整体估值不等于 AI 单一业务价值"
+    },
+    {
+      "symbol": "META",
+      "inputs": {
+        "symbol": "META",
+        "status": "unavailable",
+        "fiscal_period": "TTM 至 2026-06-30；最新 10-Q / filed 2026-07-30",
+        "filing_date": "2026-07-30",
+        "disclosure_check": {
+          "checked_at": "2026-10-18T04:10:01.164566+00:00",
+          "status": "verified",
+          "source": "https://data.sec.gov/submissions/CIK0001326801.json",
+          "latest_filing_date": "2026-07-30"
+        },
+        "sources": [
+          "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326801.json",
+          "https://www.sec.gov/Archives/edgar/data/1326801/000162828026050705/meta-20260630.htm"
+        ],
+        "observations": {
+          "ttm_revenue_million": 228247.0,
+          "revenue_quarters": [
+            {
+              "end": "2025-09-30",
+              "value": 51242000000,
+              "filed": "2025-10-30",
+              "duration_days": 92
+            },
+            {
+              "end": "2025-12-31",
+              "value": 59893000000,
+              "filed": "2026-01-29",
+              "duration_days": 92
+            },
+            {
+              "end": "2026-03-31",
+              "value": 56311000000,
+              "filed": "2026-04-30",
+              "duration_days": 90
+            },
+            {
+              "end": "2026-06-30",
+              "value": 60801000000,
+              "filed": "2026-07-30",
+              "duration_days": 91
+            }
+          ],
+          "cash_million": 15462.0,
+          "liquid_investments_million": 74798.0,
+          "debt_million": 83664.0,
+          "finance_lease_million": null,
+          "diluted_shares_million": 2566.0,
+          "latest_operating_income_million": 18775.0,
+          "observed_end": "2026-06-30",
+          "unit": "USD million; shares million; revenue_quarters.value USD",
+          "revenue_tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "latest_reported_revenue_million": 60801.0,
+          "income_statement_window": "最近单季度"
+        },
+        "accounting_policy": "经营租赁费用留在EBIT且不重复扣租赁负债；融资租赁计入净债务，新增资产在资本开支中，融资本金不再扣。SBC保留为费用；新增净稀释假设0，不把同一SBC再次扣价。现金和可交易债券按账面近似可用现金；非经营私募投资不加回、税务价值未建模。股数采用最新披露的稀释口径，非当日实时股数。",
+        "assumption_note": "三情景均为研究假设，不是公司指引。资本开支从起始压力水平向第5年终点线性收敛，经营利润率同样收敛；DA终点比例固定，需持续核验算力折旧。终值敏感性远高于短期行情，不将模型差价直接当交易信号。",
+        "scenarios": {
+          "bear": {
+            "growth": 0.06,
+            "start_margin": 0.3087942632522491,
+            "operating_margin": 0.35000000000000003,
+            "tax_rate": 0.18,
+            "da_ratio": 0.13,
+            "capex_ratio": 0.265,
+            "working_capital_ratio": 0.03,
+            "wacc": 0.11,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.55
+          },
+          "base": {
+            "growth": 0.12,
+            "start_margin": 0.3087942632522491,
+            "operating_margin": 0.4,
+            "tax_rate": 0.18,
+            "da_ratio": 0.13,
+            "capex_ratio": 0.25,
+            "working_capital_ratio": 0.03,
+            "wacc": 0.1,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.55
+          },
+          "bull": {
+            "growth": 0.18,
+            "start_margin": 0.3087942632522491,
+            "operating_margin": 0.45,
+            "tax_rate": 0.18,
+            "da_ratio": 0.13,
+            "capex_ratio": 0.235,
+            "working_capital_ratio": 0.03,
+            "wacc": 0.09000000000000001,
+            "terminal_growth": 0.025,
+            "dilution": 0,
+            "start_capex_ratio": 0.55
+          }
+        },
+        "reason": "最新META季报未单列融资租赁负债；仅有租赁资产和本金偿还额，不能假定零负债，暂不输出精确估值。"
+      },
+      "scenarios": {},
+      "status": "unavailable",
+      "reason": "最新META季报未单列融资租赁负债；仅有租赁资产和本金偿还额，不能假定零负债，暂不输出精确估值。"
+    }
+  ],
+  "comparisons": [
+    {
+      "mode": "daily",
+      "baseline": "reports/daily/2026-10-16/20261018T040743.320285Z/evidence.json",
+      "baseline_cutoff": "2026-10-18T04:07:43.197351+00:00",
+      "close_change_pct": {
+        "SPY": 0.0,
+        "QQQ": 0.0,
+        "RSP": 0.0,
+        "GLD": 0.0,
+        "GC=F": 0.0,
+        "CL=F": 0.0,
+        "BZ=F": 0.0,
+        "TLT": 0.0,
+        "UUP": 0.0,
+        "HYG": 0.0,
+        "LQD": 0.0,
+        "^VIX": 0.0,
+        "^VIX3M": 0.0,
+        "^VVIX": 0.0,
+        "^MOVE": 0.0,
+        "NVDA": 0.0,
+        "MSFT": 0.0,
+        "AMZN": 0.0,
+        "GOOGL": 0.0,
+        "META": 0.0,
+        "CRWV": 0.0,
+        "MU": 0.0,
+        "DRAM": 0.0,
+        "VRT": 0.0,
+        "XLK": 0.0,
+        "XLE": 0.0,
+        "XLF": 0.0,
+        "XLI": 0.0,
+        "XLV": 0.0,
+        "XLP": 0.0,
+        "XLY": 0.0,
+        "XLC": 0.0,
+        "XLU": 0.0,
+        "XLRE": 0.0,
+        "XLB": 0.0,
+        "SMH": 0.0,
+        "IGV": 0.0,
+        "XOP": 0.0,
+        "OIH": 0.0,
+        "ITA": 0.0,
+        "ARKX": 0.0,
+        "KRE": 0.0,
+        "SKYY": 0.0
+      },
+      "macro_change": {
+        "BAMLH0A0HYM2": {
+          "change": 0.0,
+          "unit": "percentage_points",
+          "observation_date": "2026-10-15"
+        },
+        "BAMLC0A0CM": {
+          "change": 0.0,
+          "unit": "percentage_points",
+          "observation_date": "2026-10-15"
+        },
+        "DGS10": {
+          "change": 0.0,
+          "unit": "percent",
+          "observation_date": "2026-10-15"
+        },
+        "DFII10": {
+          "change": 0.0,
+          "unit": "percent",
+          "observation_date": "2026-10-15"
+        },
+        "T10YIE": {
+          "change": 0.0,
+          "unit": "percent",
+          "observation_date": "2026-10-16"
+        },
+        "STLFSI4": {
+          "change": 0.0,
+          "unit": "index",
+          "observation_date": "2026-10-09"
+        },
+        "CBOE_VIX": {
+          "change": 0.0,
+          "unit": "index",
+          "observation_date": "2026-10-16"
+        },
+        "GPRD": {
+          "change": 0.0,
+          "unit": "index",
+          "observation_date": "2026-10-13"
+        },
+        "GPRD_ACT": {
+          "change": 0.0,
+          "unit": "index",
+          "observation_date": "2026-10-13"
+        },
+        "GPRD_THREAT": {
+          "change": 0.0,
+          "unit": "index",
+          "observation_date": "2026-10-13"
+        },
+        "GPRD_MA7": {
+          "change": 0.0,
+          "unit": "index",
+          "observation_date": "2026-10-13"
+        },
+        "GPRD_MA30": {
+          "change": 0.0,
+          "unit": "index",
+          "observation_date": "2026-10-13"
+        }
+      },
+      "event_probability_change": {
+        "2589812": {
+          "status": "comparable",
+          "change_pp": 0.0
+        },
+        "2176270": {
+          "status": "comparable",
+          "change_pp": 0.0
+        },
+        "4951227": {
+          "status": "comparable",
+          "change_pp": 0.0
+        },
+        "3215008": {
+          "status": "comparable",
+          "change_pp": 0.0
+        },
+        "691340": {
+          "status": "comparable",
+          "change_pp": 0.0
+        },
+        "4838928": {
+          "status": "comparable",
+          "change_pp": 0.0
+        }
+      },
+      "note": "收盘价快照变化；同一收盘日为零，不代表盘中没有变化"
+    },
+    {
+      "mode": "realtime",
+      "status": "no_baseline"
+    }
+  ],
+  "news": [
+    {
+      "event_key": "russia-sanctions-waiver-2026-10-16",
+      "summary": "白宫行政令豁免新制裁法部分条款；能源供应叙事出现反向因素，不能称全部俄制裁取消。",
+      "event_at": null,
+      "sources": [
+        {
+          "source": "https://www.whitehouse.gov/presidential-actions/2026/10/implementing-the-lindsey-o-graham-sanctioning-russia-and-iran-act-of-2026/",
+          "published_at": null,
+          "retrieved_at": "2026-10-18T04:11:15.793923+00:00"
+        }
+      ]
+    },
+    {
+      "event_key": "tsmc-q3-2026",
+      "summary": "TSMC公布Q3业绩资料；供应链基本面仍需与二级市场去估值压力分开检验。",
+      "event_at": null,
+      "sources": [
+        {
+          "source": "https://investor.tsmc.com/english/quarterly-results/2026/q3",
+          "published_at": null,
+          "retrieved_at": "2026-10-18T04:03:30.162293+00:00"
+        }
+      ]
+    },
+    {
+      "event_key": "hormuz-oct17-incident-claims",
+      "summary": "tc转引媒体关于10月17日海峡油轮受损的报道；未取得可独立核验的海事原始记录，留为风险线索，不当作已证实战果。",
+      "event_at": null,
+      "sources": [
+        {
+          "source": "https://www.cls.cn/detail/2507553",
+          "published_at": "2026-10-18T00:02:44+00:00",
+          "retrieved_at": "2026-10-18T04:03:30.162293+00:00"
+        }
+      ]
+    }
+  ],
+  "gaps": [
+    "首次正式工作流基线，无上一周冻结剧本可核验；不把事后判断写成先前预测。",
+    "本次重点结算审阅6合约；其他板块已搜索并保留覆盖统计，但低流动性或关联不明确的合约只放跟踪清单。",
+    "没有本周完整ETF净申赎及机构持仓证据，不能判断主力净流入。",
+    "新闻事件具体发生时分与部分官网发布时间未知，保留null；tc有条数上限。",
+    "海峡油轮事件原始海事记录未取得，不能确认报道中损害细节。",
+    "META融资租赁负债分项未取得，暂不输出公司估值。",
+    "实时重查tc周末50条消息仍有更多记录；新出现沙特直升机坠毁等线索未完成独立核验，未赋予交易方向。",
+    "CNN fear and greed: 418 Client Error: Unknown Error for url: https://production.dataviz.cnn.io/index/fearandgreed/graphdata",
+    "META 估值: 最新META季报未单列融资租赁负债；仅有租赁资产和本金偿还额，不能假定零负债，暂不输出精确估值。",
+    "Polymarket 查询 Fed rate 达到页数上限，存在遗漏",
+    "Polymarket 查询 Hormuz 达到页数上限，存在遗漏",
+    "Polymarket 查询 Microsoft 达到页数上限，存在遗漏",
+    "Polymarket 查询 Nvidia 达到页数上限，存在遗漏",
+    "Polymarket 查询 SpaceX 达到页数上限，存在遗漏",
+    "Polymarket 查询 bank 达到页数上限，存在遗漏",
+    "Polymarket 查询 inflation 达到页数上限，存在遗漏",
+    "tc 新闻达到查询条数上限；仅社交平台线索，非完整财经新闻",
+    "tc 报价质量 unverified_trade_timestamp: SPY, QQQ, RSP, NVDA, MSFT, AMZN, GOOGL, META, XLK, XLE, XLF, XLI, XLV, XLP, XLY, XLC, XLU, XLRE, XLB, SMH, IGV, XOP, OIH, ITA, ARKX, KRE, SKYY, GLD, TLT, UUP, HYG, LQD, CRWV, MU, DRAM, VRT；不作为新成交证据"
+  ],
+  "quality": "partial",
+  "previous_version": null,
+  "fear_greed": "缺失：CNN 无可核验数据，不使用替代指数",
+  "coverage": {
+    "polymarket": [
+      {
+        "event_id": "1078055",
+        "status": "queried",
+        "closed": false
+      },
+      {
+        "event_id": "1100542",
+        "status": "queried",
+        "closed": false
+      },
+      {
+        "event_id": "1116450",
+        "status": "queried",
+        "closed": false
+      },
+      {
+        "event_id": "192962",
+        "status": "queried",
+        "closed": false
+      },
+      {
+        "event_id": "197077",
+        "status": "queried",
+        "closed": false
+      },
+      {
+        "event_id": "455875",
+        "status": "queried",
+        "closed": false
+      },
+      {
+        "event_id": "606422",
+        "status": "queried",
+        "closed": false
+      },
+      {
+        "event_id": "770450",
+        "status": "queried",
+        "closed": false
+      },
+      {
+        "event_id": "800884",
+        "status": "queried",
+        "closed": false
+      },
+      {
+        "event_id": "841230",
+        "status": "queried",
+        "closed": false
+      },
+      {
+        "event_id": "85299",
+        "status": "queried",
+        "closed": false
+      },
+      {
+        "query": "AI bubble",
+        "topic": "科技与半导体",
+        "pages": 1,
+        "truncated": false,
+        "active_markets_found": 2
+      },
+      {
+        "query": "Fed decision",
+        "topic": "美联储",
+        "pages": 1,
+        "truncated": false,
+        "active_markets_found": 44
+      },
+      {
+        "query": "Fed rate",
+        "topic": "美联储",
+        "pages": 2,
+        "truncated": true,
+        "active_markets_found": 129
+      },
+      {
+        "query": "Hormuz",
+        "topic": "能源与油气",
+        "pages": 2,
+        "truncated": true,
+        "active_markets_found": 90
+      },
+      {
+        "query": "Microsoft",
+        "topic": "软件",
+        "pages": 2,
+        "truncated": true,
+        "active_markets_found": 126
+      },
+      {
+        "query": "Nvidia",
+        "topic": "科技与半导体",
+        "pages": 2,
+        "truncated": true,
+        "active_markets_found": 122
+      },
+      {
+        "query": "SpaceX",
+        "topic": "航天",
+        "pages": 2,
+        "truncated": true,
+        "active_markets_found": 68
+      },
+      {
+        "query": "Starship",
+        "topic": "航天",
+        "pages": 1,
+        "truncated": false,
+        "active_markets_found": 22
+      },
+      {
+        "query": "bank",
+        "topic": "金融",
+        "pages": 2,
+        "truncated": true,
+        "active_markets_found": 91
+      },
+      {
+        "query": "crude oil",
+        "topic": "能源与油气",
+        "pages": 1,
+        "truncated": false,
+        "active_markets_found": 59
+      },
+      {
+        "query": "government shutdown",
+        "topic": "宏观政策",
+        "pages": 1,
+        "truncated": false,
+        "active_markets_found": 2
+      },
+      {
+        "query": "inflation",
+        "topic": "宏观政策",
+        "pages": 2,
+        "truncated": true,
+        "active_markets_found": 161
+      },
+      {
+        "query": "manufacturing",
+        "topic": "工业",
+        "pages": 1,
+        "truncated": false,
+        "active_markets_found": 27
+      },
+      {
+        "query": "recession",
+        "topic": "宏观政策",
+        "pages": 1,
+        "truncated": false,
+        "active_markets_found": 24
+      },
+      {
+        "query": "semiconductor",
+        "topic": "科技与半导体",
+        "pages": 1,
+        "truncated": false,
+        "active_markets_found": 18
+      },
+      {
+        "query": "software",
+        "topic": "软件",
+        "pages": 1,
+        "truncated": false,
+        "active_markets_found": 42
+      },
+      {
+        "query": "stablecoin",
+        "topic": "金融",
+        "pages": 1,
+        "truncated": false,
+        "active_markets_found": 17
+      },
+      {
+        "query": "tariff",
+        "topic": "宏观政策",
+        "pages": 2,
+        "truncated": false,
+        "active_markets_found": 55
+      }
+    ],
+    "tc_news_count": 50,
+    "tc_news_has_more": true,
+    "tc_overview_updated_at": "2026-10-18T03:56:38.219+00:00"
+  },
+  "methodology": [
+    "板块价格和成交量只表示轮动代理；本采集器未获取 ETF 净申赎或机构仓位。",
+    "黄金和原油期货连续报价非可投资总收益指数；换月可能影响变化率。",
+    "金融压力、VIX、地缘新闻风险测量不同概念，不合并为官方避险或战争指数。",
+    "Polymarket 为抓取时的活跃合约，不能用于 --as-of 日期的历史回测。",
+    "--as-of 只限制观测日期，不复原历史发布版本；FRED/GPR 数据可能修订。",
+    "新闻主题与 AI 泡沫风险需要独立证据分析；不自动输出破裂概率。"
+  ]
+}
