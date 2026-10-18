@@ -24,6 +24,7 @@ $us-market-research realtime，重点关注 AI 资本开支和能源
 | src/tc_trade_strategy/ | 采集、日历、计算、校验、渲染、发布 |
 | reports/{weekly,daily,realtime}/ | 不可覆盖的报告版本，Markdown + HTML + evidence.json |
 | results/ | 本地原始数据、缓存、失败日志，不入库 |
+| sensitive/ | 本地账户记录与 IBKR 密钥等敏感资料，整个目录被 Git 忽略，研究流程不读取 |
 | [archive/legacy-strategy](archive/legacy-strategy/README.md) | 旧策略与筛选系统的可恢复归档 |
 
 安装与验证：

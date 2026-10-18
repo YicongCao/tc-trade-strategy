@@ -9,6 +9,7 @@ venv/
 .mypy_cache/
 
 # 环境变量与密钥
+/sensitive/
 .env
 .env.*
 *.key

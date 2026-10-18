@@ -7,6 +7,7 @@
 - 只读取公开行情、新闻、经济日历与披露。禁止读取账户持仓、交易记录、账户复盘；不修改 tc 策略，不执行交易。
 - tc 仅调用 `get_market_overview`、`get_symbol_quotes`、`get_symbol_kline`、`get_trading_calendar`、`list_news_for_period`。工具当前 schema 优先于旧文档。
 - 新工作流不默认读取 `archive/`。归档保存历史用途，不是当前指令。
+- `sensitive/` 是用户本地存放账户交易记录、IBKR 密钥等敏感资料的目录，整个目录不入 Git。研究、报告和发布流程不得读取、复制或上传其中内容；不得强制暂存。
 - 不新增付费订阅、公开站点或需要模型 API Key 的研究服务。
 
 ## 研究与交付
@@ -16,7 +17,7 @@
 - 五类信息每次均检查。事实、推断、假设分开；预测市场报价不等于客观概率；上涨或放量不等于主力净流入。缺口明确列出。
 - 研究对象生成同源 Markdown / 独立 HTML / 精简 JSON，写入 `reports/{mode}/{period}/{run}/`。已发布版本不可修改。根目录入口为 `README.md`，历史入口为 `reports/index.html`。
 - 不生成依赖其他编辑器 Canvas 的文件，不写编辑器私有报告目录。交付用可点击绝对路径；HTML 需实际浏览器验证。
-- 原始响应、新闻全文、缓存、运行日志和凭证只放忽略的 `results/`，不能混入证据 JSON。
+- 原始响应、新闻全文、缓存和运行日志放忽略的 `results/`；个人账户资料与密钥放忽略的 `sensitive/`，不能混入证据 JSON。
 
 ## 执行与验证
 
