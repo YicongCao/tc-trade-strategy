@@ -1,0 +1,4 @@
+interface:
+  display_name: "IBKR 个人持仓复盘"
+  short_description: "只读分析跟单与自主仓位，核验观点、执行偏差和风险，私人报告仅存本地"
+  default_prompt: "使用 $ibkr-position-review 只读查看我指定的 IBKR Trader 页面，区分跟单和自主仓位，结合市场证据复盘风险并将私人报告保存在本地敏感目录。"
