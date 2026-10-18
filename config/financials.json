@@ -1,0 +1,528 @@
+{
+  "NVDA": {
+    "symbol": "NVDA",
+    "status": "reviewed",
+    "fiscal_period": "TTM 至 2026-07-26；最新 10-Q / filed 2026-08-26",
+    "filing_date": "2026-08-26",
+    "disclosure_check": {
+      "checked_at": "2026-10-18T03:53:22.234798+00:00",
+      "status": "verified",
+      "latest_filing_date": "2026-08-26",
+      "source": "https://data.sec.gov/submissions/CIK0001045810.json"
+    },
+    "sources": [
+      "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+      "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm"
+    ],
+    "observations": {
+      "ttm_revenue_million": 302970,
+      "revenue_quarters": [
+        {
+          "end": "2025-10-26",
+          "value": 57006000000,
+          "filed": "2025-11-19",
+          "duration_days": 91
+        },
+        {
+          "end": "2026-01-25",
+          "value": 68127000000,
+          "filed": "2026-02-25",
+          "duration_days": 91
+        },
+        {
+          "end": "2026-04-26",
+          "value": 81615000000,
+          "filed": "2026-05-20",
+          "duration_days": 91
+        },
+        {
+          "end": "2026-07-26",
+          "value": 96221000000,
+          "filed": "2026-08-26",
+          "duration_days": 91
+        }
+      ],
+      "cash_million": 22443.0,
+      "liquid_investments_million": 34143.0,
+      "debt_million": 33366.0,
+      "finance_lease_million": 0,
+      "diluted_shares_million": 24285.0,
+      "latest_operating_income_million": 63734.0,
+      "observed_end": "2026-07-26",
+      "unit": "USD million; shares million; revenue_quarters.value USD",
+      "revenue_tag": "Revenues",
+      "latest_reported_revenue_million": 96221.0,
+      "income_statement_window": "最近单季度",
+      "ttm_bridge_note": "采用同版 FY2026全年 + FY2027半年 - FY2026半年；与四季逐项求和差1百万为披露舍入差。"
+    },
+    "accounting_policy": "经营租赁费用留在EBIT且不重复扣租赁负债；融资租赁计入净债务，新增资产在资本开支中，融资本金不再扣。SBC保留为费用；新增净稀释假设0，不把同一SBC再次扣价。现金和可交易债券按账面近似可用现金；非经营私募投资不加回、税务价值未建模。股数采用最新披露的稀释口径，非当日实时股数。10-Q Note14 表明融资租赁费用不重大；模型按不重大近似零，不将其称为精确零负债。未确认担保仅作为压力情景，非已到期净债务。市场化股权42783和非市场化股权51157不作为类现金；非经营资产加回为0的保守假设。",
+    "assumption_note": "三情景均为研究假设，不是公司指引。资本开支从起始压力水平向第5年终点线性收敛，经营利润率同样收敛；DA终点比例固定，需持续核验算力折旧。终值敏感性远高于短期行情，不将模型差价直接当交易信号。",
+    "scenarios": {
+      "bear": {
+        "growth": 0.14,
+        "start_margin": 0.6623710000935347,
+        "operating_margin": 0.6,
+        "tax_rate": 0.17,
+        "da_ratio": 0.015,
+        "capex_ratio": 0.055,
+        "working_capital_ratio": 0.12,
+        "wacc": 0.12,
+        "terminal_growth": 0.025,
+        "dilution": 0,
+        "start_capex_ratio": 0.04
+      },
+      "base": {
+        "growth": 0.2,
+        "start_margin": 0.6623710000935347,
+        "operating_margin": 0.65,
+        "tax_rate": 0.17,
+        "da_ratio": 0.015,
+        "capex_ratio": 0.04,
+        "working_capital_ratio": 0.12,
+        "wacc": 0.11,
+        "terminal_growth": 0.025,
+        "dilution": 0,
+        "start_capex_ratio": 0.04
+      },
+      "bull": {
+        "growth": 0.26,
+        "start_margin": 0.6623710000935347,
+        "operating_margin": 0.7000000000000001,
+        "tax_rate": 0.17,
+        "da_ratio": 0.015,
+        "capex_ratio": 0.025,
+        "working_capital_ratio": 0.12,
+        "wacc": 0.1,
+        "terminal_growth": 0.025,
+        "dilution": 0,
+        "start_capex_ratio": 0.04
+      }
+    },
+    "base": {
+      "revenue": 302970,
+      "net_debt": -23220.0,
+      "diluted_shares": 24285.0,
+      "non_operating_assets": 0
+    }
+  },
+  "MSFT": {
+    "symbol": "MSFT",
+    "status": "reviewed",
+    "fiscal_period": "TTM 至 2026-06-30；最新 10-K / filed 2026-07-29",
+    "filing_date": "2026-07-29",
+    "disclosure_check": {
+      "checked_at": "2026-10-18T03:53:24.612482+00:00",
+      "status": "verified",
+      "latest_filing_date": "2026-07-29",
+      "source": "https://data.sec.gov/submissions/CIK0000789019.json"
+    },
+    "sources": [
+      "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/msft-20260630.htm"
+    ],
+    "observations": {
+      "ttm_revenue_million": 331839.0,
+      "revenue_quarters": [
+        {
+          "end": "2025-09-30",
+          "value": 77673000000,
+          "filed": "2025-10-29",
+          "duration_days": 92
+        },
+        {
+          "end": "2025-12-31",
+          "value": 81273000000,
+          "filed": "2026-01-28",
+          "duration_days": 92
+        },
+        {
+          "end": "2026-03-31",
+          "value": 82886000000,
+          "filed": "2026-04-29",
+          "duration_days": 90
+        },
+        {
+          "end": "2026-06-30",
+          "value": 90007000000,
+          "filed": "2026-07-29",
+          "duration_days": 91
+        }
+      ],
+      "cash_million": 20935.0,
+      "liquid_investments_million": 55908.0,
+      "debt_million": 40294.0,
+      "finance_lease_million": 66594.0,
+      "diluted_shares_million": 7453.0,
+      "latest_operating_income_million": 155237.0,
+      "observed_end": "2026-06-30",
+      "unit": "USD million; shares million; revenue_quarters.value USD",
+      "revenue_tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+      "latest_reported_revenue_million": 331839.0,
+      "income_statement_window": "FY2026 全年"
+    },
+    "accounting_policy": "经营租赁费用留在EBIT且不重复扣租赁负债；融资租赁计入净债务，新增资产在资本开支中，融资本金不再扣。SBC保留为费用；新增净稀释假设0，不把同一SBC再次扣价。现金和可交易债券按账面近似可用现金；非经营私募投资不加回、税务价值未建模。股数采用最新披露的稀释口径，非当日实时股数。融资租赁66594计入债务；资本开支假设涵盖新增租赁，现金支出115948加融资租赁资产新增24608为本年经济资本开支140556。",
+    "assumption_note": "三情景均为研究假设，不是公司指引。资本开支从起始压力水平向第5年终点线性收敛，经营利润率同样收敛；DA终点比例固定，需持续核验算力折旧。终值敏感性远高于短期行情，不将模型差价直接当交易信号。",
+    "scenarios": {
+      "bear": {
+        "growth": 0.08000000000000002,
+        "start_margin": 0.4678081840892722,
+        "operating_margin": 0.42,
+        "tax_rate": 0.2,
+        "da_ratio": 0.15,
+        "capex_ratio": 0.265,
+        "working_capital_ratio": 0.04,
+        "wacc": 0.105,
+        "terminal_growth": 0.025,
+        "dilution": 0,
+        "start_capex_ratio": 0.4235668501893991
+      },
+      "base": {
+        "growth": 0.14,
+        "start_margin": 0.4678081840892722,
+        "operating_margin": 0.47,
+        "tax_rate": 0.2,
+        "da_ratio": 0.15,
+        "capex_ratio": 0.25,
+        "working_capital_ratio": 0.04,
+        "wacc": 0.095,
+        "terminal_growth": 0.025,
+        "dilution": 0,
+        "start_capex_ratio": 0.4235668501893991
+      },
+      "bull": {
+        "growth": 0.2,
+        "start_margin": 0.4678081840892722,
+        "operating_margin": 0.52,
+        "tax_rate": 0.2,
+        "da_ratio": 0.15,
+        "capex_ratio": 0.235,
+        "working_capital_ratio": 0.04,
+        "wacc": 0.085,
+        "terminal_growth": 0.025,
+        "dilution": 0,
+        "start_capex_ratio": 0.4235668501893991
+      }
+    },
+    "base": {
+      "revenue": 331839.0,
+      "net_debt": 30045.0,
+      "diluted_shares": 7453.0,
+      "non_operating_assets": 0
+    }
+  },
+  "AMZN": {
+    "symbol": "AMZN",
+    "status": "reviewed",
+    "fiscal_period": "TTM 至 2026-06-30；最新 10-Q / filed 2026-07-31",
+    "filing_date": "2026-07-31",
+    "disclosure_check": {
+      "checked_at": "2026-10-18T03:53:26.883504+00:00",
+      "status": "verified",
+      "latest_filing_date": "2026-07-31",
+      "source": "https://data.sec.gov/submissions/CIK0001018724.json"
+    },
+    "sources": [
+      "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
+      "https://www.sec.gov/Archives/edgar/data/1018724/000101872426000026/amzn-20260630.htm"
+    ],
+    "observations": {
+      "ttm_revenue_million": 775680.0,
+      "revenue_quarters": [
+        {
+          "end": "2025-09-30",
+          "value": 180169000000,
+          "filed": "2025-10-31",
+          "duration_days": 92
+        },
+        {
+          "end": "2025-12-31",
+          "value": 213386000000,
+          "filed": "2026-02-06",
+          "duration_days": 92
+        },
+        {
+          "end": "2026-03-31",
+          "value": 181519000000,
+          "filed": "2026-04-30",
+          "duration_days": 90
+        },
+        {
+          "end": "2026-06-30",
+          "value": 200606000000,
+          "filed": "2026-07-31",
+          "duration_days": 91
+        }
+      ],
+      "cash_million": 78213.0,
+      "liquid_investments_million": 44775.0,
+      "debt_million": 133320.0,
+      "finance_lease_million": 13451.0,
+      "diluted_shares_million": 10903.0,
+      "latest_operating_income_million": 27461.0,
+      "observed_end": "2026-06-30",
+      "unit": "USD million; shares million; revenue_quarters.value USD",
+      "revenue_tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+      "latest_reported_revenue_million": 200606.0,
+      "income_statement_window": "最近单季度"
+    },
+    "accounting_policy": "经营租赁费用留在EBIT且不重复扣租赁负债；融资租赁计入净债务，新增资产在资本开支中，融资本金不再扣。SBC保留为费用；新增净稀释假设0，不把同一SBC再次扣价。现金和可交易债券按账面近似可用现金；非经营私募投资不加回、税务价值未建模。股数采用最新披露的稀释口径，非当日实时股数。总长期债务132995（含当前部分）加短期借款325，融资租赁13451另加；未将其他长期负债全部误作有息债务。",
+    "assumption_note": "三情景均为研究假设，不是公司指引。资本开支从起始压力水平向第5年终点线性收敛，经营利润率同样收敛；DA终点比例固定，需持续核验算力折旧。终值敏感性远高于短期行情，不将模型差价直接当交易信号。",
+    "scenarios": {
+      "bear": {
+        "growth": 0.06,
+        "start_margin": 0.1368902226254449,
+        "operating_margin": 0.12000000000000001,
+        "tax_rate": 0.23,
+        "da_ratio": 0.12,
+        "capex_ratio": 0.195,
+        "working_capital_ratio": 0.02,
+        "wacc": 0.11,
+        "terminal_growth": 0.025,
+        "dilution": 0,
+        "start_capex_ratio": 0.23
+      },
+      "base": {
+        "growth": 0.12,
+        "start_margin": 0.1368902226254449,
+        "operating_margin": 0.17,
+        "tax_rate": 0.23,
+        "da_ratio": 0.12,
+        "capex_ratio": 0.18,
+        "working_capital_ratio": 0.02,
+        "wacc": 0.1,
+        "terminal_growth": 0.025,
+        "dilution": 0,
+        "start_capex_ratio": 0.23
+      },
+      "bull": {
+        "growth": 0.18,
+        "start_margin": 0.1368902226254449,
+        "operating_margin": 0.22000000000000003,
+        "tax_rate": 0.23,
+        "da_ratio": 0.12,
+        "capex_ratio": 0.16499999999999998,
+        "working_capital_ratio": 0.02,
+        "wacc": 0.09000000000000001,
+        "terminal_growth": 0.025,
+        "dilution": 0,
+        "start_capex_ratio": 0.23
+      }
+    },
+    "base": {
+      "revenue": 775680.0,
+      "net_debt": 23783.0,
+      "diluted_shares": 10903.0,
+      "non_operating_assets": 0
+    }
+  },
+  "GOOGL": {
+    "symbol": "GOOGL",
+    "status": "reviewed",
+    "fiscal_period": "TTM 至 2026-06-30；最新 10-Q / filed 2026-07-23",
+    "filing_date": "2026-07-23",
+    "disclosure_check": {
+      "checked_at": "2026-10-18T03:53:29.117572+00:00",
+      "status": "verified",
+      "latest_filing_date": "2026-07-23",
+      "source": "https://data.sec.gov/submissions/CIK0001652044.json"
+    },
+    "sources": [
+      "https://data.sec.gov/api/xbrl/companyfacts/CIK0001652044.json",
+      "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000071/goog-20260630.htm"
+    ],
+    "observations": {
+      "ttm_revenue_million": 445867.0,
+      "revenue_quarters": [
+        {
+          "end": "2025-09-30",
+          "value": 102346000000,
+          "filed": "2025-10-30",
+          "duration_days": 92
+        },
+        {
+          "end": "2025-12-31",
+          "value": 113829000000,
+          "filed": "2026-02-05",
+          "duration_days": 92
+        },
+        {
+          "end": "2026-03-31",
+          "value": 109896000000,
+          "filed": "2026-04-30",
+          "duration_days": 90
+        },
+        {
+          "end": "2026-06-30",
+          "value": 119796000000,
+          "filed": "2026-07-23",
+          "duration_days": 91
+        }
+      ],
+      "cash_million": 55911.0,
+      "liquid_investments_million": 186563.0,
+      "debt_million": 100164,
+      "finance_lease_million": 2590.0,
+      "diluted_shares_million": 12309.0,
+      "latest_operating_income_million": 40770.0,
+      "observed_end": "2026-06-30",
+      "unit": "USD million; shares million; revenue_quarters.value USD",
+      "revenue_tag": "Revenues",
+      "latest_reported_revenue_million": 119796.0,
+      "income_statement_window": "最近单季度"
+    },
+    "accounting_policy": "经营租赁费用留在EBIT且不重复扣租赁负债；融资租赁计入净债务，新增资产在资本开支中，融资本金不再扣。SBC保留为费用；新增净稀释假设0，不把同一SBC再次扣价。现金和可交易债券按账面近似可用现金；非经营私募投资不加回、税务价值未建模。股数采用最新披露的稀释口径，非当日实时股数。优先股按完全转换处理：季度稀释股数12309减已计入的16，再加合同最大转换股数54.45825；不再扣19000优先股本金。未来3年优先股息按年1203.125、10%折现约2991.99计入权益桥调整，此为保守假设；capped call 未赋值。",
+    "assumption_note": "三情景均为研究假设，不是公司指引。资本开支从起始压力水平向第5年终点线性收敛，经营利润率同样收敛；DA终点比例固定，需持续核验算力折旧。终值敏感性远高于短期行情，不将模型差价直接当交易信号。",
+    "scenarios": {
+      "bear": {
+        "growth": 0.07,
+        "start_margin": 0.3403285585495342,
+        "operating_margin": 0.31,
+        "tax_rate": 0.2,
+        "da_ratio": 0.09,
+        "capex_ratio": 0.21500000000000002,
+        "working_capital_ratio": 0.03,
+        "wacc": 0.11,
+        "terminal_growth": 0.025,
+        "dilution": 0,
+        "start_capex_ratio": 0.36
+      },
+      "base": {
+        "growth": 0.13,
+        "start_margin": 0.3403285585495342,
+        "operating_margin": 0.36,
+        "tax_rate": 0.2,
+        "da_ratio": 0.09,
+        "capex_ratio": 0.2,
+        "working_capital_ratio": 0.03,
+        "wacc": 0.1,
+        "terminal_growth": 0.025,
+        "dilution": 0,
+        "start_capex_ratio": 0.36
+      },
+      "bull": {
+        "growth": 0.19,
+        "start_margin": 0.3403285585495342,
+        "operating_margin": 0.41,
+        "tax_rate": 0.2,
+        "da_ratio": 0.09,
+        "capex_ratio": 0.185,
+        "working_capital_ratio": 0.03,
+        "wacc": 0.09000000000000001,
+        "terminal_growth": 0.025,
+        "dilution": 0,
+        "start_capex_ratio": 0.36
+      }
+    },
+    "base": {
+      "revenue": 445867.0,
+      "net_debt": -136728.0061983471,
+      "diluted_shares": 12347.45825,
+      "non_operating_assets": 0
+    },
+    "equity_bridge_assumptions": {
+      "preferred_coupon_pv_million": 2991.9938016528904,
+      "discount_rate": 0.1,
+      "years": 3
+    }
+  },
+  "META": {
+    "symbol": "META",
+    "status": "unavailable",
+    "fiscal_period": "TTM 至 2026-06-30；最新 10-Q / filed 2026-07-30",
+    "filing_date": "2026-07-30",
+    "disclosure_check": {
+      "checked_at": "2026-10-18T03:53:31.501394+00:00",
+      "status": "verified",
+      "latest_filing_date": "2026-07-30",
+      "source": "https://data.sec.gov/submissions/CIK0001326801.json"
+    },
+    "sources": [
+      "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326801.json",
+      "https://www.sec.gov/Archives/edgar/data/1326801/000162828026050705/meta-20260630.htm"
+    ],
+    "observations": {
+      "ttm_revenue_million": 228247.0,
+      "revenue_quarters": [
+        {
+          "end": "2025-09-30",
+          "value": 51242000000,
+          "filed": "2025-10-30",
+          "duration_days": 92
+        },
+        {
+          "end": "2025-12-31",
+          "value": 59893000000,
+          "filed": "2026-01-29",
+          "duration_days": 92
+        },
+        {
+          "end": "2026-03-31",
+          "value": 56311000000,
+          "filed": "2026-04-30",
+          "duration_days": 90
+        },
+        {
+          "end": "2026-06-30",
+          "value": 60801000000,
+          "filed": "2026-07-30",
+          "duration_days": 91
+        }
+      ],
+      "cash_million": 15462.0,
+      "liquid_investments_million": 74798.0,
+      "debt_million": 83664.0,
+      "finance_lease_million": null,
+      "diluted_shares_million": 2566.0,
+      "latest_operating_income_million": 18775.0,
+      "observed_end": "2026-06-30",
+      "unit": "USD million; shares million; revenue_quarters.value USD",
+      "revenue_tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+      "latest_reported_revenue_million": 60801.0,
+      "income_statement_window": "最近单季度"
+    },
+    "accounting_policy": "经营租赁费用留在EBIT且不重复扣租赁负债；融资租赁计入净债务，新增资产在资本开支中，融资本金不再扣。SBC保留为费用；新增净稀释假设0，不把同一SBC再次扣价。现金和可交易债券按账面近似可用现金；非经营私募投资不加回、税务价值未建模。股数采用最新披露的稀释口径，非当日实时股数。",
+    "assumption_note": "三情景均为研究假设，不是公司指引。资本开支从起始压力水平向第5年终点线性收敛，经营利润率同样收敛；DA终点比例固定，需持续核验算力折旧。终值敏感性远高于短期行情，不将模型差价直接当交易信号。",
+    "scenarios": {
+      "bear": {
+        "growth": 0.06,
+        "start_margin": 0.3087942632522491,
+        "operating_margin": 0.35000000000000003,
+        "tax_rate": 0.18,
+        "da_ratio": 0.13,
+        "capex_ratio": 0.265,
+        "working_capital_ratio": 0.03,
+        "wacc": 0.11,
+        "terminal_growth": 0.025,
+        "dilution": 0,
+        "start_capex_ratio": 0.55
+      },
+      "base": {
+        "growth": 0.12,
+        "start_margin": 0.3087942632522491,
+        "operating_margin": 0.4,
+        "tax_rate": 0.18,
+        "da_ratio": 0.13,
+        "capex_ratio": 0.25,
+        "working_capital_ratio": 0.03,
+        "wacc": 0.1,
+        "terminal_growth": 0.025,
+        "dilution": 0,
+        "start_capex_ratio": 0.55
+      },
+      "bull": {
+        "growth": 0.18,
+        "start_margin": 0.3087942632522491,
+        "operating_margin": 0.45,
+        "tax_rate": 0.18,
+        "da_ratio": 0.13,
+        "capex_ratio": 0.235,
+        "working_capital_ratio": 0.03,
+        "wacc": 0.09000000000000001,
+        "terminal_growth": 0.025,
+        "dilution": 0,
+        "start_capex_ratio": 0.55
+      }
+    },
+    "reason": "最新META季报未单列融资租赁负债；仅有租赁资产和本金偿还额，不能假定零负债，暂不输出精确估值。"
+  }
+}

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import io
 import json
 import logging
@@ -153,6 +154,19 @@ def normalize_market(event: dict, market: dict, now: datetime) -> dict | None:
         flags.append("not_accepting_orders_or_unknown")
     return {
         "id": market.get("id"),
+        "event_id": str(event.get("id", "")),
+        "rule_hash": hashlib.sha256(
+            json.dumps(
+                [
+                    market.get("question"),
+                    market.get("description") or event.get("description"),
+                    market.get("resolutionSource") or event.get("resolutionSource"),
+                    end.isoformat(),
+                    outcomes,
+                ],
+                ensure_ascii=False,
+            ).encode()
+        ).hexdigest(),
         "event": event.get("title"),
         "question": market.get("question"),
         "yes_probability": probability,
@@ -203,12 +217,14 @@ def price_metrics(frame: pd.DataFrame, benchmark: pd.Series, as_of: date) -> dic
     last_day = close.index[-1]
     result = summarize_series(close, as_of)
     result.pop("change_20_observations")
+    result["recent_closes"] = {str(t.date()): float(v) for t, v in close.tail(15).items()}
     for period in [1, 5, 20, 60]:
         result[f"return_{period}d_pct"] = None
         result[f"relative_spy_{period}d_pp"] = None
         if len(close) <= period:
             continue
         start = close.index[-period - 1]
+        result[f"window_{period}d"] = [str(start.date()), str(last_day.date())]
         change = (close.iloc[-1] / close.loc[start] - 1) * 100
         result[f"return_{period}d_pct"] = float(change)
         if start in benchmark.index and last_day in benchmark.index:
@@ -226,13 +242,14 @@ def price_metrics(frame: pd.DataFrame, benchmark: pd.Series, as_of: date) -> dic
 
 
 class Collector:
-    def __init__(self, output: Path, as_of: date):
+    def __init__(self, output: Path, as_of: date, watchlist: Path | None = None):
         self.output = output
         self.raw = output / "raw"
         self.raw.mkdir(parents=True, exist_ok=True)
         self.as_of = as_of
         self.now = datetime.now(UTC)
         self.errors: list[dict] = []
+        self.watchlist = watchlist
 
     def fetch(self, name: str, url: str, *, params: dict | None = None) -> bytes:
         response = requests.get(url, params=params, timeout=25)
@@ -312,11 +329,38 @@ class Collector:
                             unique[row["id"]] = row
                 except Exception as exc:
                     self.record_error("polymarket:" + futures[future], exc)
+        if self.watchlist and self.watchlist.exists():
+            for watched in json.loads(self.watchlist.read_text())["events"]:
+                event_id = str(watched["event_id"])
+                try:
+                    event = json.loads(
+                        self.fetch(
+                            f"poly-event-{event_id}.json",
+                            f"https://gamma-api.polymarket.com/events/{event_id}",
+                        )
+                    )
+                    for market in event.get("markets", []):
+                        row = normalize_market(event, market, datetime.now(UTC))
+                        if row:
+                            row["discovery_topics"] = unique.get(row["id"], {}).get(
+                                "discovery_topics", ["跟踪清单"]
+                            )
+                            row["watched"] = True
+                            unique[row["id"]] = row
+                    coverage.append(
+                        {
+                            "event_id": event_id,
+                            "status": "queried",
+                            "closed": event.get("closed", False),
+                        }
+                    )
+                except Exception as exc:
+                    self.record_error("polymarket:event:" + event_id, exc)
         return {
             "retrieved_at": self.now.isoformat(),
             "note": "当前价格隐含概率，不是客观概率；关键词发现可能误匹配，需审阅结算规则。"
             "质量门槛为工程启发式，未做预测校准。updated_at 为元数据更新时间。",
-            "coverage": sorted(coverage, key=lambda x: x["query"]),
+            "coverage": sorted(coverage, key=lambda x: x.get("query", x.get("event_id", ""))),
             "markets": sorted(unique.values(), key=lambda x: x["volume24h_usd"] or 0, reverse=True),
         }
 

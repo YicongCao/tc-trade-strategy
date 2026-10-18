@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tc-trade-strategy"
 version = "0.1.0"
-description = "Trade Copilot 策略研究与盘前筛选工具"
+description = "基于 Trade Copilot 的美股主观交易研究助手"
 requires-python = ">=3.11"
 dependencies = [
     "numpy",
@@ -21,7 +21,7 @@ dev = [
 ]
 
 [project.scripts]
-premarket-screen = "tc_trade_strategy.premarket:main"
+us-market-research = "tc_trade_strategy.research:main"
 market-intelligence = "tc_trade_strategy.intelligence:main"
 
 [tool.setuptools.packages.find]
@@ -36,3 +36,6 @@ target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/tc_trade_strategy/reporting.py" = ["E501"]

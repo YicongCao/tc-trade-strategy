@@ -34,3 +34,9 @@ logs/
 node_modules/
 reports/src/snapshots/
 .codex/config.toml
+
+# 迁移时保留原本未跟踪的历史快照和账户原始数据
+archive/legacy-strategy/reports/src/snapshots/
+archive/legacy-strategy/results/
+archive/legacy-strategy/data/raw/
+archive/legacy-strategy/data/cache/

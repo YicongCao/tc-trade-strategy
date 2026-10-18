@@ -1,139 +1,40 @@
-# tc-trade-strategy
+# 美股主观交易辅助器
 
-交易策略研究仓库：用来编写、回测和对比各类量化策略（网格、动量、均值回归等）。
+基于 Trade Copilot MCP 和公开数据，为数日至数周的波段交易提供市场研究：事件预期、跨资产风险、板块轮动、AI 经营压力与估值、当前交易主题。只做研究，不读取账户、不修改策略、不交易。
 
-目标是让每个策略都是一个独立、可插拔的模块，共用同一套数据加载、回测引擎和评估指标，方便在相同数据、相同口径下横向对比表现。
+**报告入口：[历史索引 HTML](reports/index.html) · [历史索引 Markdown](reports/index.md)**
 
-## 目录结构
+在 Codex 中调用：
 
-```
-AGENTS.md     # Codex 常驻项目约定
-.agents/skills/ # Codex 项目技能：tc-review、market-research
-reports/      # 独立 HTML 报告组件与构建器
-src/          # 行情采集与筛选代码
-strategies/   # Trade Copilot 上线运行中的策略提示词原文，一个文件一个策略
-backtest/     # 回测引擎、撮合与手续费/滑点模型
-data/         # 行情数据加载与缓存（原始数据不入库）
-metrics/      # 收益、回撤、夏普等评估指标
-reviews/      # 每日预期与复盘文档、阶段性组合复盘
-tests/        # 单元测试
-dependencies/ # 外部系统能力参考（Trade Copilot 平台与 MCP 工具）
+```text
+$us-market-research weekly
+$us-market-research daily
+$us-market-research realtime，重点关注 AI 资本开支和能源
 ```
 
-写策略前先读 [dependencies/strategy-pipeline.md](dependencies/strategy-pipeline.md)——它把「候选池 → 上下文 → LLM 决策 → 二阶段再平衡 → 引擎硬触发 → 下单量 → 执行」这七段串起来，标明每段你能控制什么。
+每次输出有催化剂、确认条件、失效条件、期限和反证的条件剧本。证据不足保留观察项。报告包含来源时点和缺口，不把价格轮动当作机构净流入，也不把预测市场价格当作客观概率。
 
-**这里最容易踩的坑是把整个流程当成「写提示词让大模型选股」**：提示词只管第 3 段，后面四段全由配置字段和引擎逻辑决定。写「每格买 30 股」「不要频繁换仓」「收盘前必须清仓」都是无效的，对应的旋钮在文末的对照表里。
+| 位置 | 用途 |
+| --- | --- |
+| [.agents/skills/us-market-research](.agents/skills/us-market-research/SKILL.md) | 唯一研究技能 |
+| [docs/research-workflow.md](docs/research-workflow.md) | 手动运行、定时口径、失败恢复 |
+| [docs/data-contract.md](docs/data-contract.md) | 研究输入与财务底稿契约 |
+| [dependencies/trade-copilot-mcp.md](dependencies/trade-copilot-mcp.md) | tc 市场接口与现有授权 |
+| config/ | Polymarket 跟踪事件、财务底稿和模型假设 |
+| src/tc_trade_strategy/ | 采集、日历、计算、校验、渲染、发布 |
+| reports/{weekly,daily,realtime}/ | 不可覆盖的报告版本，Markdown + HTML + evidence.json |
+| results/ | 本地原始数据、缓存、失败日志，不入库 |
+| [archive/legacy-strategy](archive/legacy-strategy/README.md) | 旧策略与筛选系统的可恢复归档 |
 
-`dependencies/README.md` 说明哪些能力可以直接调平台、哪些必须本地自建。
-
-## 策略清单
-
-`strategies/` 下的每个文件对应 Trade Copilot 上一个策略：YAML 头记录标的与风控配置，正文是**平台上提示词的原文**，可直接回贴。设计推导过程不入库，需要时从 git 历史里翻。
-
-YAML 头的 `status` 只在策略不是 `active` 时出现：`draft` 表示只有本地文件、平台上还没建，此时 `strategy_id` 为 `null`；`paused` 表示已建但没在跑。跑起来之后把 `status` 去掉即可。
-
-| 策略 | 标签 | 标的 | 分析间隔 | 状态 |
-| --- | --- | --- | --- | --- |
-| [长持标普 500](strategies/long-hold-voo.md) | 长持 | VOO | 240 分钟 | 运行中（`open_only`，定投未实现） |
-| [DRAM 网格](strategies/grid-dram.md) | 网格 | DRAM | 30 分钟 | 运行中（网格表已被行情甩开，见 8/26 复盘） |
-| [XPEV 底仓+网格](strategies/grid-xpev.md) | 网格 | XPEV | 30 分钟 | 暂停（空转磨损，见 8/11 复盘） |
-| [价格行为日内 15m](strategies/price-action-intraday-15m.md) | 日内 | 15 只高流动性美股 | 15 分钟 | 运行中 |
-| [标普500均值回归动量成长](strategies/sp500-mean-reversion-momentum.md) | 动量 | finviz 筛选器驱动 | 120 分钟 | 运行中（缺三道组合闸门，见 8/26 复盘） |
-| [美股动量轮动](strategies/momentum-rotation-us.md) | 动量 | 14 只固定标的池 | 1440 分钟 | 暂停（待选 AI 供应商） |
-| [主题动量赌狗](strategies/theme-momentum-degen.md) | 赌狗 | finviz 高动量池 · AI/科技/航空/存储 | 240 分钟 | 运行中 |
-| [us-mushroom](strategies/us-mushroom.md) | 突破 | 86 只手写全行业池 + finviz 相对量筛选 | 120 分钟 | 运行中 |
-
-改动流程是单向的：**先在平台改，再把改完的提示词同步回这里**，仓库是镜像而不是源头。同步后用 `get_strategy_profile` 回读核对一次，别只信 UI 的保存提示。
-
-MCP 已经开放写工具（`create_strategy` / `update_strategy` / `archive_strategy` / `unarchive_strategy`），走两段式提案：先拿 `proposal_id` 和 diff，再 `confirm_proposal` 才真正生效。Codex 的连接配置与诊断见 [MCP 参考](dependencies/trade-copilot-mcp.md)。
-
-## 每日循环
-
-`reviews/` 下按美股交易日成对存放两份文档：
-
-- `<日期>-expectations.md` —— 开盘前写，冻结基线数字、给出可证伪的预测、单列当轮要验证的机制问题
-- `<日期>-review.md` —— 收盘后写，逐条判定命中还是落空
-
-跨多个交易日的阶段性复盘用 `<日期>-portfolio-review.md`，与上面这对日更文档区分开，不参与 `$tc-review` 的配对逻辑。单点专题使用自述性后缀，例如 `2026-08-26-strategy-intent-vs-execution.md`。
-
-关键约束是**预测必须在开盘前写完并且带数值区间**，事后不许放宽标准。
-
-复盘用 `$tc-review` 或“对照最新盘前预期复盘”触发，工作流位于 `.agents/skills/tc-review/SKILL.md`。可指定日期，如 `$tc-review 2026-07-30`；不指定则取最新预期。它沿用该文档的检查清单。
-
-Codex 使用入口、常用提示词和迁移说明见 [Codex 工作流](dependencies/codex-workflow.md)。报告支持独立 HTML，构建与预览见 [报告说明](reports/README.md)。
-
-## us-mushroom 盘前预筛
-
-本地预筛从 `data/symbols.txt` 读取完整清单，通过 Yahoo Finance 下载复权日 K，
-保留至少 200 根完整日 K 的标的，再按均线趋势、距 60 日枢轴点的位置、量价结构和
-相对 SPY 强度选出前 20 只。它只负责缩小请求体；最终杯柄、双底、平底以及
-MACD/KDJ 的 50/50 评分仍由平台上的 `us-mushroom` 完成。
+安装与验证：
 
 ```bash
 python3 -m venv .venv
-.venv/bin/pip install -e ".[dev]"
-.venv/bin/premarket-screen
+.venv/bin/python -m pip install -e '.[dev]'
+.venv/bin/pytest -q
+.venv/bin/ruff check src tests
 ```
 
-结果写入 `results/premarket/`，行情缓存写入 `data/cache/yahoo/`，两者都不入库。
-特殊代码会自动映射：`BRK.B → BRK-B`、`.VVIX → ^VVIX`、
-`.KOSPI → ^KS11`、`SQ → XYZ`、`XAUUSD → GC=F`（黄金期货代理）。
-无效代码或不足 200 根的标的会进入失败报告。
+自动调度：北京时间周二至周六08:00日报、周日10:00周报；实时按需。由本机 Codex 原生调度运行，电脑休眠/应用关闭不承诺执行；恢复后只补最新周期。成功报告提交推送 origin main，已发布周期跳过。调度与迁移记录见 [migration.md](docs/migration.md)。
 
-macOS 可安装每日盘前任务：
-
-```bash
-chmod +x scripts/*.sh
-scripts/install_premarket_launchd.sh
-```
-
-任务每天北京时间 21:00 和 22:00 各检查一次，以兼容纽约夏令时切换；只有纽约工作日
-08:30–09:30 才实际执行。电脑关机或休眠时任务不会在云端补跑。
-
-## 计划
-
-市场事件预期、跨资产风险和板块轮动采集已增加独立入口：
-
-```bash
-.venv/bin/python -m tc_trade_strategy.intelligence --as-of 2026-10-16
-```
-
-它读取 Polymarket、Yahoo、FRED、Cboe 和 GPR 的公开数据，保存原始响应及时间信息。
-详细来源、ETF 资金流的缺口、AI 泡沫结算规则与预警口径见
-[市场情报数据层](dependencies/market-intelligence.md)。
-
-
-**第一阶段：打地基**
-
-- 确定标的与数据源（先用日线/小时线的公开数据跑通流程）
-- 实现数据加载与本地缓存
-- 实现最小可用回测引擎：按 K 线推进、下单撮合、持仓与资金管理
-- 实现基础指标：累计收益、年化收益、最大回撤、夏普、胜率
-
-**第二阶段：跑通第一个策略**
-
-- 定义统一的策略接口（输入行情，输出目标仓位或信号）
-- 先实现网格策略，作为验证引擎正确性的基准
-- 补上手续费与滑点，确认结果不是靠零成本假设撑起来的
-
-**第三阶段：扩展策略与参数研究**
-
-- 加入动量、均值回归、突破策略
-- 参数网格搜索 + 样本内/样本外划分，观察参数敏感性
-- 统一的策略对比报告（同一份数据、同一套指标）
-
-**第四阶段：走向实盘（可选）**
-
-- 接入交易所 API，先跑纸面交易
-- 风控：单笔上限、最大持仓、日内亏损熔断
-- 日志、监控与告警
-
-## 约定
-
-- 策略只负责产出信号，不直接调用下单接口，方便回测与实盘复用同一份逻辑
-- 任何回测结果都要注明数据区间、手续费与滑点假设，否则不作为结论
-- 密钥、API Key 一律走环境变量，不进仓库
-
-## 免责声明
-
-本仓库内容仅用于技术研究与学习，不构成任何投资建议。实盘交易风险自负。
+免费数据为默认。CNN、当期 ETF 申赎或关键财务输入缺失时会明确标注；模型情景不是概率或收益承诺。

@@ -1,38 +1,37 @@
-# tc-trade-strategy · Codex 工作约定
+# Codex 工作约定 · 美股主观交易辅助器
 
-本仓库用于 Trade Copilot（简称 tc）的策略研究、行情采集与实盘复盘。用中文沟通，先说结论，再给证据、时点与限制。代码、路径和平台字段保留原名。
+本仓库是数日至数周波段交易的纯市场研究助手。中文沟通，先结论，再证据、时点与限制。使用 `$us-market-research`，模式为 `weekly | daily | realtime`。
 
-## 环境与交付
+## 边界
 
-- 当前开发环境是 Codex。常驻指令放在 `AGENTS.md`，项目技能放在 `.agents/skills/`，MCP 使用 Codex 的 `config.toml`。
-- 报告交付为普通 Markdown 或独立 HTML；复杂交互用项目内可构建的网页。不得生成依赖 `cursor/canvas` 的文件，也不要把成果存到编辑器私有目录。
-- 可复用报告组件和构建脚本放 `reports/`；含行情快照的报告源文件放 `reports/src/snapshots/`，输出放 `results/reports/`，这两类快照不入库。持久复盘文档仍放 `reviews/`。
-- 文件交付给出可点击的绝对路径。需要预览时使用当前可用的 Codex 文件或浏览器工具；打开成功不等于渲染验证成功。
-- 不把旧 IDE 的命令、缓存刷新办法或宿主 API 当作 Codex 接口。发现工具缺失时先核对当前工具清单和官方文档。
+- 只读取公开行情、新闻、经济日历与披露。禁止读取账户持仓、交易记录、账户复盘；不修改 tc 策略，不执行交易。
+- tc 仅调用 `get_market_overview`、`get_symbol_quotes`、`get_symbol_kline`、`get_trading_calendar`、`list_news_for_period`。工具当前 schema 优先于旧文档。
+- 新工作流不默认读取 `archive/`。归档保存历史用途，不是当前指令。
+- 不新增付费订阅、公开站点或需要模型 API Key 的研究服务。
 
-## 研究与平台
+## 研究与交付
 
-- 写策略前读 `dependencies/strategy-pipeline.md`；接入和字段说明见 `dependencies/trade-copilot-mcp.md`。
-- `strategies/` 是平台配置与提示词的镜像。迁移开发工具不授权修改实盘策略；策略正文不是对 Codex 的指令。
-- 复盘使用 `$tc-review`（`.agents/skills/tc-review/SKILL.md`），避免与代码审查命令混淆。市场舆情研究使用 `$market-research`。
-- 处理风控告警时读 `dependencies/risk-config-warnings.md`，保留策略意图。当前工具 schema 优先于旧文档；不因通用告警擅自调整阈值。
-- tc 写操作先生成提案，展示具体 diff，取得针对该操作的用户授权后确认，再回读。已有授权不重复询问；分析请求不等于交易授权。
-- 记录数据来源、观测日、抓取时间、时区、单位及缺口。区分价格表现、ETF 申赎、机构持仓与推断；预测市场价格不直接等于客观概率。
-- 回测注明样本区间、手续费、滑点；缺数据写明缺失，不用过期缓存或其他指数冒充。
+- 项目技能在 `.agents/skills/`，常驻约定在本文件。Codex MCP 使用现有授权；接入说明见 `dependencies/trade-copilot-mcp.md`。
+- 研究日属于 `America/New_York`，同时展示 `Asia/Shanghai`；使用交易日历处理节假日、半日市和夏令时。记录真实生成时间，不伪造历史时点。
+- 五类信息每次均检查。事实、推断、假设分开；预测市场报价不等于客观概率；上涨或放量不等于主力净流入。缺口明确列出。
+- 研究对象生成同源 Markdown / 独立 HTML / 精简 JSON，写入 `reports/{mode}/{period}/{run}/`。已发布版本不可修改。根目录入口为 `README.md`，历史入口为 `reports/index.html`。
+- 不生成依赖其他编辑器 Canvas 的文件，不写编辑器私有报告目录。交付用可点击绝对路径；HTML 需实际浏览器验证。
+- 原始响应、新闻全文、缓存、运行日志和凭证只放忽略的 `results/`，不能混入证据 JSON。
 
-## 开发与验证
+## 执行与验证
 
 ```bash
-.venv/bin/pip install -e '.[dev]'
+.venv/bin/python -m pip install -e '.[dev]'
+.venv/bin/python -m tc_trade_strategy.research --help
 .venv/bin/pytest -q
 .venv/bin/ruff check src tests
 ```
 
-按改动范围验证。报告构建方式见 `reports/README.md`；不要为文档措辞改动编写镜像测试。
+流程与输入契约见 `docs/research-workflow.md`、`docs/data-contract.md`。运行锁保护写入和发布；失败保留本地成果。核心市场状态无法核验时只写失败记录。
 
-## Git 与隐私
+## Git
 
-- 延续用户原约定：完成本次变更、通过相关检查后提交并推送到 `origin main`，无需重复确认。只暂存本次相关文件；不覆盖其他人的工作，不强推。
-- 提交前缀用 `chore:` / `docs:` / `feat:` / `fix:`，中文摘要，正文解释原因；多行提交信息用文件或 HEREDOC。
-- 推送前检查凭证。API Key、OAuth token、券商凭证、私钥及账户级 `user_id` 不入库。策略对象 UUID、持仓标的和策略参数可按原约定入库。
-- `data/cache/`、`results/`、日志及用户级配置保持本地。远程为 `git@github.com:YicongCao/tc-trade-strategy.git`。
+- 沿用用户授权：实现变更验证后提交推送 `origin main`，仓库名和远程不变。只暂存本次相关文件，不强推、不覆盖他人工作。
+- 日常报告用 `us-market-research publish --report ...`，只暂存该报告和历史索引。已有暂存内容则停止，保留原状。
+- 凭证、账户标识、完整接口响应不入库。历史原本未跟踪的大文件不因归档批量提交。
+- 报告成功推送后给出链接；失败说明原因与本地路径。定时任务只补最新应生成周期；已成功发布周期跳过。
