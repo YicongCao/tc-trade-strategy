@@ -24,6 +24,16 @@
 - catalysts：带时间和来源的已确认事件，未知日期注明未定；daily 盘后、weekly 周末增量单列。
 - paid_sources：产品、补足缺口、官方链接、checked_at；没有实际增益可留空。
 
+## 决策指标扩展
+
+新增构建必填 `indicator_assessments`，非空数组，每项 question、evidence_ids（指标ID数组）、interpretation、counterevidence、confirmation、invalidation、horizon、guidance、confidence（low/medium/high）、change_reason 均需填写。引用需存在且质量可用。它记录判断依据、反证与结论变化摘要。
+
+可选 `indicator_observations` 为外部指标数组，每项仅含 id、value（有限数值）、unit、source、observed_at、retrieved_at、quality（ok/stale/lagged/unverified）、definition、universe、session（completed/intraday/premarket/afterhours）。时间带时区，观测≤抓取≤截止；ID不得重复。definition记录统计窗口、成分/覆盖率和口径版本。不可得写 gaps，不造数。
+
+最终对象增加 indicators、indicator_assessments、indicator_comparisons，三种输出同源。固定ID如 `prices.SPY.sma20`、`macro.DGS2.value`；每项保留数值、单位、来源、观测/抓取时点、质量、定义、交易阶段。旧报告不补写新字段。
+
+`sensitive/market-indicators/` 是忽略入Git的公开指标本地副本，保留原生成/截止时点及 recorded_at，同内容导入幂等。公共报告只读 reports，绝不从此目录取材。历史比较是同定义、来源、单位、阶段的不同日期观测之差，非连续交易日收益；percent指标之差解释为百分点。
+
 ## 财务底稿
 
 `financials.json` 按五家公司 symbol 索引，包含 symbol、status、fiscal_period、filing_date、sources、observations、accounting_policy、disclosure_check。观测值与 `scenarios` 分离。未核验输入 status=unavailable 并填 reason。

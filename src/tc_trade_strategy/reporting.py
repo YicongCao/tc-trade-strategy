@@ -39,6 +39,53 @@ def blocks(data):
             ],
         },
     ]
+    if "indicators" in data:
+        rows.append(
+            {
+                "title": "决策指标：趋势、相对强弱、波动与宏观",
+                "tag": "指标",
+                "table": [["ID", "数值", "单位", "观测日/时间", "质量", "定义", "来源"]]
+                + [
+                    [
+                        r["id"],
+                        r["value"],
+                        r["unit"],
+                        r.get("observation_date", r.get("observed_at")),
+                        r["quality"],
+                        r["definition"],
+                        r["source"],
+                    ]
+                    for r in data["indicators"]
+                ],
+            }
+        )
+        rows.append(
+            {
+                "title": "指标历史比较（不同日期观测，非连续交易日）",
+                "tag": "指标",
+                "text": data.get("indicator_comparisons", []),
+            }
+        )
+        for assessment in data.get("indicator_assessments", []):
+            labels = {
+                "question": "评估问题",
+                "evidence_ids": "事实指标引用",
+                "interpretation": "推断与解释",
+                "counterevidence": "反证与缺口",
+                "confirmation": "确认条件",
+                "invalidation": "失效条件",
+                "horizon": "观察期限",
+                "guidance": "条件式指导",
+                "confidence": "主观置信等级",
+                "change_reason": "判断变化原因",
+            }
+            rows.append(
+                {
+                    "title": "判断依据 · " + assessment["question"],
+                    "tag": "评估",
+                    "table": [["要素", "记录"]] + [[labels[k], v] for k, v in assessment.items()],
+                }
+            )
     for item in data["themes"]:
         rows.append(
             {

@@ -2,12 +2,20 @@
 
 import argparse
 import json
+import subprocess
 from datetime import UTC, date, datetime
 from pathlib import Path
 
 from .calendar import MODES, aware, research_window
 from .evidence import deduplicate_news, probability_change, quote_quality, safe_public_data
 from .fundamentals import check_filings, verify_workpaper
+from .indicators import (
+    compare_history,
+    history_view,
+    panel,
+    record_history,
+    validate_assessments,
+)
 from .intelligence import SECTORS, Collector
 from .publishing import all_reports, publish, published_period, run_lock, save_report
 from .valuation import UNIVERSE, evaluate_company
@@ -33,6 +41,7 @@ def validate_analysis(analysis):
         "paid_sources",
         "flows",
         "event_reviews",
+        "indicator_assessments",
     ):
         if field not in analysis:
             raise ValueError("研究输入缺少字段: " + field)
@@ -177,6 +186,22 @@ def assemble(root, mode, cutoff, tc, snapshot, analysis, financials, target=None
                 "baseline": p.relative_to(root).as_posix(),
                 "baseline_cutoff": d["window"]["cutoff"],
                 "close_change_pct": changes,
+                "quote_change_pct": {
+                    q["symbol"]: {
+                        "change_pct": (q["value"] / old["value"] - 1) * 100,
+                        "from_observed_at": old["observed_at"],
+                        "to_observed_at": q["observed_at"],
+                    }
+                    for q in quotes
+                    for old in d.get("quotes", [])
+                    if q["symbol"] == old["symbol"]
+                    and q["quality"] in ("ok", "last_session")
+                    and old["quality"] in ("ok", "last_session")
+                    and q["observed_at"]
+                    and old["observed_at"]
+                    and aware(q["observed_at"]) > aware(old["observed_at"])
+                    and old["value"] > 0
+                },
                 "macro_change": {
                     s: {
                         "change": v["value"] - d["macro"][s]["value"],
@@ -292,13 +317,30 @@ def assemble(root, mode, cutoff, tc, snapshot, analysis, financials, target=None
         },
         methodology=snapshot.get("limitations", []),
     )
+    data["indicators"] = panel(data, analysis.get("indicator_observations", []))
+    validate_assessments(analysis["indicator_assessments"], data["indicators"])
+    data["indicator_assessments"] = analysis["indicator_assessments"]
+    # 公共报告只比较公开报告；绝不读取 sensitive 的本地历史或个人资料。
+    data["indicator_comparisons"] = compare_history(
+        data["indicators"], [d for _, d in prior], cutoff.isoformat()
+    )
+    missing_indicators = [
+        r["id"] for r in data["indicators"] if r["quality"] not in ("ok", "lagged")
+    ]
+    if missing_indicators:
+        data["gaps"].append("指标缺失/历史不足: " + ", ".join(missing_indicators))
+    if not analysis.get("indicator_observations"):
+        data["gaps"].append("外部广度、盈利修正及政策定价未补录；不得用 ETF 涨跌代替成分股广度")
+    data["quality"] = "partial" if data["gaps"] else "verified"
     safe_public_data(data)
     return data
 
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("command", choices=("prepare", "build", "publish", "status", "filings"))
+    p.add_argument(
+        "command", choices=("prepare", "build", "publish", "status", "filings", "indicators")
+    )
     p.add_argument("--mode", choices=MODES, default="realtime")
     p.add_argument("--root", type=Path, default=Path.cwd())
     p.add_argument("--tc", type=Path)
@@ -325,6 +367,11 @@ def main():
                     root / "results/financials" / cutoff.strftime("%Y%m%dT%H%M%SZ"),
                     args.sec_user_agent,
                 )
+            elif args.command == "indicators":
+                # 只从固定 reports 路径导入公开报告，不扫描 sensitive 其他目录。
+                for _, data in all_reports(root):
+                    record_history(root, data)
+                result = {"history": str(history_view(root))}
             else:
                 if not args.tc:
                     p.error("需要 --tc 保存的 tc 市场数据包")
@@ -356,10 +403,17 @@ def main():
                         args.focus,
                     )
                     directory = save_report(root, data)
+                    try:
+                        indicator_path = record_history(root, data)
+                        history_view(root)
+                        history_status = str(indicator_path)
+                    except (ValueError, OSError, subprocess.SubprocessError) as exc:
+                        history_status = "本地指标留存失败（报告已保留）: " + str(exc)
                     result = {
                         "report": str(directory),
                         "quality": data["quality"],
                         "gaps": len(data["gaps"]),
+                        "indicator_history": history_status,
                     }
             print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0

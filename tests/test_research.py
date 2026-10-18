@@ -265,6 +265,20 @@ def research_data(tmp_path):
         ai_analysis="ai",
         comparison_analysis="none",
         event_reviews={},
+        indicator_assessments=[
+            {
+                "question": "market",
+                "evidence_ids": ["prices.SPY.value"],
+                "interpretation": "test inference",
+                "counterevidence": "test contrary",
+                "confirmation": "higher close",
+                "invalidation": "lower close",
+                "horizon": "next session",
+                "guidance": "observe",
+                "confidence": "low",
+                "change_reason": "first baseline",
+            }
+        ],
     )
     return tc, snapshot, analysis, cutoff
 

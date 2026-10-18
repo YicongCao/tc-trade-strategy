@@ -58,6 +58,7 @@ SECTORS = {
 PROXIES = {
     "SPY": "标普500 ETF",
     "QQQ": "纳指100 ETF",
+    "IWM": "罗素2000 ETF",
     "RSP": "标普等权 ETF",
     "GLD": "黄金 ETF",
     "GC=F": "COMEX 黄金近月连续报价",
@@ -82,6 +83,7 @@ PROXIES = {
     "VRT": "Vertiv",
 }
 FRED_SERIES = {
+    "DGS2": ("2 年美债名义收益率", "percent"),
     "BAMLH0A0HYM2": ("美国高收益债 OAS", "percentage_points"),
     "BAMLC0A0CM": ("美国投资级债 OAS", "percentage_points"),
     "DGS10": ("10 年美债名义收益率", "percent"),
@@ -231,11 +233,31 @@ def price_metrics(frame: pd.DataFrame, benchmark: pd.Series, as_of: date) -> dic
             base = (benchmark.loc[last_day] / benchmark.loc[start] - 1) * 100
             result[f"relative_spy_{period}d_pp"] = float(change - base)
     result["drawdown_from_63d_high_pct"] = float((close.iloc[-1] / close.tail(63).max() - 1) * 100)
-    result["sma200"] = float(close.tail(200).mean()) if len(close) >= 200 else None
+    for period in (20, 50, 200):
+        ma = float(close.tail(period).mean()) if len(close) >= period else None
+        result[f"sma{period}"] = ma
+        result[f"distance_sma{period}_pct"] = (
+            float((close.iloc[-1] / ma - 1) * 100) if ma and ma > 0 else None
+        )
+    # 简单移动平均真实波幅（不是 Wilder 平滑）；要求完整 14 个有效 TR。
+    result["atr14_sma"] = None
+    result["atr14_pct"] = None
+    if {"High", "Low"} <= set(frame.columns):
+        high, low = frame["High"].reindex(close.index), frame["Low"].reindex(close.index)
+        valid = high.notna() & low.notna() & close.shift().notna() & (high >= low)
+        tr = pd.concat(
+            [high - low, (high - close.shift()).abs(), (low - close.shift()).abs()], axis=1
+        ).max(axis=1).where(valid)
+        if len(tr) >= 14 and tr.tail(14).notna().all():
+            result["atr14_sma"] = float(tr.tail(14).mean())
+            result["atr14_pct"] = float(result["atr14_sma"] / close.iloc[-1] * 100)
+    result["price_basis"] = "yahoo_auto_adjust_ohlc_v1"
     volume = frame["Volume"].reindex(close.index)
     average = volume.iloc[-21:-1].mean()
     result["volume_vs_previous20_ratio"] = (
-        number(volume.iloc[-1] / average) if average > 0 else None
+        number(volume.iloc[-1] / average)
+        if len(volume) >= 21 and volume.iloc[-21:].notna().all() and average > 0
+        else None
     )
     result["last_close_times_volume_usd_proxy"] = number(close.iloc[-1] * volume.iloc[-1])
     return result
