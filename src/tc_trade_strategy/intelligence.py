@@ -391,7 +391,7 @@ class Collector:
                 except Exception as exc:
                     self.record_error("polymarket:event:" + event_id, exc)
         return {
-            "retrieved_at": self.now.isoformat(),
+            "retrieved_at": datetime.now(UTC).isoformat(),
             "note": "当前价格隐含概率，不是客观概率；关键词发现可能误匹配，需审阅结算规则。"
             "质量门槛为工程启发式，未做预测校准。updated_at 为元数据更新时间。",
             "coverage": sorted(coverage, key=lambda x: x.get("query", x.get("event_id", ""))),
@@ -426,7 +426,11 @@ class Collector:
         benchmark = frames.get("SPY", pd.DataFrame(columns=["Close"]))["Close"]
         result = {}
         for symbol, frame in frames.items():
-            metrics = price_metrics(frame, benchmark, self.as_of)
+            try:
+                metrics = price_metrics(frame, benchmark, self.as_of)
+            except (ValueError, KeyError, TypeError) as exc:
+                self.record_error(symbol, exc)
+                continue
             metrics["name"] = SECTORS.get(symbol, PROXIES.get(symbol))
             metrics["kind"] = "sector_etf" if symbol in SECTORS else "risk_or_theme_proxy"
             metrics["unit"] = (
@@ -501,6 +505,9 @@ class Collector:
         ]:
             try:
                 result[name] = function()
+                if name in ("prices", "macro"):
+                    for row in result[name].values():
+                        row.setdefault("retrieved_at", datetime.now(UTC).isoformat())
             except Exception as exc:
                 self.record_error(name, exc)
         if include_cnn:
@@ -516,6 +523,8 @@ class Collector:
             "--as-of 只限制观测日期，不复原历史发布版本；FRED/GPR 数据可能修订。",
             "新闻主题与 AI 泡沫风险需要独立证据分析；不自动输出破裂概率。",
         ]
+        result["collection_started_at"] = self.now.isoformat()
+        result["retrieved_at"] = datetime.now(UTC).isoformat()
         result["errors"] = self.errors
         (self.output / "snapshot.json").write_text(
             json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8"

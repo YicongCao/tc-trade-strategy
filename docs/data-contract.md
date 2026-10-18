@@ -50,3 +50,30 @@
 ## 关联输出与Daily时段
 
 公共证据可有 delivery_slot（最近已到的北京时间08:00或20:00，带时区ISO时间），定时日报按它而非单一交易日判断是否已发布。旧报告无该字段不回写。私人附录独立写入敏感目录，持仓及其数量、金额、建议不得进入公共证据；字段与失败输入见 ibkr-position-review/references/linked-review.md。关联为私人→公共目录+hash，不生成公共→私人链接。
+
+
+## 公共采集恢复契约
+
+`prepare` 返回 snapshot 与 gaps 路径；`gaps --mode ... --tc ... --snapshot ...` 可重查。
+缺口包含 id、reason、core、requirement、alternatives、impact。宏观超过7天（STLFSI4为14天）仅是补查提示，非统一发布频率判断；请求错误正文留在本地。缺口并非全部研究工作清单。
+
+`build --supplements results/RUN/supplements.json`：顶层严格为 `snapshot_digest`（gaps输出的原快照SHA256）与 `items` 数组。每项严格包含：
+
+|字段|含义|
+|---|---|
+|gap_id / target|缺口ID / 标的或序列、事件ID|
+|kind|price_history、macro_series、polymarket_event 或 evidence|
+|source|不含查询参数/凭证的公开HTTPS来源页|
+|observed_at / retrieved_at|实际观测/采集时间，必须含时区|
+|published_at|发布时间，未知为null|
+|method|web、browser、tc_mcp、public_api|
+|unit / definition|单位与明确口径；价格复权定义作为比较基线|
+|data|下述类型之一|
+
+price_history：`[{"date":"2026-10-16","Close":100,"High":102,"Low":99,"Volume":1000}]`。High/Low/Volume可省略，相关指标为null。日期唯一升序、最后日为窗口收盘日；已知交易日历范围内不能漏日/混入休市日；更早历史须人工核验完整性。仅支持既有标的与对应单位。不能混合不同来源历史，调整后价格需一致复权。数值与已有同日值或复权定义冲突拒绝覆盖。相对收益仅在同口径且端点齐全时重算。
+
+macro_series：`[{"date":"2026-10-16","value":4.2}]`，只支持既有FRED/Cboe/GPR序列及原单位，Python计算变化。polymarket_event：Gamma事件结构（id/slug/title/markets，每个market包含原结算条件与报价字段）；经现有normalize_market过滤和生成rule_hash，已有market ID不覆盖；最终仍须event_reviews核验。完整补查输入仅在results中保存，公开报告不含合约原始description。
+
+evidence：自行撰写的简短事实字符串；只记录context_only，不能替代可计算数据。新闻、外部指标、财务底稿仍写入已有分析契约。发布时间未知不得猜测。禁止账户资料、密钥、完整新闻正文。
+
+合并不改变原快照，报告 acquisition 同源记录 accepted/context_only/rejected/conflict 及remaining缺口；原始错误保留，不能将context_only视为数值恢复。抓取距截止超过6小时、未来取证、错误单位、历史缺日、重复目标均拒绝。无法核验核心市场状态时仍停止。结构校验不能证明网页真实性，Codex必须保留事实、判断依据、反证与条件式建议。

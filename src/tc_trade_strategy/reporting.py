@@ -41,6 +41,42 @@ def blocks(data):
     ]
     if data.get("delivery_slot"):
         rows[1]["table"].append(["Daily 北京时间计划时段", data["delivery_slot"]])
+    if "acquisition" in data:
+        acquisition = data["acquisition"]
+        labels = {
+            "accepted": "已校验接入",
+            "context_only": "事实摘要，待分析引用",
+            "rejected": "未接入",
+            "conflict": "冲突，保留原值",
+        }
+        rows.append(
+            {
+                "title": "采集、补查与剩余缺口",
+                "tag": "质量",
+                "table": [["目标", "补查结果", "来源", "观测 / 抓取时间", "说明"]]
+                + [
+                    [
+                        a.get("target"),
+                        labels.get(a["status"], a["status"]),
+                        a.get("source"),
+                        str(a.get("observed_at", "")) + " / " + str(a.get("retrieved_at", "")),
+                        a.get("reason", a.get("fact", a.get("definition", ""))),
+                    ]
+                    for a in acquisition["attempts"]
+                ],
+            }
+        )
+        rows.append(
+            {
+                "title": "仍需核验的数据与影响",
+                "tag": "质量",
+                "table": [["数据", "状态", "需要核验", "影响"]]
+                + [
+                    [g["id"], g["reason"], g["requirement"], g["impact"]]
+                    for g in acquisition["remaining"]
+                ],
+            }
+        )
     if "indicators" in data:
         rows.append(
             {

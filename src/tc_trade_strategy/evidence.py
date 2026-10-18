@@ -84,6 +84,9 @@ def deduplicate_news(items):
 def safe_public_data(value):
     forbidden = {
         "api_key",
+        "password",
+        "cookie",
+        "secret",
         "authorization",
         "access_token",
         "refresh_token",

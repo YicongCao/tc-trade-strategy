@@ -18,6 +18,9 @@ from .indicators import (
 )
 from .intelligence import SECTORS, Collector
 from .publishing import all_reports, publish, published_period, run_lock, save_report
+from .recovery import comparable_prices
+from .recovery import inspect as inspect_collection
+from .recovery import merge as merge_supplements
 from .valuation import UNIVERSE, evaluate_company
 
 
@@ -152,8 +155,8 @@ def assemble(root, mode, cutoff, tc, snapshot, analysis, financials, target=None
     for symbol, original in snapshot.get("prices", {}).items():
         p = {
             **original,
-            "source": f"https://finance.yahoo.com/quote/{symbol}/history/",
-            "retrieved_at": snapshot["retrieved_at"],
+            "source": original.get("source", f"https://finance.yahoo.com/quote/{symbol}/history/"),
+            "retrieved_at": original.get("retrieved_at", snapshot["retrieved_at"]),
         }
         p["quality"] = "ok" if p["observation_date"] == window["end_date"] else "stale"
         if p["observation_date"] > window["end_date"]:
@@ -168,13 +171,17 @@ def assemble(root, mode, cutoff, tc, snapshot, analysis, financials, target=None
         start = max(prior_days) if prior_days else None
         for symbol, p in prices.items():
             history = p.get("recent_closes", {})
-            benchmark = prices["SPY"].get("recent_closes", {})
+            benchmark = prices.get("SPY", {}).get("recent_closes", {})
             p["return_week_pct"] = None
             p["relative_spy_week_pp"] = None
             if start in history and window["end_date"] in history:
                 p["return_week_pct"] = (history[window["end_date"]] / history[start] - 1) * 100
                 p["week_endpoints"] = [start, window["end_date"]]
-                if start in benchmark and window["end_date"] in benchmark:
+                if (
+                    start in benchmark
+                    and window["end_date"] in benchmark
+                    and comparable_prices(p, prices.get("SPY", {}))
+                ):
                     p["relative_spy_week_pp"] = (
                         p["return_week_pct"]
                         - (benchmark[window["end_date"]] / benchmark[start] - 1) * 100
@@ -205,7 +212,7 @@ def assemble(root, mode, cutoff, tc, snapshot, analysis, financials, target=None
     macro = {
         s: {
             **p,
-            "retrieved_at": snapshot["retrieved_at"],
+            "retrieved_at": p.get("retrieved_at", snapshot["retrieved_at"]),
             "quality": "lagged" if p["lag_calendar_days"] else "ok",
         }
         for s, p in snapshot.get("macro", {}).items()
@@ -226,6 +233,8 @@ def assemble(root, mode, cutoff, tc, snapshot, analysis, financials, target=None
             s: (v["value"] / d["prices"][s]["value"] - 1) * 100
             for s, v in prices.items()
             if s in d["prices"]
+            and v.get("source") == d["prices"][s].get("source")
+            and v.get("price_basis") == d["prices"][s].get("price_basis")
         }
         comparisons.append(
             {
@@ -256,7 +265,10 @@ def assemble(root, mode, cutoff, tc, snapshot, analysis, financials, target=None
                         "observation_date": v["observation_date"],
                     }
                     for s, v in macro.items()
-                    if s in d.get("macro", {}) and v.get("unit") == d["macro"][s].get("unit")
+                    if s in d.get("macro", {})
+                    and v.get("unit") == d["macro"][s].get("unit")
+                    and v.get("source") == d["macro"][s].get("source")
+                    and v.get("definition") == d["macro"][s].get("definition")
                 },
                 "event_probability_change": {
                     str(e["id"]): probability_change(e, old)
@@ -279,7 +291,7 @@ def assemble(root, mode, cutoff, tc, snapshot, analysis, financials, target=None
         row = {k: v for k, v in e.items() if k != "description"}
         row.update(
             resolution_summary=review["resolution_summary"],
-            retrieved_at=snapshot["polymarket"]["retrieved_at"],
+            retrieved_at=e.get("retrieved_at", snapshot["polymarket"]["retrieved_at"]),
         )
         row["comparison"] = (
             probability_change(e, old_events[e["id"]])
@@ -301,7 +313,7 @@ def assemble(root, mode, cutoff, tc, snapshot, analysis, financials, target=None
         )
         values.append(evaluate_company(inputs, price))
     gaps = list(analysis["gaps"])
-    gaps += [f"{e['source']}: {e['error']}" for e in snapshot.get("errors", [])]
+    gaps += ["原始采集存在请求失败，见采集质量记录"] if snapshot.get("errors") else []
     gaps += [f"{v['symbol']} 估值: {v['reason']}" for v in values if v["status"] == "unavailable"]
     missing_sectors = sorted(set(SECTORS) - set(prices))
     if missing_sectors:
@@ -364,6 +376,9 @@ def assemble(root, mode, cutoff, tc, snapshot, analysis, financials, target=None
         },
         methodology=snapshot.get("limitations", []),
     )
+    if "recovery" in snapshot:
+        data["acquisition"] = snapshot["recovery"]
+        data["gaps"] += [g["id"] + ": " + g["reason"] for g in snapshot["recovery"]["remaining"]]
     data["indicators"] = panel(data, analysis.get("indicator_observations", []))
     validate_assessments(analysis["indicator_assessments"], data["indicators"])
     data["indicator_assessments"] = analysis["indicator_assessments"]
@@ -396,13 +411,15 @@ def assemble(root, mode, cutoff, tc, snapshot, analysis, financials, target=None
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument(
-        "command", choices=("prepare", "build", "publish", "status", "filings", "indicators")
+        "command",
+        choices=("prepare", "build", "publish", "status", "filings", "indicators", "gaps"),
     )
     p.add_argument("--mode", choices=MODES, default="realtime")
     p.add_argument("--root", type=Path, default=Path.cwd())
     p.add_argument("--tc", type=Path)
     p.add_argument("--snapshot", type=Path)
     p.add_argument("--analysis", type=Path)
+    p.add_argument("--supplements", type=Path, help="Codex公共补查证据；原始snapshot保持不变")
     p.add_argument("--financials", type=Path, default=Path("config/financials.json"))
     p.add_argument("--date", type=date.fromisoformat)
     p.add_argument("--cutoff", type=aware)
@@ -445,21 +462,48 @@ def main():
                         "published": done,
                         "skip": done,
                     }
+                elif args.command == "gaps":
+                    if not args.snapshot:
+                        p.error("gaps 需要 --snapshot")
+                    result = inspect_collection(load(args.snapshot), window, tc)
                 elif args.command == "prepare":
                     output = root / "results/research-runs" / cutoff.strftime("%Y%m%dT%H%M%S.%fZ")
-                    Collector(
+                    snapshot = Collector(
                         output, date.fromisoformat(window["end_date"]), root / "config/events.json"
                     ).run(include_cnn=True)
-                    result = {"snapshot": str(output / "snapshot.json"), "window": window}
+                    # 采集完成后重新计时，不能用采集开始时刻充当截止。
+                    finished = datetime.now(UTC)
+                    checked_window = research_window(args.mode, finished, tc["calendar"], args.date)
+                    manifest = inspect_collection(snapshot, checked_window, tc)
+                    (output / "gaps.json").write_text(
+                        json.dumps(manifest, ensure_ascii=False, indent=2)
+                    )
+                    result = {
+                        "snapshot": str(output / "snapshot.json"),
+                        "window": checked_window,
+                        "gaps": str(output / "gaps.json"),
+                        "gap_count": len(manifest["gaps"]),
+                    }
                 else:
                     if not args.snapshot or not args.analysis:
                         p.error("build 需要 --snapshot 和 --analysis")
+                    snapshot = load(args.snapshot)
+                    if args.supplements:
+                        supplement_path = args.supplements.resolve()
+                        if not supplement_path.is_relative_to(root / "results"):
+                            raise ValueError("补查输入只能位于本仓库 results/；禁止读取敏感目录")
+                        snapshot = merge_supplements(snapshot, load(args.supplements), window, tc)
+                    else:
+                        snapshot["recovery"] = {
+                            "attempts": [],
+                            "remaining": inspect_collection(snapshot, window, tc)["gaps"],
+                        }
                     data = assemble(
                         root,
                         args.mode,
                         cutoff,
                         tc,
-                        load(args.snapshot),
+                        snapshot,
                         load(args.analysis),
                         load(args.financials),
                         args.date,

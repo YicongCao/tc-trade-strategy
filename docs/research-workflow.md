@@ -6,6 +6,7 @@
 .venv/bin/python -m pip install -e '.[dev]'
 us-market-research status --mode daily --tc results/my-run/tc.json --scheduled
 us-market-research prepare --mode daily --tc results/my-run/tc.json
+us-market-research gaps --mode daily --tc results/my-run/tc.json --snapshot results/research-runs/RUN/snapshot.json
 us-market-research filings
 us-market-research indicators
 us-market-research build --mode daily --tc results/my-run/tc.json --snapshot results/research-runs/RUN/snapshot.json --analysis results/my-run/analysis.json --financials results/my-run/financials.json
@@ -53,3 +54,7 @@ weekly/daily 每次主动搜索风险预警、参考事件和临近催化剂，�
 无法读取当前持仓时生成unavailable附录与缺口，公共报告继续；不以旧持仓生成当前建议。私人重试生成新版本，不覆盖、不提交。需要电脑、应用、Chrome连接和已授权登录会话可用；配置成功不等于无人值守浏览器访问已验证。
 
 Daily定时运行 status/prepare/build 全部加 --scheduled，build 的 --cutoff 须覆盖全部实际取证（默认实际运行时间），如跨下一个08/20时段则重新检查去重。恢复只补最近已到时段，不逐个追补漏跑。日报仍以最近完整交易日为主体，晚间盘前/其他阶段的增量按日历单列；周末照常检查最新消息和风险，不编造新交易日。
+
+## 采集失败主动补查
+
+prepare输出gaps.json；Codex按技能references/collection-recovery.md优先补核心缺口，每项最多两次尝试，在results保存supplements.json。build传入原始--snapshot与--supplements；不覆盖原快照，不将补查文件提交。无补充输入时build也重新记录质量清单。来源切换不拼接序列，历史不足不强算指标，事实摘要不会自动替代原数值。补查结束仍完整执行新闻/披露/主题研究。调度继续调用同一技能，无须额外模型服务。
