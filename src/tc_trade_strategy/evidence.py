@@ -10,6 +10,8 @@ from .calendar import NY, aware
 
 
 def quote_quality(quote, cutoff, window):
+    if quote.get("trade_timestamp_verified") is False:
+        return "unverified_trade_timestamp", None
     stamp = quote.get("ts")
     if not isinstance(stamp, (int, float)) or not math.isfinite(stamp):
         return "missing_timestamp", None

@@ -80,6 +80,10 @@ def test_dst_and_calendar_boundaries():
 
 
 def test_quotes_missing_stale_future():
+    assert quote_quality({"trade_timestamp_verified": False}, None, {}) == (
+        "unverified_trade_timestamp",
+        None,
+    )
     now = aware("2026-11-27T17:00:00Z")
     w = research_window("realtime", now, calendar())
     assert quote_quality({}, now, w)[0] == "missing_timestamp"
@@ -390,3 +394,21 @@ def test_publication_scoped_immutable_duplicate_lock_and_failed_push(tmp_path):
     with run_lock(root):
         report2 = save_report(root, {**data, "summary": "Second version"})
     assert report2 != report and (report / "evidence.json").read_bytes() == original
+
+
+def test_alternative_quote_preserves_provenance(tmp_path):
+    tc, snap, analysis, cutoff = research_data(tmp_path)
+    tc["quotes"] = [
+        {
+            "quotes": [
+                {
+                    "symbol": "SPY.US",
+                    "last": 110,
+                    "ts": cutoff.timestamp() * 1000,
+                    "source": "https://finance.yahoo.com/quote/SPY/",
+                }
+            ]
+        }
+    ]
+    data = assemble(tmp_path, "daily", cutoff, tc, snap, analysis, {})
+    assert data["quotes"][0]["source"] == "https://finance.yahoo.com/quote/SPY/"

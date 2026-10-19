@@ -203,7 +203,7 @@ def assemble(root, mode, cutoff, tc, snapshot, analysis, financials, target=None
                     "provider_timestamp": observed,
                     "retrieved_at": tc["retrieved_at"],
                     "quality": quality,
-                    "source": "tc MCP get_symbol_quotes",
+                    "source": q.get("source", "tc MCP get_symbol_quotes"),
                 }
             )
     if window["market_phase"] in ("盘前", "盘中", "盘后"):

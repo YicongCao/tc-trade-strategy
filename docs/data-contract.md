@@ -77,3 +77,5 @@ macro_series：`[{"date":"2026-10-16","value":4.2}]`，只支持既有FRED/Cboe/
 evidence：自行撰写的简短事实字符串；只记录context_only，不能替代可计算数据。新闻、外部指标、财务底稿仍写入已有分析契约。发布时间未知不得猜测。禁止账户资料、密钥、完整新闻正文。
 
 合并不改变原快照，报告 acquisition 同源记录 accepted/context_only/rejected/conflict 及remaining缺口；原始错误保留，不能将context_only视为数值恢复。抓取距截止超过6小时、未来取证、错误单位、历史缺日、重复目标均拒绝。无法核验核心市场状态时仍停止。结构校验不能证明网页真实性，Codex必须保留事实、判断依据、反证与条件式建议。
+
+备用当前报价可在独立的规范化输入包中使用相同 quote 字段，并显式提供公开 `source` URL；不得覆盖原始 tc 包。已确认服务端时间并非成交时间的报价设置 `trade_timestamp_verified: false`，不能满足当前行情门槛。备用报价 ts 必须取实际成交/分钟行情时间，不能取请求时间。
