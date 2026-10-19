@@ -11,9 +11,9 @@ from tc_trade_strategy.publishing import git, published_period
 @pytest.mark.parametrize(
     ("cutoff", "expected"),
     [
-        ("2026-10-18T07:59:00+08:00", "2026-10-17T20:00:00+08:00"),
-        ("2026-10-18T08:00:00+08:00", "2026-10-18T08:00:00+08:00"),
-        ("2026-10-18T19:59:00+08:00", "2026-10-18T08:00:00+08:00"),
+        ("2026-10-18T07:14:59+08:00", "2026-10-17T20:00:00+08:00"),
+        ("2026-10-18T07:15:00+08:00", "2026-10-18T07:15:00+08:00"),
+        ("2026-10-18T19:59:00+08:00", "2026-10-18T07:15:00+08:00"),
         ("2026-10-18T20:00:00+08:00", "2026-10-18T20:00:00+08:00"),
         ("2026-11-02T12:10:00Z", "2026-11-02T20:00:00+08:00"),
     ],
@@ -27,7 +27,7 @@ def test_morning_publication_does_not_skip_evening(tmp_path, monkeypatch):
 
     data = {
         "window": {"mode": "daily", "period": "2026-10-16"},
-        "delivery_slot": "2026-10-18T08:00:00+08:00",
+        "delivery_slot": "2026-10-18T07:15:00+08:00",
     }
     monkeypatch.setattr(
         publishing, "all_reports", lambda root: [(tmp_path / "evidence.json", data)]
@@ -35,7 +35,7 @@ def test_morning_publication_does_not_skip_evening(tmp_path, monkeypatch):
     monkeypatch.setattr(publishing, "remote_contains", lambda root, path: True)
     assert published_period(tmp_path, "daily", "2026-10-16", data["delivery_slot"])
     assert not published_period(tmp_path, "daily", "2026-10-16", "2026-10-18T20:00:00+08:00")
-    assert not published_period(tmp_path, "daily", "2026-10-16", "2026-10-19T08:00:00+08:00")
+    assert not published_period(tmp_path, "daily", "2026-10-16", "2026-10-19T07:15:00+08:00")
 
 
 def test_private_report_one_way_link_and_failure(tmp_path):
