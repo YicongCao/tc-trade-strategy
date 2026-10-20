@@ -58,3 +58,7 @@ Daily定时运行 status/prepare/build 全部加 --scheduled，build 的 --cutof
 ## 采集失败主动补查
 
 prepare输出gaps.json；Codex按技能references/collection-recovery.md优先补核心缺口，每项最多两次尝试，在results保存supplements.json。build传入原始--snapshot与--supplements；不覆盖原快照，不将补查文件提交。无补充输入时build也重新记录质量清单。来源切换不拼接序列，历史不足不强算指标，事实摘要不会自动替代原数值。补查结束仍完整执行新闻/披露/主题研究。调度继续调用同一技能，无须额外模型服务。
+
+### HTML 阅读布局
+
+HTML 优先呈现结论、跨期变化、条件剧本、催化剂和主题解释。指标全表、合约细节、估值底稿和来源记录默认折叠，支持按主题搜索和展开；嵌套数据以分项文字呈现，原始证据保留在 evidence.json。布局调整不修改已发布报告；需要预览历史数据时在 results/ 下生成同源阅读副本，沿用原研究截止时间。

@@ -463,13 +463,59 @@ main{max-width:1240px;margin:auto;padding:40px 24px}header{border-bottom:3px sol
 h1{font-size:36px;line-height:1.2}h2{font-size:21px}small,.muted{color:#596b73}section{background:#fff;padding:24px;margin:20px 0;border:1px solid #d9dfdd;border-radius:12px;overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px}td,th{border-bottom:1px solid #e1e7e5;padding:10px;text-align:left;vertical-align:top;min-width:80px;max-width:700px;overflow-wrap:anywhere}th{color:#086c66}p{white-space:pre-wrap;overflow-wrap:anywhere}pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px}a{color:#08776f}nav{position:sticky;top:0;padding:12px;background:#f5f4eff5;display:flex;gap:12px;flex-wrap:wrap;z-index:2}input,select{padding:9px;border:1px solid #9caaa6;border-radius:6px;font:inherit}input{min-width:240px}.badge{font-size:12px;color:#097369;letter-spacing:.08em}section[hidden]{display:none}@media(max-width:600px){main{padding:18px 12px}h1{font-size:28px}section{padding:15px}}"""
 
 
+FIELD_LABELS = {
+    "event": "事件", "date": "日期", "source": "来源", "url": "链接",
+    "event_at": "事件时间", "published_at": "发布时间", "retrieved_at": "抓取时间",
+    "checked_at": "核验时间", "note": "说明", "summary": "摘要", "status": "状态",
+    "spread": "价差（概率小数）", "volume24h_usd": "24小时成交额（USD）",
+    "liquidity_usd": "流动性（USD）", "quality_flags": "质量标记",
+    "contract_end_at": "合约截止", "timezone": "时区", "reason": "原因",
+    "growth": "收入增长率（小数）", "wacc": "折现率（小数）",
+    "operating_margin": "经营利润率（小数）", "terminal_growth": "终值增长率（小数）",
+}
+
+
+CSS += """
+header p{max-width:900px;font-size:18px}section{overflow:hidden}dl{margin:12px 0}dt{font-size:13px;font-weight:650;color:#52676c;margin-top:16px}dd{margin:4px 0 12px;overflow-wrap:anywhere}dd dl{padding-left:16px;border-left:2px solid #e1e7e5}ul{padding-left:22px}li{margin:8px 0}summary{cursor:pointer;font-size:18px;font-weight:650;padding:10px 0}details[open] summary{border-bottom:1px solid #e1e7e5;margin-bottom:20px}.table-scroll{overflow:auto}button{font:inherit;background:#0a736d;color:white;border:0;border-radius:6px;padding:8px 14px;cursor:pointer}a{overflow-wrap:anywhere}@media print{nav{display:none}}
+"""
+
+
 def cell_html(value):
-    if isinstance(value, (list, dict)):
-        return "<pre>" + html.escape(json.dumps(value, ensure_ascii=False, indent=2)) + "</pre>"
+    """Render nested evidence as readable labels, never a JSON dump."""
+    if isinstance(value, dict):
+        return "<dl>" + "".join(
+            "<dt>" + html.escape(FIELD_LABELS.get(k, k)) + "</dt><dd>"
+            + cell_html(v) + "</dd>" for k, v in value.items()
+        ) + "</dl>" if value else '<span class="muted">无记录</span>'
+    if isinstance(value, list):
+        return "<ul>" + "".join("<li>" + cell_html(v) + "</li>" for v in value) + "</ul>" if value else '<span class="muted">无记录</span>'
     text = fmt(value)
     if text.startswith(("https://", "http://")):
-        return f'<a href="{html.escape(text, quote=True)}" rel="noreferrer">{html.escape(text)}</a>'
+        from urllib.parse import urlsplit
+
+        label = urlsplit(text).netloc
+        return f'<a href="{html.escape(text, quote=True)}" title="{html.escape(text, quote=True)}" rel="noreferrer">{html.escape(label)} ↗</a>'
     return html.escape(text)
+
+
+def reading_priority(block):
+    """Keep decisions upfront; preserve all audit data behind native disclosures."""
+    title, tag = block["title"], block["tag"]
+    if tag == "结论":
+        return 0
+    if title == "跨期比较与上期剧本复核":
+        return 1
+    if tag == "剧本":
+        return 2
+    if title == "后续催化剂与发布后增量":
+        return 3
+    if tag == "主题":
+        return 4
+    if isinstance(block.get("text"), str) and tag in {"风险", "轮动", "AI", "缺口"}:
+        return 5
+    if tag == "评估":
+        return 6
+    return 10
 
 
 def render(data):
@@ -483,12 +529,13 @@ def render(data):
             if isinstance(value, (list, dict)):
                 text = json.dumps(value, ensure_ascii=False, indent=2)
                 md += ["```json", text, "```", ""]
-                body = "<pre>" + html.escape(text) + "</pre>"
+                body = cell_html(value)
             else:
                 md += [value, ""]
                 body = "<p>" + html.escape(value) + "</p>"
         if "table" in block:
-            body += "<table>"
+            is_pair = len(block["table"][0]) == 2
+            body += "<dl>" if is_pair else '<div class="table-scroll"><table>'
             for i, row in enumerate(block["table"]):
                 md.append(
                     "| "
@@ -498,20 +545,34 @@ def render(data):
                 if i == 0:
                     md.append("| " + " | ".join("---" for _ in row) + " |")
                 tag = "th" if i == 0 else "td"
-                body += "<tr>" + "".join(f"<{tag}>{cell_html(x)}</{tag}>" for x in row) + "</tr>"
-            body += "</table>"
+                if is_pair:
+                    if i:
+                        body += "<dt>" + cell_html(row[0]) + "</dt><dd>" + cell_html(row[1]) + "</dd>"
+                else:
+                    body += "<tr>" + "".join(f"<{tag}>{cell_html(x)}</{tag}>" for x in row) + "</tr>"
+            body += "</dl>" if is_pair else "</table></div>"
             md.append("")
-        parts.append(
-            f'<section data-tag="{block["tag"]}"><span class="badge">{block["tag"]}</span>'
-            f"<h2>{html.escape(block['title'])}</h2>{body}</section>"
-        )
+        priority = reading_priority(block)
+        heading = html.escape(block["title"])
+        if priority >= 10:
+            count = max(0, len(block.get("table", [])) - 1)
+            hint = f" · {count} 行" if count else ""
+            content = f"<details><summary>{heading}{hint}</summary>{body}</details>"
+        else:
+            content = f"<h2>{heading}</h2>{body}"
+        if block["tag"] != "结论":  # The conclusion already appears in the header.
+            parts.append((priority,
+                f'<section data-tag="{block["tag"]}"><span class="badge">{block["tag"]}</span>'
+                f"{content}</section>"))
+    parts = [part for _, part in sorted(parts, key=lambda pair: pair[0])]
     options = "".join(
         f"<option>{t}</option>" for t in dict.fromkeys(b["tag"] for b in blocks(data))
     )
     encoded = json.dumps(data, ensure_ascii=False, allow_nan=False).replace("<", "\\u003c")
-    page = f"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{html.escape(title)}</title><style>{CSS}</style></head><body><main><header><span class="badge">US MARKET RESEARCH · 数日至数周</span><h1>{html.escape(title)}</h1><p>{html.escape(data["summary"])}</p><small>实际生成 {data["generated_at"]} · {data["window"]["market_phase"]} · {data["quality"]}</small><p><a href="../../../index.html">历史与周期筛选</a> · <a href="report.md">Markdown</a> · <a href="evidence.json">证据数据</a></p></header><nav><label>内容 <select id="category"><option value="">全部</option>{options}</select></label><label>主题 / 事件 <input id="search" placeholder="搜索 NVDA、Fed、原油…"></label><span id="count"></span></nav>{"".join(parts)}<script id="research-data" type="application/json">{encoded}</script><script>
+    page = f"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{html.escape(title)}</title><style>{CSS}</style></head><body><main><header><span class="badge">US MARKET RESEARCH · 数日至数周</span><h1>{html.escape(title)}</h1><p>{html.escape(data["summary"])}</p><small>实际生成 {data["generated_at"]} · {data["window"]["market_phase"]} · {data["quality"]}</small><p><a href="../../../index.html">历史与周期筛选</a> · <a href="report.md">Markdown</a> · <a href="evidence.json">证据数据</a></p></header><nav><label>内容 <select id="category"><option value="">全部</option>{options}</select></label><label>主题 / 事件 <input id="search" placeholder="搜索 NVDA、Fed、原油…"></label><button id="expand" type="button">展开详细数据</button><span id="count"></span></nav>{"".join(parts)}<script id="research-data" type="application/json">{encoded}</script><script>
 const cards=[...document.querySelectorAll('section')];
-function filter(){{let n=0;for(const card of cards){{card.hidden=!!((category.value&&card.dataset.tag!==category.value)||(search.value&&!card.textContent.toLowerCase().includes(search.value.toLowerCase())));if(!card.hidden)n++;}}document.getElementById('count').textContent=n+' 个章节';}}
+document.getElementById('expand').onclick=()=>{{const open=document.getElementById('expand').textContent==='展开详细数据';cards.filter(c=>!c.hidden).forEach(c=>c.querySelectorAll('details').forEach(d=>d.open=open));document.getElementById('expand').textContent=open?'收起详细数据':'展开详细数据';}};
+function filter(){{let n=0;for(const card of cards){{card.hidden=!!((category.value&&card.dataset.tag!==category.value)||(search.value&&!card.textContent.toLowerCase().includes(search.value.toLowerCase())));if(!card.hidden){{n++;if(search.value||category.value)card.querySelectorAll('details').forEach(d=>d.open=true);}}}}document.getElementById('count').textContent=n+' 个章节';}}
 const category=document.getElementById('category'),search=document.getElementById('search');category.addEventListener('change',filter);search.addEventListener('input',filter);filter();
 </script></main></body></html>"""
     return "\n".join(md), page

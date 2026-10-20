@@ -303,6 +303,10 @@ def test_same_object_render_and_week_endpoints(tmp_path):
         "</script>"
     )[0]
     assert json.loads(payload) == data
+    assert "<pre>" not in page
+    assert "<details><summary>" in page
+    assert "展开详细数据" in page
+    assert page.index("跨期比较与上期剧本复核") < page.index("时点与口径")
     assert "<script>unsafe</script>" not in page and "Research <script>unsafe</script>" in md
 
 
