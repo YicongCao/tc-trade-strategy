@@ -29,6 +29,25 @@ def load(path):
 
 
 def validate_analysis(analysis):
+    if "agent_brief" not in analysis:
+        raise ValueError("新研究必须提供Agent摘要 agent_brief")
+    brief = analysis.get("agent_brief")
+    if brief is None:
+        raise ValueError("Agent摘要不能为空")
+    else:
+        keys = {"verdict", "changes", "signals", "watch", "caveat"}
+        if not isinstance(brief, dict) or set(brief) != keys:
+            raise ValueError("Agent摘要需包含判断、变化、信号、观察和限制")
+        for key, value in brief.items():
+            if key in {"signals", "watch"}:
+                if (not isinstance(value, list) or not 1 <= len(value) <= 3
+                        or any(not isinstance(v, str) or not v.strip() for v in value)):
+                    raise ValueError("Agent摘要信号和观察各需1至3条短句")
+            elif not isinstance(value, str) or not value.strip():
+                raise ValueError("Agent摘要文字不能为空")
+        if sum(len(v) if isinstance(v, str) else sum(map(len, v))
+               for v in brief.values()) > 900:
+            raise ValueError("Agent摘要应保持简短（最多900字符）")
     for field in (
         "summary",
         "themes",
@@ -376,6 +395,8 @@ def assemble(root, mode, cutoff, tc, snapshot, analysis, financials, target=None
         },
         methodology=snapshot.get("limitations", []),
     )
+    if "agent_brief" in analysis:
+        data["agent_brief"] = analysis["agent_brief"]
     if "recovery" in snapshot:
         data["acquisition"] = snapshot["recovery"]
         data["gaps"] += [g["id"] + ": " + g["reason"] for g in snapshot["recovery"]["remaining"]]

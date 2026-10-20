@@ -263,6 +263,8 @@ def research_data(tmp_path):
     }
     analysis.update(
         summary="Research <script>unsafe</script>",
+        agent_brief=dict(verdict="Observe", changes="None", signals=["Evidence"],
+                         watch=["Confirmation"], caveat="Partial"),
         themes=[theme],
         risk_analysis="risk",
         rotation_analysis="rotation",
@@ -416,3 +418,29 @@ def test_alternative_quote_preserves_provenance(tmp_path):
     ]
     data = assemble(tmp_path, "daily", cutoff, tc, snap, analysis, {})
     assert data["quotes"][0]["source"] == "https://finance.yahoo.com/quote/SPY/"
+
+
+def test_agent_brief_same_source_and_validation(tmp_path):
+    tc, snap, analysis, cut = research_data(tmp_path)
+    brief = dict(verdict="谨慎观察", changes="信用未改善", signals=["<risk>"],
+                 watch=["等待确认"], caveat="报价滞后")
+    analysis["agent_brief"] = brief
+    data = assemble(tmp_path, "weekly", cut, tc, snap, analysis, {})
+    md, page = render(data)
+    assert data["agent_brief"] == brief
+    assert "一分钟读懂" in md and "谨慎观察" in md
+    assert "&lt;risk&gt;" in page and "<risk>" not in page
+    assert page.index("一分钟读懂") < page.index('<nav>')
+    analysis["agent_brief"]["watch"] = []
+    with pytest.raises(ValueError, match="摘要"):
+        assemble(tmp_path, "weekly", cut, tc, snap, analysis, {})
+
+
+def test_new_research_requires_agent_brief_but_old_render_still_works(tmp_path):
+    tc, snap, a, cut = research_data(tmp_path)
+    data = assemble(tmp_path, "daily", cut, tc, snap, a, {})
+    data.pop("agent_brief")
+    assert "Research &lt;script&gt;unsafe&lt;/script&gt;" in render(data)[1]
+    a.pop("agent_brief")
+    with pytest.raises(ValueError, match="Agent摘要"):
+        assemble(tmp_path, "daily", cut, tc, snap, a, {})

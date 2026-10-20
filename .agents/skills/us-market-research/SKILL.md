@@ -21,7 +21,7 @@ description: 为本仓库执行美股 weekly 周报、daily 日报或 realtime �
 3. `prepare` 采集 Polymarket、价格及宏观。保存输出路径，按 [采集与主动补查](references/collection-recovery.md) 阅读结构化缺口、有限补查并通过 `build --supplements` 校验合并；保留原始快照。每次检查五家公司是否有新披露：优先 `filings` 的 SEC 记录，失败则检查公司 IR/官方 filing 页面；不能把请求失败当作“没有新财报”。复用旧底稿时更新本次检查记录；发现新披露先核验再使用。
 4. 阅读 [研究方法](references/methodology.md)，搜索官方公告、公司披露和可访问财经来源，核验 tc 社交线索。weekly/daily 每次按 [Polymarket 观察](references/polymarket-watch.md) 主动发现风险预警、有参考价值的事件及临近催化剂，不能只复用旧跟踪清单；填写 `polymarket_watch`，即使没有合格合约也记录搜索覆盖与缺口。按数据契约写分析 JSON；人工摘要结算条件，匹配采集器的 rule_hash。保留来源发布时间、事件时间和抓取时间。未知时间写 null，不能填猜测时间。
 5. 每次按 [指标与历史评估](references/indicators.md) 查询、计算并评估指标，填写 `indicator_assessments`；把事实、判断依据、反证与条件式指导记录为可复核摘要，不要求保存内部逐步思考。`build` 自动计算面板并在忽略的 `sensitive/market-indicators/` 留存公开指标；公共研究不读取此本地历史，只比较公开报告。首次可运行 `indicators` 从已有公开报告建立本地基线。
-6. `build` 后检查 Markdown、HTML、证据数据、缺口与剧本。首次使用或渲染代码变更时打开浏览器检验主题/事件筛选和历史周期筛选。
+6. 写入数据契约中的 `agent_brief`，用约300–500字概括当前判断、相对上期变化、最多三条关键证据、下一步确认/失效条件和主要限制。由本次研究的 agent 综合撰写，不复制全部章节或机械截断。`build` 后检查 Markdown、HTML、证据数据、缺口与剧本。首次使用或渲染代码变更时打开浏览器检验主题/事件筛选和历史周期筛选。
 7. 校验通过后 `publish`，按已有授权提交并推送 origin main。推送失败保留本地文件，不强推，不擅自重置或合并用户改动。成功后按关联输出流程调用私人持仓技能；分别通知公共报告链接和私人本地路径。公共推送失败但报告已生成时私人阶段仍可关联本地报告并标明未发布；核心市场状态无法核验则不编完整建议，记录失败。
 
 不要直接在聊天中编一份报告代替入库。不得把全部新闻正文、原始 tc 对象或账户内容粘进报告。Markdown 与 HTML 都必须来自同一 evidence 对象。

@@ -1,13 +1,13 @@
 """个人持仓附录写入器：只在忽略的本地目录输出，单向关联公共报告。"""
 
 import argparse
-import html
 import json
 from datetime import UTC, datetime
 from pathlib import Path
 
 from .calendar import aware
 from .evidence import digest
+from .position_rendering import render_private
 from .publishing import git, run_lock
 
 
@@ -129,45 +129,11 @@ def save_private_review(root, public_report, data):
         "public_cutoff": public["window"]["cutoff"],
         "delivery_slot": public.get("delivery_slot"),
     }
-    sections = [
-        ("关联市场报告", str(public_report)),
-        ("公共研究截止", payload["public_cutoff"]),
-        ("持仓实际观察时间", data["observed_at"]),
-        ("状态", data["status"]),
-        ("结论", data["summary"]),
-        ("账户风险", data["account_risk"]),
-        ("实际持仓与来源", data["positions"]),
-        ("逐项催化剂、情景与调整建议", data["holding_reviews"]),
-        ("缺口", data["gaps"]),
-    ]
-    md = ["# 私人持仓附录（仅本地）", ""]
-    body = ""
-    for title, value in sections:
-        text = (
-            json.dumps(value, ensure_ascii=False, indent=2)
-            if isinstance(value, (dict, list))
-            else str(value)
-        )
-        md.extend(["## " + title, "", text, ""])
-        body += (
-            "<section><h2>"
-            + html.escape(title)
-            + "</h2><pre>"
-            + html.escape(text)
-            + "</pre></section>"
-        )
-    page = (
-        '<!doctype html><html lang="zh-CN"><meta charset="utf-8">'
-        '<meta name="viewport" content="width=device-width,initial-scale=1">'
-        "<title>私人持仓附录</title><style>body{font:16px/1.6 system-ui;max-width:1100px;"
-        "margin:32px auto;padding:16px}section{border-bottom:1px solid #ccc}"
-        "pre{white-space:pre-wrap;overflow-wrap:anywhere}</style>"
-        "<h1>私人持仓附录 · 仅本地</h1>" + body + "</html>"
-    )
+    md, page = render_private(payload)
     (target / "review.json").write_text(
         json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False)
     )
-    (target / "report.md").write_text("\n".join(md))
+    (target / "report.md").write_text(md)
     (target / "index.html").write_text(page)
     return target
 

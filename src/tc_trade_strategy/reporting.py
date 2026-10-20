@@ -476,6 +476,8 @@ FIELD_LABELS = {
 
 
 CSS += """
+.agent-brief{max-width:960px;padding:18px 22px;margin:20px 0;background:#e9f3ef;border-radius:12px}.agent-brief>div{margin:16px 0}.agent-brief strong{display:block;color:#086c66;font-size:13px}.agent-brief ul{margin:4px 0}.agent-brief h2{margin-top:0}
+
 header p{max-width:900px;font-size:18px}section{overflow:hidden}dl{margin:12px 0}dt{font-size:13px;font-weight:650;color:#52676c;margin-top:16px}dd{margin:4px 0 12px;overflow-wrap:anywhere}dd dl{padding-left:16px;border-left:2px solid #e1e7e5}ul{padding-left:22px}li{margin:8px 0}summary{cursor:pointer;font-size:18px;font-weight:650;padding:10px 0}details[open] summary{border-bottom:1px solid #e1e7e5;margin-bottom:20px}.table-scroll{overflow:auto}button{font:inherit;background:#0a736d;color:white;border:0;border-radius:6px;padding:8px 14px;cursor:pointer}a{overflow-wrap:anywhere}@media print{nav{display:none}}
 """
 
@@ -518,9 +520,31 @@ def reading_priority(block):
     return 10
 
 
+BRIEF_LABELS = {
+    "verdict": "当前判断", "changes": "与上次相比", "signals": "最重要的信号",
+    "watch": "接下来观察", "caveat": "不要忽略",
+}
+
+
+def brief_html(data):
+    brief = data.get("agent_brief")
+    if not brief:
+        return '<p>' + html.escape(data["summary"]) + '</p>'
+    return ('<aside class="agent-brief"><h2>一分钟读懂 · Agent 摘要</h2>'
+            + ''.join('<div><strong>' + label + '</strong>' + cell_html(brief[key])
+                      + '</div>' for key, label in BRIEF_LABELS.items()) + '</aside>')
+
+
 def render(data):
     title = f"{LABELS[data['window']['mode']]} · {data['window']['period']}"
     md, parts = [f"# {title}", ""], []
+    if data.get("agent_brief"):
+        md += ["## 一分钟读懂 · Agent 摘要", ""]
+        for key, label in BRIEF_LABELS.items():
+            value = data["agent_brief"][key]
+            md += ["### " + label, ""]
+            md += (["- " + item for item in value] if isinstance(value, list) else [value])
+            md.append("")
     for block in blocks(data):
         md += [f"## {block['title']}", ""]
         body = ""
@@ -554,7 +578,7 @@ def render(data):
             md.append("")
         priority = reading_priority(block)
         heading = html.escape(block["title"])
-        if priority >= 10:
+        if priority >= 1:
             count = max(0, len(block.get("table", [])) - 1)
             hint = f" · {count} 行" if count else ""
             content = f"<details><summary>{heading}{hint}</summary>{body}</details>"
@@ -569,7 +593,7 @@ def render(data):
         f"<option>{t}</option>" for t in dict.fromkeys(b["tag"] for b in blocks(data))
     )
     encoded = json.dumps(data, ensure_ascii=False, allow_nan=False).replace("<", "\\u003c")
-    page = f"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{html.escape(title)}</title><style>{CSS}</style></head><body><main><header><span class="badge">US MARKET RESEARCH · 数日至数周</span><h1>{html.escape(title)}</h1><p>{html.escape(data["summary"])}</p><small>实际生成 {data["generated_at"]} · {data["window"]["market_phase"]} · {data["quality"]}</small><p><a href="../../../index.html">历史与周期筛选</a> · <a href="report.md">Markdown</a> · <a href="evidence.json">证据数据</a></p></header><nav><label>内容 <select id="category"><option value="">全部</option>{options}</select></label><label>主题 / 事件 <input id="search" placeholder="搜索 NVDA、Fed、原油…"></label><button id="expand" type="button">展开详细数据</button><span id="count"></span></nav>{"".join(parts)}<script id="research-data" type="application/json">{encoded}</script><script>
+    page = f"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{html.escape(title)}</title><style>{CSS}</style></head><body><main><header><span class="badge">US MARKET RESEARCH · 数日至数周</span><h1>{html.escape(title)}</h1>{brief_html(data)}<small>实际生成 {data["generated_at"]} · {data["window"]["market_phase"]} · {data["quality"]}</small><p><a href="../../../index.html">历史与周期筛选</a> · <a href="report.md">Markdown</a> · <a href="evidence.json">证据数据</a></p></header><nav><label>内容 <select id="category"><option value="">全部</option>{options}</select></label><label>主题 / 事件 <input id="search" placeholder="搜索 NVDA、Fed、原油…"></label><button id="expand" type="button">展开详细数据</button><span id="count"></span></nav>{"".join(parts)}<script id="research-data" type="application/json">{encoded}</script><script>
 const cards=[...document.querySelectorAll('section')];
 document.getElementById('expand').onclick=()=>{{const open=document.getElementById('expand').textContent==='展开详细数据';cards.filter(c=>!c.hidden).forEach(c=>c.querySelectorAll('details').forEach(d=>d.open=open));document.getElementById('expand').textContent=open?'收起详细数据':'展开详细数据';}};
 function filter(){{let n=0;for(const card of cards){{card.hidden=!!((category.value&&card.dataset.tag!==category.value)||(search.value&&!card.textContent.toLowerCase().includes(search.value.toLowerCase())));if(!card.hidden){{n++;if(search.value||category.value)card.querySelectorAll('details').forEach(d=>d.open=true);}}}}document.getElementById('count').textContent=n+' 个章节';}}
